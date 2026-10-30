@@ -15,8 +15,7 @@ struct SpikeView: View {
     @State private var score = 0
     @State private var lastDragTranslation = CGSize.zero
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
+        ZStack {
                 TimelineView(.animation(minimumInterval: 1.0 / 30.0, paused: false)) { timeline in
                     RealityView { content in
                         content.add(makeGarden())
@@ -34,7 +33,7 @@ struct SpikeView: View {
                             let phase = elapsed * 0.18 + Float(index) * 1.57
                             let base: SIMD3<Float>
                             if index == 0 {
-                                base = [0.2, 0.1, -19]
+                                base = [0.2, 0.1, -13]
                             } else {
                                 let sample = Float(index - 1)
                                 let y = 1 - 2 * (sample + 0.5) / 11
@@ -46,8 +45,9 @@ struct SpikeView: View {
                             produce.look(at: .zero, from: produce.position, relativeTo: nil)
                         }
                     }
-                    .ignoresSafeArea()
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea()
 
                 VStack {
                     HStack(alignment: .top) {
@@ -79,8 +79,8 @@ struct SpikeView: View {
                     .foregroundStyle(Color(red: 0.73, green: 0.82, blue: 0.70).opacity(0.88))
                 }
                 .padding(.horizontal, 23)
-                .padding(.top, max(16, geometry.safeAreaInsets.top + 10))
-                .padding(.bottom, max(13, geometry.safeAreaInsets.bottom + 8))
+                .padding(.top, 58)
+                .padding(.bottom, 34)
                 .allowsHitTesting(false)
 
                 ZStack {
@@ -93,9 +93,8 @@ struct SpikeView: View {
                 }
                 .allowsHitTesting(false)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(red: 0.012, green: 0.032, blue: 0.031).ignoresSafeArea())
-        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(red: 0.012, green: 0.032, blue: 0.031).ignoresSafeArea())
         .preferredColorScheme(.dark)
         .gesture(DragGesture(minimumDistance: 0)
             .onChanged { value in
@@ -143,6 +142,7 @@ struct SpikeView: View {
         let key = DirectionalLight()
         key.light.intensity = 1800
         key.light.color = .init(red: 1, green: 0.91, blue: 0.70, alpha: 1)
+        key.components.set(DirectionalLightComponent.Shadow())
         key.position = [-12, 19, 8]
         key.look(at: .zero, from: key.position, relativeTo: nil)
         root.addChild(key)
@@ -163,7 +163,7 @@ struct SpikeView: View {
 
         // Fibonacci-distributed growth fills the same spherical shell as the web scene.
         let leafMesh = makeLeafMesh()
-        let palette = (0..<6).map { index in
+        let palette = (0..<9).map { index in
             SimpleMaterial(color: leafColor(index), roughness: 0.74, isMetallic: false)
         }
         let canInstance: Bool
@@ -186,7 +186,9 @@ struct SpikeView: View {
             let y = 1 - (Float(i) + 0.5) * 2 / Float(plantCount)
             let r = sqrt(max(0, 1 - y * y))
             let normal = SIMD3<Float>(cos(u) * r, y, sin(u) * r)
-            let shellRadius = 29 + Float((i * 37) % 26)
+            let shellRadius: Float = i % 5 == 0
+                ? 20 + randomUnit(i * 17 + 4) * 9
+                : 31 + randomUnit(i * 17 + 5) * 21
             let clusterPosition = normal * shellRadius
             let clusterOrientation = simd_quatf(from: SIMD3<Float>(0, 0, 1), to: -normal)
             let bend = Float((i * 17) % 19) / 18 - 0.5
@@ -219,7 +221,7 @@ struct SpikeView: View {
                 veinInstances.append(Transform(
                     scale: [1, size * 0.66, 1],
                     rotation: worldRotation,
-                    translation: worldPosition + worldRotation.act(SIMD3<Float>(0, 0, 0.12))
+                    translation: worldPosition + worldRotation.act(SIMD3<Float>(0, 0, size * 0.13))
                 ))
             }
             for branchIndex in 0..<2 {
@@ -308,20 +310,43 @@ struct SpikeView: View {
                 ))
             }
         }
-        let coverLeafCount = canInstance ? 2200 : 300
-        for i in 0..<coverLeafCount {
-            let y = 1 - 2 * (Float(i) + 0.5) / Float(coverLeafCount)
+        // Mirror the web renderer's seven-leaf clusters on the inner glass.
+        // Keep the lower-system fallback smaller because it uses individual entities.
+        let coverClusters = canInstance ? 1800 : 300
+        for i in 0..<coverClusters {
+            let y = 1 - 2 * (Float(i) + 0.5) / Float(coverClusters)
             let angle = Float(i) * 2.399963
             let ring = sqrt(max(0, 1 - y * y))
             let normal = SIMD3<Float>(cos(angle) * ring, y, sin(angle) * ring)
-            let orientation = simd_quatf(from: SIMD3<Float>(0, 0, 1), to: -normal)
-            let spin = simd_quatf(angle: Float(i % 11) * 0.21, axis: [0, 0, 1])
-            let colorIndex = (i * 13 + i / 7) % palette.count
-            leafInstances[colorIndex].append(Transform(
-                scale: [1.5, 2.1, 1.35],
-                rotation: orientation * spin,
-                translation: normal * 53.2
+            var tangent = simd_cross(normal, SIMD3<Float>(
+                randomUnit(i * 3 + 11) * 2 - 1,
+                randomUnit(i * 3 + 12) * 2 - 1,
+                randomUnit(i * 3 + 13) * 2 - 1
             ))
+            if simd_length_squared(tangent) < 0.04 { tangent = simd_cross(normal, SIMD3<Float>(0, 1, 0)) }
+            tangent = simd_normalize(tangent)
+            let inward = -normal
+            let sideways = simd_normalize(simd_cross(tangent, inward))
+            let frame = simd_quatf(simd_float3x3(columns: (sideways, tangent, inward)))
+            let origin = normal * (48.5 + randomUnit(i * 7 + 31) * 4.5)
+            for leaf in 0..<7 {
+                let seed = i * 7 + leaf
+                let spreadAngle = Float(leaf) / 7 * 2 * .pi + randomUnit(seed * 5 + 2) * 0.48
+                let spread = 0.35 + randomUnit(seed * 5 + 3) * 1.35
+                let translation = origin
+                    + tangent * (cos(spreadAngle) * spread)
+                    + sideways * (sin(spreadAngle) * spread)
+                let localRotation = simd_quatf(angle: (randomUnit(seed * 5 + 4) - 0.5) * 0.55, axis: [1, 0, 0])
+                    * simd_quatf(angle: (randomUnit(seed * 5 + 5) - 0.5) * 0.55, axis: [0, 1, 0])
+                    * simd_quatf(angle: (randomUnit(seed * 5 + 6) - 0.5) * 0.5, axis: [0, 0, 1])
+                let size = 1.8 + randomUnit(seed * 5 + 7) * 1.5
+                let colorIndex = Int(randomUnit(seed * 5 + 8) * Float(palette.count))
+                leafInstances[colorIndex].append(Transform(
+                    scale: [size, size * (0.78 + randomUnit(seed * 5 + 9) * 0.3), size],
+                    rotation: frame * localRotation,
+                    translation: translation
+                ))
+            }
         }
         for index in palette.indices {
             var material = palette[index]
@@ -392,7 +417,7 @@ struct SpikeView: View {
         for index in 0..<12 {
             let fruit = Entity()
             fruit.name = "oddity-\(index)"
-            let produceScale = 0.82 + Float(index % 4) * 0.10
+            let produceScale = index == 0 ? 1.55 : 0.82 + Float(index % 4) * 0.10
             let core = ModelEntity(mesh: fruitMesh, materials: [SimpleMaterial(color: fruitColors[index % fruitColors.count], roughness: 0.55, isMetallic: false)])
             core.scale = [produceScale, produceScale * (1.02 + Float(index % 3) * 0.09), produceScale]
             core.position.y = 0.9
@@ -412,6 +437,7 @@ struct SpikeView: View {
         var indices: [UInt32] = []
         let rows = 12
         let columns = 8
+        var normals: [SIMD3<Float>] = []
         for row in 0...rows {
             let v = Float(row) / Float(rows)
             let halfWidth = sin(.pi * v) * 0.24
@@ -419,6 +445,9 @@ struct SpikeView: View {
                 let u = Float(column) / Float(columns) * 2 - 1
                 let cup = (1 - u * u) * 0.07
                 positions.append([u * halfWidth, (v - 0.5) * 0.82, cup + sin(v * .pi) * 0.035])
+                let acrossTangent = SIMD3<Float>(sin(.pi * v) * 0.24, 0, -0.14 * u)
+                let lengthTangent = SIMD3<Float>(u * 0.24 * .pi * cos(.pi * v), 0.82, 0.035 * .pi * cos(.pi * v))
+                normals.append(simd_normalize(simd_cross(acrossTangent, lengthTangent)))
             }
         }
         for row in 0..<rows {
@@ -430,6 +459,7 @@ struct SpikeView: View {
         }
         var descriptor = MeshDescriptor()
         descriptor.positions = MeshBuffer(positions)
+        descriptor.normals = MeshBuffer(normals)
         descriptor.primitives = .triangles(indices)
         return (try? MeshResource.generate(from: [descriptor])) ?? .generateSphere(radius: 0.2)
     }
@@ -545,10 +575,16 @@ struct SpikeView: View {
             PlatformColor(red: 0.24, green: 0.47, blue: 0.39, alpha: 1),
             PlatformColor(red: 0.41, green: 0.58, blue: 0.47, alpha: 1),
             PlatformColor(red: 0.69, green: 0.60, blue: 0.35, alpha: 1),
-            PlatformColor(red: 0.72, green: 0.43, blue: 0.42, alpha: 1),
-            PlatformColor(red: 0.53, green: 0.45, blue: 0.67, alpha: 1)
+            PlatformColor(red: 0.78, green: 0.80, blue: 0.40, alpha: 1),
+            PlatformColor(red: 0.66, green: 0.43, blue: 0.39, alpha: 1),
+            PlatformColor(red: 0.53, green: 0.48, blue: 0.64, alpha: 1)
         ]
         return palette[seed % palette.count]
+    }
+
+    private func randomUnit(_ seed: Int) -> Float {
+        let value = sin(Float(seed) * 12.9898) * 43_758.547
+        return value - floor(value)
     }
 
     private func addGreenhouseRibs(to root: Entity) {
