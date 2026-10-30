@@ -12,8 +12,8 @@ import simd
 #endif
 
 struct GardenSceneView: View {
-  let round: RoundState
-  let onVaporize: (Int, Double) -> Void
+  @Binding var round: RoundState
+  let onVaporize: (Int) -> Void
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @Environment(\.colorSchemeContrast) private var colorContrast
   @State private var yaw = 0.0
@@ -231,12 +231,13 @@ struct GardenSceneView: View {
 
   private func vaporize(_ hit: (target: AimTarget, distance: Double)?) {
     guard round.phase == .playing, let hit else {
-      print("[DEBUG-vaporize] action skipped; phase=\(round.phase), target=\(hit != nil)")
       return
     }
-    print("[DEBUG-vaporize] selected target \(hit.target.id), distance=\(hit.distance)")
     vaporizedTargetIDs.insert(hit.target.id)
-    onVaporize(hit.target.value, hit.distance)
+    guard let points = round.vaporize(value: hit.target.value, distance: hit.distance) else {
+      return
+    }
+    onVaporize(points)
     Task { @MainActor in
       try? await Task.sleep(for: .milliseconds(700))
       vaporizedTargetIDs.remove(hit.target.id)
