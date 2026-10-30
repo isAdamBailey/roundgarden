@@ -105,6 +105,7 @@ struct GardenSceneView: View {
           }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .gesture(cameraDragGesture)
         #if os(iOS)
           .ignoresSafeArea()
         #endif
@@ -145,8 +146,7 @@ struct GardenSceneView: View {
           .accessibilityAction(named: Text("Vaporize centered oddity")) {
             vaporizeAimedTarget()
           }
-          .gesture(cameraDragGesture)
-          .allowsHitTesting(round.phase != .paused && round.phase != .complete)
+          .allowsHitTesting(false)
 
         ZStack {
           Circle().stroke(
