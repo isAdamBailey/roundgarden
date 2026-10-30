@@ -32,8 +32,8 @@ This is not enough evidence to accept or reject RealityKit. Keep ADR 0001's reco
 
 ## Remaining validation
 
-1. Continue reworking the native foliage and composition against side-by-side web captures; keep the spike open until the scene has recognizable depth and botanical leaf silhouettes.
-2. Inspect the dome/ribs on iPad and Mac, then evaluate whether decoration can occlude valid targets.
-3. Test touch drag/tap and mouse/trackpad drag/click in interactive runs on iPhone, iPad, and Mac. Simulator input and one simulator screenshot do not establish hardware behavior.
+1. Review the new foliage and composition against side-by-side web captures across native sizes; the pass improves depth and silhouettes but does not establish final visual parity.
+2. Inspect the dome/ribs and transparency on iPad and Mac. Target picking is not implemented, so occlusion of valid targets cannot yet be evaluated.
+3. Mac mouse drag and click are confirmed in a live run; test touch drag/tap on iPhone and iPad and mouse/trackpad behavior on representative Macs. Target selection remains unimplemented.
 4. Record frame time and memory on representative devices with shadows enabled; compare against a focused Metal prototype if RealityKit misses the performance or visual bar.
 5. Update ADR 0001 with measured results, final renderer, deployment floor, and asset pipeline before creating production app targets.
