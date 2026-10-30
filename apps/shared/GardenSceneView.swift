@@ -230,7 +230,11 @@ struct GardenSceneView: View {
   }
 
   private func vaporize(_ hit: (target: AimTarget, distance: Double)?) {
-    guard round.phase == .playing, let hit else { return }
+    guard round.phase == .playing, let hit else {
+      print("[DEBUG-vaporize] action skipped; phase=\(round.phase), target=\(hit != nil)")
+      return
+    }
+    print("[DEBUG-vaporize] selected target \(hit.target.id), distance=\(hit.distance)")
     vaporizedTargetIDs.insert(hit.target.id)
     onVaporize(hit.target.value, hit.distance)
     Task { @MainActor in

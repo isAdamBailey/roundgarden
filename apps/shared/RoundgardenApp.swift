@@ -102,7 +102,13 @@ private struct GardenGameView: View {
   var body: some View {
     ZStack {
       GardenSceneView(round: round) { value, distance in
-        guard let points = round.vaporize(value: value, distance: distance) else { return }
+        guard let points = round.vaporize(value: value, distance: distance) else {
+          print(
+            "[DEBUG-vaporize] parent rejected value=\(value), distance=\(distance), phase=\(round.phase)"
+          )
+          return
+        }
+        print("[DEBUG-vaporize] parent awarded \(points)")
         lastAwardPoints = points
         awardCount += 1
       }
