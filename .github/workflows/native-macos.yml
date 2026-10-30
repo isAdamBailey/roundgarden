@@ -29,10 +29,10 @@ jobs:
           packages/game-core/Tests/RoundgardenCoreTests/*.swift
       - name: Test shared game core
         run: swift test --package-path packages/game-core
-      - name: Build macOS app and UI-test bundle
+      - name: Build and UI-test macOS app
         run: >-
-          xcodebuild -quiet build-for-testing
+          xcodebuild test
           -project apps/macos/RoundgardenMac.xcodeproj
           -scheme RoundgardenMac
-          -destination 'platform=macOS'
+          -destination 'platform=macOS,arch=arm64'
           CODE_SIGNING_ALLOWED=NO

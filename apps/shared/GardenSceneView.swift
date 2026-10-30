@@ -185,6 +185,7 @@ struct GardenSceneView: View {
           )
           .accessibilityAddTraits(.updatesFrequently)
           .accessibilityAddTraits(.isButton)
+          .accessibilityIdentifier("aimed-garden-oddity")
           .accessibilityAction(.default) {
             vaporizeAimedTarget()
           }

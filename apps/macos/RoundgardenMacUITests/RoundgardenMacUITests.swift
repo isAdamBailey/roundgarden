@@ -1,7 +1,7 @@
 import XCTest
 
 final class RoundgardenMacUITests: XCTestCase {
-  func testPointerClickStartsRoundAndVaporizesCenteredOddity() {
+  func testAccessibleCenteredOddityActionVaporizesTarget() {
     let app = XCUIApplication()
     app.launch()
 
@@ -16,10 +16,12 @@ final class RoundgardenMacUITests: XCTestCase {
     let score = app.staticTexts["round-score"]
     XCTAssertTrue(score.waitForExistence(timeout: 10))
     let initialScore = score.label
-    app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).click()
+    let target = app.buttons["aimed-garden-oddity"]
+    XCTAssertTrue(target.waitForExistence(timeout: 10))
+    target.click()
     let scoreChanged = XCTNSPredicateExpectation(
       predicate: NSPredicate(format: "label != %@", initialScore), object: score)
-    XCTAssertEqual(XCTWaiter.wait(for: [scoreChanged], timeout: 3), .completed)
+    XCTAssertEqual(XCTWaiter.wait(for: [scoreChanged], timeout: 5), .completed)
 
     app.buttons["Pause"].click()
     XCTAssertTrue(app.staticTexts["Round paused"].waitForExistence(timeout: 5))
