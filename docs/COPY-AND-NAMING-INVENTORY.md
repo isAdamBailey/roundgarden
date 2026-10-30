@@ -1,0 +1,95 @@
+# Roundgarden: name and copy inventory
+
+**Status:** Roundgarden is the selected product name. The in-game and store copy below remains draft and is not approved as final release copy.
+
+## Product and audience
+
+Roundgarden is a casual, short-session game about floating at the center of a spherical, whimsical garden. The player looks all around and taps or clicks drifting garden oddities. An oddity vaporizes into light; it is not caught, collected, or harvested. The player chases a high score in a one-minute round.
+
+The copy must describe what the player can see and do. Do not claim that the garden is in space or call it a greenhouse unless those facts become clear in the experience.
+
+## Name decision
+
+**Selected name:** **Roundgarden** (one word). The name plays on Soundgarden and hints at a garden that surrounds the player. Keep the band reference implicit; the game copy does not mention Soundgarden. The product owner selected this name on 2026-10-29.
+
+| Candidate | Strength | Tradeoff |
+| --- | --- | --- |
+| **Roundgarden** | Short, memorable, ties the garden to its all-around shape, and carries the intended wordplay. | “Round” may suggest a circular plot rather than an enclosing sphere. |
+| **Garden Without Edges** | Dreamlike and suggests an enclosing space without claiming a location. | More abstract and less playful; the phrase is already used for artwork, so it also needs availability checks. |
+| **The All-Around Garden** | Immediately communicates that the view extends in every direction. | Less distinctive and more like a description than a brand. |
+
+Roundgarden is the chosen product name; the other candidates remain as archived alternatives. A targeted Apple App Store search on 2026-10-29 did not surface an exact Roundgarden listing. It did surface the similar title [Roundguard](https://apps.apple.com/us/app/roundguard/id1672164496), a different game. Earlier searches also surfaced unrelated uses of “Roundgarden,” including a horticultural-therapy organization and an artwork title ([organization reference](https://f.hubspotusercontent20.net/hubfs/5025575/Issue%2006%20-%20Spring%202005.pdf), [artwork reference](https://www.artwanted.com/viviane/gallery/)). “The Roundabout Garden” appears as a community-garden name ([example](https://kioskparklife.wordpress.com/2013/04/17/the-roundabout-garden/)). These checks do not establish trademark or domain availability; verify those before release.
+
+## Voice and language rules
+
+- Make the atmosphere whimsical, surreal, and strange, with playful dream logic rather than horror.
+- Let headlines and descriptive copy be dreamlike. Keep controls, scores, and state labels direct.
+- Describe the view as a garden that goes all the way around or surrounds the player. Avoid technical language such as “sphere” in ordinary instructions.
+- Call the objects **garden oddities** generally. Use a specific name only if an individual oddity is visibly recognizable and needs one.
+- Say an oddity **vaporizes into light**. Avoid “catch,” “collect,” “gather,” “harvest,” or language implying the player keeps it.
+- Lead marketing copy with the surrounding garden. Present the one-minute high-score challenge as the next detail.
+- Keep the score label plain. Use the surreal tone in the garden, visuals, and vaporization feedback rather than making the score hard to understand.
+- Sound is optional vaporization feedback, not a promised soundtrack or a central feature.
+- Do not claim unverified settings, features, compatibility, privacy behavior, or visual facts.
+
+## Draft in-game copy
+
+| Surface | Draft | Notes |
+| --- | --- | --- |
+| Product name | **Roundgarden** | Selected by the product owner; release copy is still draft. |
+| Headline | **The garden goes all the way around.** | Clear, with a slightly uncanny edge. Alternative for tone testing: **There is no outside. Only garden.** |
+| Intro | **Float inside a whimsical garden that surrounds you. Look all around as strange garden oddities drift close.** | Does not assert stars or a greenhouse. |
+| Primary action | **Enter the garden** | Direct invitation. |
+| Look instruction | **Drag to look all around.** | Applies to mouse, trackpad, and touch drag, adapted per platform. |
+| Vaporize instruction | **Tap or click a nearby garden oddity to vaporize it into light.** | Use only when the object is within reach. |
+| Active status | **The garden is awake.** | Surreal state copy; keep the HUD status clear in accessibility announcements. |
+| Score label | **SCORE** | Plain and scannable. |
+| Personal best | **BEST {score}** | Saved locally on the device. |
+| Timer label | **TIME LEFT** | One-minute round. |
+| Centered target value | **{value} POINTS** | Show while a target is centered; use visual cues to show relative value. |
+| Close bonus | **×{multiplier}** | Show with the reticle/target feedback, up to ×3. |
+| Vaporization feedback | **+{points}** | Pair with the light effect; points depend on oddity value and distance. |
+| No nearby target | **Nothing close enough yet. Keep looking all around.** | Clear, with a small surreal undertone. |
+| Pause / resume | **Pause** / **Resume** | Direct controls. |
+| Round complete | **One minute, gone in a blink.** | Surreal end heading; display the score plainly below it. |
+| Replay action | **Go around again** | Candidate CTA. |
+| Accessibility: view | **Garden view. Drag to look all around.** | Functional label. |
+| Accessibility: target | **Garden oddity, worth {value} points, {distance state}. Activate to vaporize it into light.** | Final phrasing depends on native focus behavior and verified scoring feedback. |
+
+## Draft store copy
+
+The web experience will serve two roles, following the FrameBeat approach: it remains the playable browser game and becomes the public landing page for the iOS and macOS apps. The landing page should make the game playable first, then explain the experience and provide platform-specific app links when those releases are available.
+
+### Title and subtitle
+
+- **Title:** Roundgarden is selected; verify trademark/domain clearance and store listing requirements before release.
+- **Subtitle:** **A strange garden all around you**
+
+### Short description
+
+**Float inside a whimsical garden that surrounds you. Tap drifting oddities to vaporize them into light, then chase a higher score in a one-minute round.**
+
+### Long description
+
+**The garden goes all the way around. Float at its center and look in every direction as strange oddities drift close. Tap one to vaporize it into light. Some are worth more than others, and the closer one gets, the more its light is worth.**
+
+**You have one minute to score as high as you can. Beat your personal best, then go around again.**
+
+## Remaining copy to complete before release
+
+- Website landing-page sections and platform-specific iOS/macOS calls to action. Add store links or badges only when each app is actually available; do not imply a release date or feature that has not been confirmed.
+- Logo and app-icon treatment, final store listing formatting, and trademark/domain clearance.
+- Platform-specific control instructions for touch, mouse, trackpad, and keyboard.
+- Pause, resume, leave-round, replay, and interrupted-round copy.
+- Accessibility labels and score/timer announcements after native interaction is implemented.
+- Settings labels for sound, motion, and quality options that actually ship.
+- Loading, error, empty, and saved-progress recovery states if persistence is added.
+- Support and privacy copy after the actual support channel, analytics, crash reporting, and data behavior are decided.
+- Final store keywords and platform-specific listings after the product name and features are approved.
+
+## Approval and release checks
+
+- Roundgarden was selected by the product owner on 2026-10-29. Product-owner approval is still required before finalizing release copy.
+- Check the selected name against App Store listings, domains, and relevant trademark registries before publishing. The current App Store search is not a clearance search.
+- Reconcile privacy, compatibility, and feature statements with the shipped app and actual App Store Connect disclosures.
+- Finalize platform-specific copy only after native controls and accessibility behavior are implemented and verified.

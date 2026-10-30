@@ -45,4 +45,4 @@ A drag is a look gesture; only a completed click or tap without meaningful movem
 
 ## Current web baseline and implementation work
 
-The current web reference implements the 60-second timer, 360-degree drag look, center-reticle targeting, one point per successful catch, completion, and replay. It currently describes interactions as catching and collecting. It does not yet implement the value tiers, proximity multiplier, local personal best, pause/resume control, or background-pause behavior in this contract. The native apps and the next web implementation pass should follow the contract above rather than copy those current limitations.
+The web reference implements the 60-second timer, 360-degree drag look, center-reticle targeting, 100/250/500 point values, proximity multipliers, pause/resume, local personal best, completion, and fresh replay. Product language describes vaporizing garden oddities into light. Decorative foliage remains outside the target raycast. Native apps should follow this contract and use the web game as the behavior reference.
