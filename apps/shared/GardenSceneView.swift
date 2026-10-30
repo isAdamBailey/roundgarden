@@ -168,15 +168,18 @@ struct GardenSceneView: View {
         .allowsHitTesting(false)
 
         if let aimedTarget, round.phase == .playing {
-          Text(
-            "\(aimedTarget.target.value) POINTS  ·  ×\(RoundState.proximityMultiplier(for: aimedTarget.distance))"
-          )
-          .font(.system(size: 12 * uiScale, weight: .semibold, design: .rounded))
-          .tracking(0.8 * uiScale)
-          .foregroundStyle(Color(red: 0.91, green: 0.96, blue: 0.83))
-          .padding(.horizontal, 12 * uiScale)
-          .padding(.vertical, 8 * uiScale)
-          .background(.black.opacity(0.4), in: Capsule())
+          Button(action: vaporizeAimedTarget) {
+            Text(
+              "\(aimedTarget.target.value) POINTS  ·  ×\(RoundState.proximityMultiplier(for: aimedTarget.distance))"
+            )
+            .font(.system(size: 12 * uiScale, weight: .semibold, design: .rounded))
+            .tracking(0.8 * uiScale)
+            .foregroundStyle(Color(red: 0.91, green: 0.96, blue: 0.83))
+            .padding(.horizontal, 12 * uiScale)
+            .padding(.vertical, 8 * uiScale)
+            .background(.black.opacity(0.4), in: Capsule())
+          }
+          .buttonStyle(.plain)
           .position(x: viewport.size.width / 2, y: viewport.size.height * 0.58)
           .accessibilityLabel(
             Text(
@@ -184,12 +187,7 @@ struct GardenSceneView: View {
             )
           )
           .accessibilityAddTraits(.updatesFrequently)
-          .accessibilityAddTraits(.isButton)
           .accessibilityIdentifier("aimed-garden-oddity")
-          .accessibilityAction(.default) {
-            vaporizeAimedTarget()
-          }
-          .allowsHitTesting(false)
         }
       }
       .frame(width: viewport.size.width, height: viewport.size.height)
