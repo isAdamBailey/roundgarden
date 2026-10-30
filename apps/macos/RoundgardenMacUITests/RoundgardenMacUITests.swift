@@ -17,10 +17,10 @@ final class RoundgardenMacUITests: XCTestCase {
     XCTAssertTrue(target.waitForExistence(timeout: 10))
     let score = app.staticTexts["round-score"]
     XCTAssertTrue(score.waitForExistence(timeout: 5))
-    let initialScore = score.label
+    let initialScore = score.value as? String
     target.click()
     let scoreUpdated = XCTNSPredicateExpectation(
-      predicate: NSPredicate(format: "label != %@", initialScore), object: score)
+      predicate: NSPredicate(format: "value != %@", initialScore ?? ""), object: score)
     XCTAssertTrue(
       XCTWaiter.wait(for: [scoreUpdated], timeout: 5) == .completed,
       "Activating the centered oddity should increase the score."
