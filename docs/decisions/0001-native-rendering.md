@@ -1,7 +1,8 @@
 # ADR 0001: Native rendering and shared game assets
 
-- **Status:** Proposed; validate with the Phase 2 rendering and input spike before creating production app targets.
+- **Status:** Proposed; RealityKit remains the lead candidate, but the renderer and support floor are not approved until Phase 2 validation is complete.
 - **Date:** 2026-10-29
+- **Reviewed:** 2026-10-30
 - **Scope:** iOS and macOS native game clients.
 
 ## Context
@@ -24,6 +25,16 @@ Apple describes [RealityKit](https://developer.apple.com/documentation/realityki
 Use **RealityKit for native 3D rendering**, embedded in **SwiftUI** screens. Keep round rules, timer, scoring, and produce motion in a renderer-independent Swift package that both app targets can use. Use RealityKit entities/components/systems to represent and update the native scene. Use SwiftUI for onboarding, HUD, pause/replay controls, and accessibility.
 
 This is a recommendation to validate, not a final renderer commitment. The Phase 2 spike must prove a full-sphere camera, procedural foliage and produce, distance-aware detail, catch targeting that ignores decorative occluders, lighting/shadows, and representative device performance. If RealityKit cannot meet those scene or performance needs without awkward workarounds, compare a focused Metal renderer against the same spike criteria before committing.
+
+### Phase 2 evaluation update — 2026-10-30
+
+Continue with RealityKit as the lead candidate for the next spike pass; do not create production app targets or treat the renderer choice as final yet. The shared SwiftUI/RealityKit prototype builds for iOS and macOS, and has been reviewed in iPhone 17 Pro and iPad Pro 11-inch simulators and a resizable macOS window. The 2026-10-30 pass fixes the iPhone's legacy 2:3 viewport crop and brings the garden edge-to-edge across these native sizes. This reduces composition risk, but does not establish that platform input is reliable, or that frame time and memory are acceptable on target hardware. Greenhouse transparency and shadow quality have not been validated.
+
+The alternatives remain as recorded above: Metal offers more rendering control at substantially higher engine cost; SceneKit is deprecated; a web view would preserve the browser renderer but would not provide native rendering. Reopen the renderer comparison if the next RealityKit pass cannot resolve the composition and material gaps or misses the device performance target. See the [spike record](0002-realitykit-spike.md) for the current evidence and remaining checks.
+
+The **iOS 18 / macOS 15** minimum remains a proposed deployment floor. Both targets compile with those deployment settings, but current simulator/runtime evidence is from iOS 26.5 and the macOS 27 SDK, so support on the proposed oldest OS versions has not been demonstrated. Do not finalize the floor until API availability and representative device coverage are checked.
+
+The asset pipeline is also a proposal, not an existing shared package: keep renderer-independent produce identifiers, palettes, tuning values, and procedural-generation inputs in a future shared data/package layer; keep the web Three.js implementation in `apps/web`; place authored interchange assets under `packages/assets`, retain editable USD sources, and package USDZ for native delivery where appropriate. Record provenance and licenses in `docs/ASSETS.md`. Native and web renderers may use platform-specific geometry/material derivatives from the same source description; verify the derivatives visually rather than assuming identical USD material behavior.
 
 ## Input and platform adaptation
 

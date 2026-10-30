@@ -1,7 +1,7 @@
 # Phase 2 spike: RealityKit prototype
 
 - **Status:** In progress; renderer choice remains provisional.
-- **Date:** 2026-10-29
+- **Date:** 2026-10-29; validation updated 2026-10-30
 - **Related:** [ADR 0001](0001-native-rendering.md), [issue #1](https://github.com/isAdamBailey/roundgarden/issues/1)
 
 ## Question
@@ -20,12 +20,15 @@ The current prototype animates multiple produce entities and uses curved leaf me
 - `xcodebuild` for `RealityKitSpike_iOS` with an iPhone 17 Pro simulator destination — passed locally on Xcode 27.1, with deployment target iOS 18.
 - Installed and relaunched on the iPhone 17 Pro simulator running iOS 26.5; the latest capture is `screenshots/iphone-17-pro.png`.
 - Side-by-side review with the web app informed a seven-leaf canopy cluster layout, explicit leaf normals, nine-color foliage palette, raised midribs, directional shadows, and a larger near-field produce pod.
-- Native and web GitHub Actions builds passed for the previous spike update. CI for this follow-up is pending.
-- The capture has more layered color and a readable near-field pod; visual parity and edge-to-edge composition still need work.
+- Native and web GitHub Actions builds passed for the merged visual follow-up (PR #6).
+- The earlier capture had more layered color and a readable near-field pod, but the iPhone viewport was cropped. The 2026-10-30 visual pass replaced repeated leaf silhouettes with three foliage shapes, weighted the palette toward green, added a continuous dark backdrop, and fixed full-display composition on iPhone and iPad; the macOS window was also reviewed.
+- On 2026-10-30, local `xcodebuild` builds passed for `RealityKitSpike_iOS` on the iPhone 17 Pro simulator destination and `RealityKitSpike_macOS` with a generic macOS destination. The iOS app launched on the iPhone 17 Pro simulator running iOS 26.5 and rendered the scene.
+- Generated launch-screen metadata and iOS-only safe-area filling resolved the iPhone's black bands while keeping the Mac HUD below the title bar. Fresh iPhone, iPad, and Mac captures are saved under `spikes/RealityKitSpike/screenshots/`. A still image does not verify drag/tap response, produce motion over time, transparency, shadows, or target-device performance. No physical-device frame-time or memory measurements were collected.
+- Native CI now lints Swift with `xcrun swift-format` and builds both iOS Simulator and macOS targets. Local instructions document format and build commands and note that physical-device installation requires an Apple development team and provisioning profile.
 
 ## Decision
 
-This is not enough evidence to accept or reject RealityKit. Keep ADR 0001's recommendation provisional. The cross-platform compile and simulator launch remove basic API uncertainty, but do not establish visual parity, input arbitration, occlusion-safe picking, lighting/shadow quality, a useful greenhouse transparency treatment, or device performance.
+This is not enough evidence to accept or reject RealityKit. Keep ADR 0001's recommendation provisional, with RealityKit as the lead candidate for the next spike pass. Cross-platform builds, simulator launches, and full-display composition review reduce basic API and layout uncertainty, but do not establish visual parity, input arbitration, occlusion-safe picking, lighting/shadow quality, a useful greenhouse transparency treatment, oldest-OS compatibility, or device performance. The iOS 18/macOS 15 deployment settings compile, but the current run used an iOS 26.5 simulator and macOS 27 SDK rather than those minimum runtime versions.
 
 ## Remaining validation
 
