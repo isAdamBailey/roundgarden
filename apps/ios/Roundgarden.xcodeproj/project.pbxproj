@@ -1,0 +1,449 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		30E5A8392F2B3131C0CE76CC /* GardenSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29897865964C3C87323DE86 /* GardenSceneView.swift */; };
+		41C62D5AD5E9E4E160E18795 /* RoundgardenCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A477E08D2317E30D9DA1405 /* RoundgardenCore */; };
+		552EB0F9C1ADE7A372055FF1 /* RoundgardenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8BEE70233EA9E23F48FBB6 /* RoundgardenApp.swift */; };
+		8D1A6C3C2D8C4958177B0C7A /* RoundgardenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5FBDFA2C218AA5F3C9E43 /* RoundgardenUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		99D063CE5D4F4EF302498464 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6BA6CD61EA28ACEE981C61E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F2ED3460B643C86B6AB54981;
+			remoteInfo = Roundgarden;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		5622B051AD97B04EFEB3C608 /* Roundgarden.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Roundgarden.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6B5FBDFA2C218AA5F3C9E43 /* RoundgardenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundgardenUITests.swift; sourceTree = "<group>"; };
+		BA3FBF87091FC121E9D9C277 /* game-core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "game-core"; path = "../../packages/game-core"; sourceTree = SOURCE_ROOT; };
+		BB9CA73B2428ECDBB641A7CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C29897865964C3C87323DE86 /* GardenSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenSceneView.swift; sourceTree = "<group>"; };
+		EA8BEE70233EA9E23F48FBB6 /* RoundgardenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundgardenApp.swift; sourceTree = "<group>"; };
+		FEB433D6F6596D93E0D64666 /* RoundgardenUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = RoundgardenUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BCF82472F017014A50D9648F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41C62D5AD5E9E4E160E18795 /* RoundgardenCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0B03623033EA8B6B00C3A52C /* Roundgarden */ = {
+			isa = PBXGroup;
+			children = (
+				C29897865964C3C87323DE86 /* GardenSceneView.swift */,
+				BB9CA73B2428ECDBB641A7CA /* Info.plist */,
+				EA8BEE70233EA9E23F48FBB6 /* RoundgardenApp.swift */,
+			);
+			path = Roundgarden;
+			sourceTree = "<group>";
+		};
+		438B6146770851CDBA5D45B0 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				BA3FBF87091FC121E9D9C277 /* game-core */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		B44E6583305FD535444921DB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5622B051AD97B04EFEB3C608 /* Roundgarden.app */,
+				FEB433D6F6596D93E0D64666 /* RoundgardenUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B5BDBDB6E3FDF50FFC18059F = {
+			isa = PBXGroup;
+			children = (
+				438B6146770851CDBA5D45B0 /* Packages */,
+				0B03623033EA8B6B00C3A52C /* Roundgarden */,
+				D8F3AC30D190E49897166177 /* RoundgardenUITests */,
+				B44E6583305FD535444921DB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D8F3AC30D190E49897166177 /* RoundgardenUITests */ = {
+			isa = PBXGroup;
+			children = (
+				B6B5FBDFA2C218AA5F3C9E43 /* RoundgardenUITests.swift */,
+			);
+			path = RoundgardenUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		258E8040F5ACF5C587BC2AF6 /* RoundgardenUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD1038921D38899B26C45E95 /* Build configuration list for PBXNativeTarget "RoundgardenUITests" */;
+			buildPhases = (
+				D83A9D949FC79E10AAF80BBB /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3B9B8AE0D0EC864879065ED1 /* PBXTargetDependency */,
+			);
+			name = RoundgardenUITests;
+			packageProductDependencies = (
+			);
+			productName = RoundgardenUITests;
+			productReference = FEB433D6F6596D93E0D64666 /* RoundgardenUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		F2ED3460B643C86B6AB54981 /* Roundgarden */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5D742AA2D9C02632D24BFF75 /* Build configuration list for PBXNativeTarget "Roundgarden" */;
+			buildPhases = (
+				FD6D43D6B4C297BEBBB9F91E /* Sources */,
+				BCF82472F017014A50D9648F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Roundgarden;
+			packageProductDependencies = (
+				7A477E08D2317E30D9DA1405 /* RoundgardenCore */,
+			);
+			productName = Roundgarden;
+			productReference = 5622B051AD97B04EFEB3C608 /* Roundgarden.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6BA6CD61EA28ACEE981C61E2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					258E8040F5ACF5C587BC2AF6 = {
+						TestTargetID = F2ED3460B643C86B6AB54981;
+					};
+				};
+			};
+			buildConfigurationList = 50FBA5F386E3E805230275E6 /* Build configuration list for PBXProject "Roundgarden" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = B5BDBDB6E3FDF50FFC18059F;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				7248FD61C6A1AB4804208975 /* XCLocalSwiftPackageReference "../../packages/game-core" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = B44E6583305FD535444921DB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F2ED3460B643C86B6AB54981 /* Roundgarden */,
+				258E8040F5ACF5C587BC2AF6 /* RoundgardenUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D83A9D949FC79E10AAF80BBB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D1A6C3C2D8C4958177B0C7A /* RoundgardenUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD6D43D6B4C297BEBBB9F91E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30E5A8392F2B3131C0CE76CC /* GardenSceneView.swift in Sources */,
+				552EB0F9C1ADE7A372055FF1 /* RoundgardenApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3B9B8AE0D0EC864879065ED1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F2ED3460B643C86B6AB54981 /* Roundgarden */;
+			targetProxy = 99D063CE5D4F4EF302498464 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0717A4102953280C0AC36BAA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.roundgarden.ios.uitests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Roundgarden;
+			};
+			name = Release;
+		};
+		6480AA4B4F3303D99DBF8094 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		72DABEDE48A6AD362751F7DA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Roundgarden/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Roundgarden;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.roundgarden.ios;
+				PRODUCT_NAME = Roundgarden;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		753012C8E7D52B41AB7BA44C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.roundgarden.ios.uitests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Roundgarden;
+			};
+			name = Debug;
+		};
+		E3CEFD700705B36C7E5FD224 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Roundgarden/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Roundgarden;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.roundgarden.ios;
+				PRODUCT_NAME = Roundgarden;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F3E7D6E7157DB0776A0247CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		50FBA5F386E3E805230275E6 /* Build configuration list for PBXProject "Roundgarden" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6480AA4B4F3303D99DBF8094 /* Debug */,
+				F3E7D6E7157DB0776A0247CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5D742AA2D9C02632D24BFF75 /* Build configuration list for PBXNativeTarget "Roundgarden" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72DABEDE48A6AD362751F7DA /* Debug */,
+				E3CEFD700705B36C7E5FD224 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		FD1038921D38899B26C45E95 /* Build configuration list for PBXNativeTarget "RoundgardenUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				753012C8E7D52B41AB7BA44C /* Debug */,
+				0717A4102953280C0AC36BAA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		7248FD61C6A1AB4804208975 /* XCLocalSwiftPackageReference "../../packages/game-core" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../../packages/game-core";
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7A477E08D2317E30D9DA1405 /* RoundgardenCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RoundgardenCore;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 6BA6CD61EA28ACEE981C61E2 /* Project object */;
+}

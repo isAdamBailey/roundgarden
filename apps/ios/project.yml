@@ -1,0 +1,51 @@
+name: Roundgarden
+groups:
+  - apps/ios/Roundgarden
+options:
+  bundleIdPrefix: com.roundgarden
+  deploymentTarget:
+    iOS: "18.0"
+packages:
+  RoundgardenCore:
+    path: ../../packages/game-core
+targets:
+  Roundgarden:
+    type: application
+    platform: iOS
+    sources:
+      - Roundgarden
+    dependencies:
+      - package: RoundgardenCore
+        product: RoundgardenCore
+    info:
+      path: Roundgarden/Info.plist
+      properties:
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.roundgarden.ios
+        PRODUCT_NAME: Roundgarden
+        SWIFT_VERSION: "5.0"
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Roundgarden
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        TARGETED_DEVICE_FAMILY: "1,2"
+        IPHONEOS_DEPLOYMENT_TARGET: "18.0"
+        CODE_SIGNING_ALLOWED: NO
+  RoundgardenUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - RoundgardenUITests
+    dependencies:
+      - target: Roundgarden
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.roundgarden.ios.uitests
+        SWIFT_VERSION: "5.0"
+        IPHONEOS_DEPLOYMENT_TARGET: "18.0"
+        CODE_SIGNING_ALLOWED: NO
