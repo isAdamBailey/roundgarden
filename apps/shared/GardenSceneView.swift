@@ -231,12 +231,19 @@ struct GardenSceneView: View {
 
   private func vaporize(_ hit: (target: AimTarget, distance: Double)?) {
     guard round.phase == .playing, let hit else {
+      print("[mac-debug] skip phase=\(round.phase) target=\(hit != nil)")
       return
     }
+    print(
+      "[mac-debug] hit id=\(hit.target.id) value=\(hit.target.value) distance=\(hit.distance) score=\(round.score)"
+    )
     vaporizedTargetIDs.insert(hit.target.id)
     guard let points = round.vaporize(value: hit.target.value, distance: hit.distance) else {
+      print(
+        "[mac-debug] rejected phase=\(round.phase) distance=\(hit.distance) score=\(round.score)")
       return
     }
+    print("[mac-debug] awarded points=\(points) score=\(round.score)")
     onVaporize(points)
     Task { @MainActor in
       try? await Task.sleep(for: .milliseconds(700))
