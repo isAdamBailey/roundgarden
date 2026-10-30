@@ -1,10 +1,15 @@
 import RealityKit
 import RoundgardenCore
 import SwiftUI
-import UIKit
 import simd
 
-typealias PlatformColor = UIColor
+#if os(iOS)
+  import UIKit
+  typealias PlatformColor = UIColor
+#else
+  import AppKit
+  typealias PlatformColor = NSColor
+#endif
 
 struct GardenSceneView: View {
   let round: RoundState
@@ -13,6 +18,9 @@ struct GardenSceneView: View {
   @State private var pitch = 0.0
   @State private var lastDragTranslation = CGSize.zero
   @State private var vaporizedTargetIDs: Set<Int> = []
+  #if os(macOS)
+    @FocusState private var gardenHasFocus: Bool
+  #endif
 
   private var aimDirection: SIMD3<Double> {
     let horizontal = cos(pitch)
@@ -88,7 +96,32 @@ struct GardenSceneView: View {
           .contentShape(Rectangle())
           .accessibilityElement()
           .accessibilityLabel("Garden view")
-          .accessibilityHint("Drag to look around. When an oddity is centered, tap to vaporize it.")
+          #if os(macOS)
+            .accessibilityHint(
+              "Drag to look. Use arrow keys to turn. Click a centered oddity to vaporize it."
+            )
+            .focusable()
+            .focused($gardenHasFocus)
+            .onKeyPress(.leftArrow) {
+              yaw += 0.08
+              return .handled
+            }
+            .onKeyPress(.rightArrow) {
+              yaw -= 0.08
+              return .handled
+            }
+            .onKeyPress(.upArrow) {
+              pitch = min(0.94, pitch + 0.08)
+              return .handled
+            }
+            .onKeyPress(.downArrow) {
+              pitch = max(-0.94, pitch - 0.08)
+              return .handled
+            }
+          #else
+            .accessibilityHint(
+              "Drag to look around. When an oddity is centered, tap to vaporize it.")
+          #endif
           .gesture(cameraDragGesture)
           .allowsHitTesting(round.phase != .paused && round.phase != .complete)
 

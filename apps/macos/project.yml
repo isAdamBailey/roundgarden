@@ -1,0 +1,41 @@
+name: RoundgardenMac
+groups:
+  - ../shared
+options:
+  bundleIdPrefix: com.roundgarden
+  deploymentTarget:
+    macOS: "15.0"
+packages:
+  RoundgardenCore:
+    path: ../../packages/game-core
+targets:
+  RoundgardenMac:
+    type: application
+    platform: macOS
+    sources:
+      - ../shared
+    dependencies:
+      - package: RoundgardenCore
+        product: RoundgardenCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.roundgarden.macos
+        PRODUCT_NAME: Roundgarden
+        SWIFT_VERSION: "5.0"
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Roundgarden
+        MACOSX_DEPLOYMENT_TARGET: "15.0"
+        CODE_SIGNING_ALLOWED: NO
+  RoundgardenMacUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources:
+      - RoundgardenMacUITests
+    dependencies:
+      - target: RoundgardenMac
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.roundgarden.macos.uitests
+        SWIFT_VERSION: "5.0"
+        MACOSX_DEPLOYMENT_TARGET: "15.0"
+        CODE_SIGNING_ALLOWED: NO

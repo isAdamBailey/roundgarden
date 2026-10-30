@@ -69,6 +69,9 @@ private struct GardenMenuView: View {
         .buttonStyle(.borderedProminent)
         .tint(Color(red: 0.45, green: 0.61, blue: 0.34))
         .accessibilityHint("Opens the garden. Drag anywhere in the garden to look around.")
+        #if os(macOS)
+          .keyboardShortcut(.defaultAction)
+        #endif
       }
       .padding(32)
     }
@@ -121,7 +124,11 @@ private struct GardenGameView: View {
           }
           .disabled(round.phase == .ready || round.phase == .complete)
           .accessibilityHint(
-            round.phase == .paused ? "Resumes the round." : "Pauses the round and garden motion.")
+            round.phase == .paused ? "Resumes the round." : "Pauses the round and garden motion."
+          )
+          #if os(macOS)
+            .keyboardShortcut(.escape, modifiers: [])
+          #endif
         }
         .buttonStyle(.bordered)
         .tint(.white.opacity(0.9))
@@ -132,7 +139,7 @@ private struct GardenGameView: View {
 
         if round.phase == .playing || round.phase == .ready {
           VStack(spacing: 5) {
-            Text("DRAG TO LOOK  ·  TAP TO VAPORIZE")
+            Text(instructionText)
               .font(.system(size: 12, weight: .semibold, design: .rounded))
               .tracking(1.1)
             if !lastAward.isEmpty {
@@ -224,5 +231,13 @@ private struct GardenGameView: View {
     } else {
       round.pause()
     }
+  }
+
+  private var instructionText: String {
+    #if os(macOS)
+      "DRAG TO LOOK  ·  CLICK TO VAPORIZE"
+    #else
+      "DRAG TO LOOK  ·  TAP TO VAPORIZE"
+    #endif
   }
 }
