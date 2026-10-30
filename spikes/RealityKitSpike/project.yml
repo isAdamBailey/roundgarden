@@ -15,6 +15,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.roundgarden.spike.renderer
         SWIFT_VERSION: "5.0"
         GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
         TARGETED_DEVICE_FAMILY: "1,2"
         MACOSX_DEPLOYMENT_TARGET: "15.0"
         IPHONEOS_DEPLOYMENT_TARGET: "18.0"
