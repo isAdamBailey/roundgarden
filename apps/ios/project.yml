@@ -30,13 +30,14 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.roundgarden.ios
         PRODUCT_NAME: Roundgarden
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
         SWIFT_VERSION: "5.0"
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: Roundgarden
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         TARGETED_DEVICE_FAMILY: "1,2"
         IPHONEOS_DEPLOYMENT_TARGET: "18.0"
-        CODE_SIGNING_ALLOWED: NO
   RoundgardenUITests:
     type: bundle.ui-testing
     platform: iOS
@@ -49,4 +50,3 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.roundgarden.ios.uitests
         SWIFT_VERSION: "5.0"
         IPHONEOS_DEPLOYMENT_TARGET: "18.0"
-        CODE_SIGNING_ALLOWED: NO

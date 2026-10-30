@@ -10,6 +10,7 @@
 		41C62D5AD5E9E4E160E18795 /* RoundgardenCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A477E08D2317E30D9DA1405 /* RoundgardenCore */; };
 		6D960AC37C138547AC21ACA0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = DE8DA95F91313081098859E6 /* Localizable.xcstrings */; };
 		8D1A6C3C2D8C4958177B0C7A /* RoundgardenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5FBDFA2C218AA5F3C9E43 /* RoundgardenUITests.swift */; };
+		8D7EC9DFA268FE1C0E2CD664 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D26A949646130E01DAB81467 /* PrivacyInfo.xcprivacy */; };
 		8E6535A62829B022C4F82DE7 /* RoundgardenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFE799CEB54D0DB35DFDF9D /* RoundgardenApp.swift */; };
 		C4B0049CAFD309E64F39BC7B /* GardenSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E260BD4A60CCF8C0DE8F9D1 /* GardenSceneView.swift */; };
 /* End PBXBuildFile section */
@@ -30,6 +31,7 @@
 		B6B5FBDFA2C218AA5F3C9E43 /* RoundgardenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundgardenUITests.swift; sourceTree = "<group>"; };
 		BA3FBF87091FC121E9D9C277 /* game-core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "game-core"; path = "../../packages/game-core"; sourceTree = SOURCE_ROOT; };
 		BB9CA73B2428ECDBB641A7CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D26A949646130E01DAB81467 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		DDFE799CEB54D0DB35DFDF9D /* RoundgardenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundgardenApp.swift; sourceTree = "<group>"; };
 		DE8DA95F91313081098859E6 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		FEB433D6F6596D93E0D64666 /* RoundgardenUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = RoundgardenUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,6 +62,7 @@
 			children = (
 				7E260BD4A60CCF8C0DE8F9D1 /* GardenSceneView.swift */,
 				DE8DA95F91313081098859E6 /* Localizable.xcstrings */,
+				D26A949646130E01DAB81467 /* PrivacyInfo.xcprivacy */,
 				DDFE799CEB54D0DB35DFDF9D /* RoundgardenApp.swift */,
 			);
 			name = shared;
@@ -186,6 +189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D960AC37C138547AC21ACA0 /* Localizable.xcstrings in Resources */,
+				8D7EC9DFA268FE1C0E2CD664 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,7 +228,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGNING_ALLOWED = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -306,8 +309,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Roundgarden/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Roundgarden;
@@ -317,6 +320,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.roundgarden.ios;
 				PRODUCT_NAME = Roundgarden;
 				SDKROOT = iphoneos;
@@ -329,7 +333,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGNING_ALLOWED = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -348,8 +351,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Roundgarden/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Roundgarden;
@@ -359,6 +362,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.roundgarden.ios;
 				PRODUCT_NAME = Roundgarden;
 				SDKROOT = iphoneos;
