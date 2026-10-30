@@ -77,9 +77,19 @@ struct GardenSceneView: View {
               guard let produce = content.entities.first?.findEntity(named: name) else { continue }
               produce.isEnabled = !vaporizedTargetIDs.contains(index)
               let position = targets[index].position
+              let distance = simd_length(position)
               produce.position = SIMD3<Float>(
                 Float(position.x), Float(position.y), Float(position.z))
               produce.look(at: .zero, from: produce.position, relativeTo: nil)
+              if let skinDetail = content.entities.first?.findEntity(
+                named: "produce-detail-\(index)")
+              {
+                skinDetail.isEnabled = distance < 19
+              }
+              if let innerGlow = content.entities.first?.findEntity(named: "produce-glow-\(index)")
+              {
+                innerGlow.isEnabled = distance < 12
+              }
               let pulse =
                 1 + sin(Float(timeline.date.timeIntervalSinceReferenceDate) * 2 + Float(index))
                 * 0.045
@@ -289,6 +299,7 @@ struct GardenSceneView: View {
     var leafInstances = leafMeshes.map { _ in Array(repeating: [Transform](), count: palette.count)
     }
     var veinInstances: [Transform] = []
+    var branchVeinInstances: [Transform] = []
     var stemInstances: [Transform] = []
     var branchInstances: [Transform] = []
     var flowerInstances = Array(repeating: [Transform](), count: 4)
@@ -343,6 +354,20 @@ struct GardenSceneView: View {
             rotation: worldRotation,
             translation: worldPosition + worldRotation.act(SIMD3<Float>(0, 0, size * 0.13))
           ))
+        if i.isMultiple(of: 3), leafIndex.isMultiple(of: 2) {
+          let along: Float = leafIndex.isMultiple(of: 4) ? 0.34 : 0.66
+          let y = (along - 0.5) * 0.84 * size * 1.12
+          let width = sin(along * .pi) * 0.24 * size * 0.78
+          let start = worldPosition + worldRotation.act([0, y, size * 0.12])
+          let end = worldPosition + worldRotation.act([width, y + 0.04 * size, size * 0.07])
+          let delta = end - start
+          branchVeinInstances.append(
+            Transform(
+              scale: [1, simd_length(delta), 1],
+              rotation: simd_quatf(from: SIMD3<Float>(0, 1, 0), to: simd_normalize(delta)),
+              translation: (start + end) * 0.5
+            ))
+        }
       }
       for branchIndex in 0..<2 {
         let side: Float = branchIndex == 0 ? -1 : 1
@@ -412,6 +437,19 @@ struct GardenSceneView: View {
               rotation: rotation,
               translation: (point + previous) * 0.5
             ))
+          if segment == 3, branch.isMultiple(of: 3) {
+            let forkDirection = simd_normalize(
+              tangent * (branch.isMultiple(of: 2) ? 1 : -1) + bitangent * 0.38 - normal * 0.12)
+            let forkEnd = simd_normalize(point + forkDirection * 3.1) * (simd_length(point) - 0.65)
+            let forkDelta = forkEnd - point
+            woodyInstances.append(
+              Transform(
+                scale: [radius * 0.68, simd_length(forkDelta), radius * 0.62],
+                rotation: simd_quatf(
+                  from: SIMD3<Float>(0, 1, 0), to: simd_normalize(forkDelta)),
+                translation: (point + forkEnd) * 0.5
+              ))
+          }
         }
         previous = point
       }
@@ -522,6 +560,15 @@ struct GardenSceneView: View {
       name: "leaf-veins",
       to: root
     )
+    addInstanced(
+      mesh: .generateCylinder(height: 1, radius: 0.006),
+      material: SimpleMaterial(
+        color: PlatformColor(red: 0.73, green: 0.82, blue: 0.47, alpha: 1), roughness: 0.76,
+        isMetallic: false),
+      transforms: branchVeinInstances,
+      name: "leaf-branch-veins",
+      to: root
+    )
     let petalColors: [PlatformColor] = [
       PlatformColor(red: 0.79, green: 0.42, blue: 0.52, alpha: 1),
       PlatformColor(red: 0.89, green: 0.65, blue: 0.28, alpha: 1),
@@ -582,20 +629,66 @@ struct GardenSceneView: View {
           SimpleMaterial(
             color: fruitColors[definition.paletteIndex], roughness: 0.55, isMetallic: false)
         ])
-      core.scale = definition.family == .pear ? [1, 1.08, 1] : [1, 0.9, 1]
+      core.scale = [1, 1, 1]
       core.position.y = 0.9
       fruit.addChild(core)
-      let crownLeaf = ModelEntity(
-        mesh: leafMeshes[0],
+      for leafIndex in 0..<3 {
+        let angle = Float(leafIndex) * 2 * .pi / 3
+        let crownLeaf = ModelEntity(
+          mesh: leafMeshes[leafIndex % leafMeshes.count],
+          materials: [
+            SimpleMaterial(
+              color: leafColor(leafIndex + definition.paletteIndex), roughness: 0.7,
+              isMetallic: false)
+          ])
+        crownLeaf.scale = [0.45, 0.7, 0.42]
+        crownLeaf.position = [
+          cos(angle) * 0.18, 2.58 + Float(leafIndex % 2) * 0.08, sin(angle) * 0.18,
+        ]
+        crownLeaf.orientation =
+          simd_quatf(angle: angle, axis: [0, 1, 0])
+          * simd_quatf(angle: -0.78, axis: [0, 0, 1])
+        fruit.addChild(crownLeaf)
+      }
+      let skinDetail = ModelEntity(
+        mesh: makeProduceDetailsMesh(family: definition.family, seed: index),
         materials: [
           SimpleMaterial(
-            color: PlatformColor(red: 0.69, green: 0.83, blue: 0.32, alpha: 1), roughness: 0.72,
-            isMetallic: false)
+            color: PlatformColor(red: 0.31, green: 0.22, blue: 0.14, alpha: 1),
+            roughness: 0.9, isMetallic: false)
         ])
-      crownLeaf.scale = [0.58, 0.82, 0.52]
-      crownLeaf.position = [0.32, 2.7, 0.12]
-      crownLeaf.orientation = simd_quatf(angle: -0.85, axis: [0, 0, 1])
-      fruit.addChild(crownLeaf)
+      skinDetail.name = "produce-detail-\(index)"
+      skinDetail.isEnabled = false
+      skinDetail.position.y = 0.9
+      fruit.addChild(skinDetail)
+      let innerGlow = ModelEntity(
+        mesh: .generateSphere(radius: 0.13),
+        materials: [
+          UnlitMaterial(color: PlatformColor(red: 1, green: 0.82, blue: 0.43, alpha: 1))
+        ])
+      innerGlow.name = "produce-glow-\(index)"
+      innerGlow.position = [0.02, 1.45, 0.48]
+      innerGlow.isEnabled = false
+      fruit.addChild(innerGlow)
+      let tendrilPoints: [SIMD3<Float>] = [
+        [0, 2.05, 0], [-0.08, 2.23, 0.02], [-0.23, 2.34, 0.08],
+        [-0.13, 2.45, 0.13], [0.02, 2.4, 0.16],
+      ]
+      let tendrilMaterial = SimpleMaterial(
+        color: PlatformColor(red: 0.61, green: 0.75, blue: 0.29, alpha: 1),
+        roughness: 0.78, isMetallic: false)
+      for segment in 0..<(tendrilPoints.count - 1) {
+        let start = tendrilPoints[segment]
+        let end = tendrilPoints[segment + 1]
+        let delta = end - start
+        let tendril = ModelEntity(
+          mesh: .generateCylinder(height: simd_length(delta), radius: 0.022),
+          materials: [tendrilMaterial])
+        tendril.position = (start + end) * 0.5
+        tendril.orientation = simd_quatf(
+          from: SIMD3<Float>(0, 1, 0), to: simd_normalize(delta))
+        fruit.addChild(tendril)
+      }
       root.addChild(fruit)
     }
     return root
@@ -725,21 +818,15 @@ struct GardenSceneView: View {
   }
 
   private func makeProduceMesh(family: ProduceFamily) -> MeshResource {
-    guard family == .pear else {
-      return .generateSphere(radius: family == .berry ? 0.58 : 0.62)
-    }
-    let profile: [(radius: Float, height: Float)] = [
-      (0.04, 0.00), (0.34, 0.07), (0.52, 0.22), (0.60, 0.44),
-      (0.58, 0.68), (0.48, 0.88), (0.32, 1.03), (0.17, 1.06),
-      (0.12, 1.18), (0.04, 1.22),
-    ]
+    let profile = produceProfile(family: family)
     let slices = 32
     var positions: [SIMD3<Float>] = []
     var indices: [UInt32] = []
     for (ring, point) in profile.enumerated() {
       for slice in 0..<slices {
         let angle = Float(slice) / Float(slices) * 2 * .pi
-        let rib = 1 + sin(angle * 5 + Float(ring) * 0.12) * 0.045
+        let ribCount: Float = family == .berry ? 7 : (family == .plum ? 5 : 4)
+        let rib = 1 + sin(angle * ribCount + Float(ring) * 0.12) * 0.055
         positions.append([
           cos(angle) * point.radius * rib, point.height, sin(angle) * point.radius * rib,
         ])
@@ -759,6 +846,86 @@ struct GardenSceneView: View {
     descriptor.positions = MeshBuffer(positions)
     descriptor.primitives = .triangles(indices)
     return (try? MeshResource.generate(from: [descriptor])) ?? .generateSphere(radius: 0.55)
+  }
+
+  private func produceProfile(family: ProduceFamily) -> [(radius: Float, height: Float)] {
+    switch family {
+    case .pear:
+      [
+        (0.04, 0.00), (0.34, 0.07), (0.52, 0.22), (0.60, 0.44),
+        (0.58, 0.68), (0.48, 0.88), (0.32, 1.03), (0.17, 1.06),
+        (0.12, 1.18), (0.04, 1.22),
+      ]
+    case .berry:
+      [
+        (0.05, 0.00), (0.23, 0.04), (0.39, 0.14), (0.49, 0.30),
+        (0.52, 0.48), (0.46, 0.68), (0.33, 0.84), (0.17, 0.94), (0.04, 0.98),
+      ]
+    case .plum:
+      [
+        (0.04, 0.00), (0.18, 0.03), (0.34, 0.14), (0.43, 0.33),
+        (0.45, 0.54), (0.39, 0.76), (0.29, 0.94), (0.17, 1.08), (0.04, 1.12),
+      ]
+    }
+  }
+
+  private func makeProduceDetailsMesh(family: ProduceFamily, seed: Int) -> MeshResource {
+    let profile = produceProfile(family: family)
+    let slices = 6
+    let rings = 4
+    var positions: [SIMD3<Float>] = []
+    var normals: [SIMD3<Float>] = []
+    var indices: [UInt32] = []
+    let frequency: Float = family == .berry ? 7 : (family == .plum ? 5 : 4)
+    for spot in 0..<18 {
+      let y = 0.12 + randomUnit(seed * 37 + spot * 11) * 0.74
+      let radius = profileRadius(profile, at: y)
+      let centerAngle = randomUnit(seed * 71 + spot * 17) * 2 * .pi
+      let rib = 1 + sin(centerAngle * frequency + Float(seed)) * 0.055
+      let shellRadius = radius * rib + sin(y * 3.1 + Float(seed)) * 0.035
+      let radial = SIMD3<Float>(cos(centerAngle), 0, sin(centerAngle))
+      let center = SIMD3<Float>(radial.x * shellRadius, y, radial.z * shellRadius)
+      let beadRadius = 0.018 + randomUnit(seed * 97 + spot * 23) * 0.018
+      let firstVertex = UInt32(positions.count)
+      for ring in 0...rings {
+        let latitude = (Float(ring) / Float(rings) - 0.5) * .pi
+        for slice in 0..<slices {
+          let longitude = Float(slice) / Float(slices) * 2 * .pi
+          let normal =
+            radial * (cos(latitude) * cos(longitude))
+            + SIMD3<Float>(0, sin(latitude), 0)
+          normals.append(simd_normalize(normal))
+          positions.append(center + normal * beadRadius)
+        }
+      }
+      for ring in 0..<rings {
+        for slice in 0..<slices {
+          let next = (slice + 1) % slices
+          let a = firstVertex + UInt32(ring * slices + slice)
+          let b = firstVertex + UInt32(ring * slices + next)
+          let c = firstVertex + UInt32((ring + 1) * slices + slice)
+          let d = firstVertex + UInt32((ring + 1) * slices + next)
+          indices.append(contentsOf: [a, c, b, b, c, d])
+        }
+      }
+    }
+    var descriptor = MeshDescriptor()
+    descriptor.positions = MeshBuffer(positions)
+    descriptor.normals = MeshBuffer(normals)
+    descriptor.primitives = .triangles(indices)
+    return (try? MeshResource.generate(from: [descriptor])) ?? .generateSphere(radius: 0.01)
+  }
+
+  private func profileRadius(
+    _ profile: [(radius: Float, height: Float)], at height: Float
+  ) -> Float {
+    for index in 1..<profile.count where profile[index].height >= height {
+      let first = profile[index - 1]
+      let second = profile[index]
+      let fraction = (height - first.height) / max(0.001, second.height - first.height)
+      return first.radius + (second.radius - first.radius) * fraction
+    }
+    return profile[profile.count - 1].radius
   }
 
   private func leafColor(_ seed: Int) -> PlatformColor {
