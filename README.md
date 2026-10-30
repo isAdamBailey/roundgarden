@@ -2,7 +2,7 @@
 
 A Three.js + Vite game about a garden that goes all the way around. See [issue #1](https://github.com/isAdamBailey/roundgarden/issues/1) for the implementation plan.
 
-Use Node 26.13.0 from `.nvmrc` for development. Node 24 LTS is also supported.
+Use Node 26.13.0 from `.nvmrc` for development.
 
 ```sh
 nvm use
