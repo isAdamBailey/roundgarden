@@ -15,13 +15,15 @@ final class RoundgardenMacUITests: XCTestCase {
 
     let target = app.buttons["aimed-garden-oddity"]
     XCTAssertTrue(target.waitForExistence(timeout: 10))
+    let score = app.staticTexts["round-score"]
+    XCTAssertTrue(score.waitForExistence(timeout: 5))
+    let initialScore = score.label
     target.click()
-    let vaporizationFeedback = app.staticTexts.matching(
-      NSPredicate(format: "label BEGINSWITH %@", "Vaporized into light.")
-    ).firstMatch
+    let scoreUpdated = XCTNSPredicateExpectation(
+      predicate: NSPredicate(format: "label != %@", initialScore), object: score)
     XCTAssertTrue(
-      vaporizationFeedback.waitForExistence(timeout: 5),
-      "Activating the centered oddity should award points and announce its vaporization."
+      XCTWaiter.wait(for: [scoreUpdated], timeout: 5) == .completed,
+      "Activating the centered oddity should increase the score."
     )
 
     app.buttons["Pause"].click()

@@ -168,7 +168,9 @@ struct GardenSceneView: View {
         .allowsHitTesting(false)
 
         if let aimedTarget, round.phase == .playing {
-          Button(action: vaporizeAimedTarget) {
+          Button {
+            vaporize(aimedTarget)
+          } label: {
             Text(
               "\(aimedTarget.target.value) POINTS  ·  ×\(RoundState.proximityMultiplier(for: aimedTarget.distance))"
             )
@@ -224,7 +226,11 @@ struct GardenSceneView: View {
   }
 
   private func vaporizeAimedTarget() {
-    guard round.phase == .playing, let hit = aimedTarget else { return }
+    vaporize(aimedTarget)
+  }
+
+  private func vaporize(_ hit: (target: AimTarget, distance: Double)?) {
+    guard round.phase == .playing, let hit else { return }
     vaporizedTargetIDs.insert(hit.target.id)
     onVaporize(hit.target.value, hit.distance)
     Task { @MainActor in
