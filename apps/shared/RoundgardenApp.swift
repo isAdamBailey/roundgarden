@@ -12,6 +12,7 @@ struct RoundgardenApp: App {
 
 private struct RoundgardenRootView: View {
   @State private var isPlaying = false
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   var body: some View {
     Group {
@@ -27,13 +28,15 @@ private struct RoundgardenRootView: View {
         .transition(.opacity)
       }
     }
-    .animation(.easeInOut(duration: 0.25), value: isPlaying)
+    .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: isPlaying)
     .preferredColorScheme(.dark)
   }
 }
 
 private struct GardenMenuView: View {
   let onPlay: () -> Void
+  @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+  @Environment(\.colorSchemeContrast) private var colorContrast
 
   var body: some View {
     ZStack {
@@ -56,9 +59,16 @@ private struct GardenMenuView: View {
           Text("roundgarden")
             .font(.system(size: 38, weight: .medium, design: .serif))
             .tracking(-1)
-          Text("A little world to wander")
-            .font(.system(size: 17, weight: .regular, design: .rounded))
-            .foregroundStyle(.white.opacity(0.72))
+          Text("The garden goes all the way around.")
+            .font(.system(size: 27, weight: .medium, design: .serif))
+            .multilineTextAlignment(.center)
+          Text(
+            "Float inside a whimsical garden that surrounds you. Look all around as strange garden oddities drift close."
+          )
+          .font(.system(size: 15, weight: .regular, design: .rounded))
+          .multilineTextAlignment(.center)
+          .foregroundStyle(colorContrast == .increased ? .white : .white.opacity(0.82))
+          .frame(maxWidth: 440)
         }
 
         Button(action: onPlay) {
@@ -75,22 +85,25 @@ private struct GardenMenuView: View {
       }
       .padding(32)
     }
+    .background(reduceTransparency ? Color.black.opacity(0.94) : Color.clear)
   }
 }
 
 private struct GardenGameView: View {
   let onExit: () -> Void
   @Environment(\.scenePhase) private var scenePhase
+  @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+  @Environment(\.colorSchemeContrast) private var colorContrast
   @State private var round = RoundState(
     personalBest: UserDefaults.standard.integer(forKey: "roundgarden.personalBest"))
-  @State private var lastAward = ""
+  @State private var lastAwardPoints: Int?
   @State private var awardCount = 0
 
   var body: some View {
     ZStack {
       GardenSceneView(round: round) { value, distance in
         guard let points = round.vaporize(value: value, distance: distance) else { return }
-        lastAward = "\(points.formatted()) points · vaporized into light"
+        lastAwardPoints = points
         awardCount += 1
       }
 
@@ -108,10 +121,11 @@ private struct GardenGameView: View {
             Text("SCORE  ·  \(round.score.formatted())")
               .font(.system(size: 11, weight: .semibold, design: .rounded))
               .tracking(1.2)
+              .accessibilityLabel(Text("Score \(round.score.formatted()) points"))
               .accessibilityIdentifier("round-score")
             Text(timerText)
               .font(.system(size: 24, weight: .medium, design: .rounded).monospacedDigit())
-              .accessibilityLabel("\(Int(ceil(round.remainingTime))) seconds remaining")
+              .accessibilityLabel(Text("\(Int(ceil(round.remainingTime))) seconds remaining"))
               .accessibilityIdentifier("round-timer")
           }
 
@@ -142,17 +156,20 @@ private struct GardenGameView: View {
             Text(instructionText)
               .font(.system(size: 12, weight: .semibold, design: .rounded))
               .tracking(1.1)
-            if !lastAward.isEmpty {
-              Text(lastAward)
+            if let lastAwardPoints {
+              Text("\(lastAwardPoints.formatted()) points · vaporized into light")
                 .font(.system(size: 13, weight: .medium, design: .rounded))
-                .accessibilityAddTraits(.updatesFrequently)
+                .accessibilityLabel(
+                  Text("Vaporized into light. \(lastAwardPoints.formatted()) points."))
             }
           }
           .font(.system(size: 15, weight: .medium, design: .rounded))
           .foregroundStyle(.white.opacity(0.9))
           .padding(.horizontal, 18)
           .padding(.vertical, 10)
-          .background(.black.opacity(0.35), in: Capsule())
+          .background(
+            .black.opacity(colorContrast == .increased ? 0.82 : 0.66), in: Capsule()
+          )
           .padding(.bottom, 22)
         }
       }
@@ -205,14 +222,16 @@ private struct GardenGameView: View {
           .tint(Color(red: 0.45, green: 0.61, blue: 0.34))
           .frame(minHeight: 48)
       } else {
-        Text("Garden time")
+        Text("One minute, gone in a blink.")
           .font(.system(size: 28, weight: .medium, design: .serif))
+          .multilineTextAlignment(.center)
         Text("Final score  ·  \(round.score.formatted())")
           .font(.system(size: 18, weight: .semibold, design: .rounded))
         Text("Personal best  ·  \(round.personalBest.formatted())")
           .font(.system(size: 15, weight: .regular, design: .rounded))
           .foregroundStyle(.white.opacity(0.8))
-        Button("Play again") { round.start() }
+          .accessibilityLabel(Text("Personal best \(round.personalBest.formatted()) points"))
+        Button("Go around again") { round.start() }
           .buttonStyle(.borderedProminent)
           .tint(Color(red: 0.45, green: 0.61, blue: 0.34))
           .frame(minHeight: 48)
@@ -220,7 +239,10 @@ private struct GardenGameView: View {
     }
     .padding(24)
     .frame(maxWidth: 340)
-    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 24))
+    .background(
+      .black.opacity(reduceTransparency || colorContrast == .increased ? 0.94 : 0.82),
+      in: RoundedRectangle(cornerRadius: 24)
+    )
     .padding(24)
     .accessibilityElement(children: .contain)
   }
@@ -233,7 +255,7 @@ private struct GardenGameView: View {
     }
   }
 
-  private var instructionText: String {
+  private var instructionText: LocalizedStringKey {
     #if os(macOS)
       "DRAG TO LOOK  ·  CLICK TO VAPORIZE"
     #else

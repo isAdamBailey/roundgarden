@@ -1,0 +1,71 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "DRAG TO LOOK  ·  CLICK TO VAPORIZE" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "DRAG TO LOOK  ·  CLICK TO VAPORIZE" } }
+      }
+    },
+    "DRAG TO LOOK  ·  TAP TO VAPORIZE" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "DRAG TO LOOK  ·  TAP TO VAPORIZE" } }
+      }
+    },
+    "Enter the garden" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter the garden" } }
+      }
+    },
+    "Go around again" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Go around again" } }
+      }
+    },
+    "Menu" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Menu" } }
+      }
+    },
+    "One minute, gone in a blink." : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "One minute, gone in a blink." } }
+      }
+    },
+    "Pause" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pause" } }
+      }
+    },
+    "Ready to wander?" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Ready to wander?" } }
+      }
+    },
+    "Resume" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Resume" } }
+      }
+    },
+    "Resume round" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Resume round" } }
+      }
+    },
+    "Round paused" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Round paused" } }
+      }
+    },
+    "The garden goes all the way around." : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The garden goes all the way around." } }
+      }
+    },
+    "Vaporize centered oddity" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Vaporize centered oddity" } }
+      }
+    }
+  },
+  "version" : "1.0"
+}
