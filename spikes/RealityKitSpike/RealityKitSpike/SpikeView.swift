@@ -62,6 +62,10 @@ struct SpikeView: View {
           .ignoresSafeArea()
         #endif
 
+        Color.clear
+          .contentShape(Rectangle())
+          .gesture(cameraDragGesture)
+
         VStack {
           HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 1) {
@@ -124,26 +128,27 @@ struct SpikeView: View {
           #endif
       )
       .preferredColorScheme(.dark)
-      .gesture(
-        DragGesture(minimumDistance: 0)
-          .onChanged { value in
-            let delta = CGSize(
-              width: value.translation.width - lastDragTranslation.width,
-              height: value.translation.height - lastDragTranslation.height
-            )
-            lastDragTranslation = value.translation
-            yaw -= delta.width * 0.004
-            pitch = min(0.94, max(-0.94, pitch - delta.height * 0.004))
-          }
-          .onEnded { value in
-            if hypot(value.translation.width, value.translation.height) < 8 { score += 1 }
-            lastDragTranslation = .zero
-          }
-      )
     }
     #if os(iOS)
       .ignoresSafeArea()
     #endif
+  }
+
+  private var cameraDragGesture: some Gesture {
+    DragGesture(minimumDistance: 0)
+      .onChanged { value in
+        let delta = CGSize(
+          width: value.translation.width - lastDragTranslation.width,
+          height: value.translation.height - lastDragTranslation.height
+        )
+        lastDragTranslation = value.translation
+        yaw -= delta.width * 0.004
+        pitch = min(0.94, max(-0.94, pitch - delta.height * 0.004))
+      }
+      .onEnded { value in
+        if hypot(value.translation.width, value.translation.height) < 8 { score += 1 }
+        lastDragTranslation = .zero
+      }
   }
 
   private func makeGarden() -> Entity {
