@@ -238,11 +238,13 @@ struct GardenSceneView: View {
       "[mac-debug] hit id=\(hit.target.id) value=\(hit.target.value) distance=\(hit.distance) score=\(round.score)"
     )
     vaporizedTargetIDs.insert(hit.target.id)
-    guard let points = round.vaporize(value: hit.target.value, distance: hit.distance) else {
+    var updatedRound = round
+    guard let points = updatedRound.vaporize(value: hit.target.value, distance: hit.distance) else {
       print(
         "[mac-debug] rejected phase=\(round.phase) distance=\(hit.distance) score=\(round.score)")
       return
     }
+    round = updatedRound
     print("[mac-debug] awarded points=\(points) score=\(round.score)")
     onVaporize(points)
     Task { @MainActor in
