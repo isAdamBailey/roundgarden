@@ -18,7 +18,7 @@ Treat this document as the handoff brief for the next implementation pass. `PROD
 ## Current implementation
 
 - Entry point: `apps/web/src/main.js`; styles: `apps/web/src/style.css`; page metadata and visual contract: `apps/web/index.html`.
-- Three.js + Vite. Use Node 26.13.0 from `.nvmrc` for local builds.
+- Three.js + Vite. Use Node 24.22.2 from `.nvmrc` for local builds.
 - Procedural dome, translucent greenhouse shell and ribs; directional warm key light, hemisphere fill, a point fill, ACES tone mapping, and a 4096² directional shadow map.
 - Foliage is procedurally distributed across the inside of the sphere. Leaves are instanced, curved meshes with central and branching veins; they cast and receive shadows. Stems, curling vines, flowers and pollen add variety.
 - Floating produce uses several lathed silhouettes, small leaves, a curled tendril, and a glowing heart. Twelve pods drift toward the player, grow as distance closes, and respawn after vaporizing or passing the player.

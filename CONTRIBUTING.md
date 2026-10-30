@@ -2,7 +2,7 @@
 
 ## Local setup
 
-Use Node 26.13.0 from `.nvmrc`, then install and start the web workspace from the repository root:
+Use Node 24.22.2 from `.nvmrc`, then install and start the web workspace from the repository root:
 
 ```sh
 nvm use
