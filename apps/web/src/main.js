@@ -3,44 +3,62 @@ import './style.css';
 
 const app = document.querySelector('#app');
 app.innerHTML = `
-  <main class="game-shell" aria-label="Orbloom immersive catching game">
+  <main class="game-shell" aria-label="Roundgarden game">
     <canvas class="world" aria-label="A three-dimensional garden surrounding you"></canvas>
     <div class="vignette" aria-hidden="true"></div>
     <header class="topbar">
-      <a class="wordmark" href="#" aria-label="Orbloom home"><span class="wordmark-icon"><i></i><i></i><i></i></span><span>orbloom</span></a>
+      <a class="wordmark" href="#" aria-label="Roundgarden home"><span class="wordmark-icon"><i></i><i></i><i></i></span><span>roundgarden</span></a>
       <div class="round-state" id="roundState"><span class="state-dot"></span><span id="stateText">THE GARDEN IS RESTING</span></div>
-      <button class="sound-button" id="soundButton" aria-label="Toggle ambient sound" title="Toggle ambient sound"><svg viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="M16 9a5 5 0 0 1 0 6M18.5 6.5a9 9 0 0 1 0 11"/></svg></button>
+      <div class="header-controls">
+        <button class="pause-button" id="pauseButton" aria-label="Pause round" title="Pause round" hidden><svg class="pause-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg><span class="pause-text">Pause</span></button>
+        <button class="sound-button" id="soundButton" aria-label="Toggle vaporization sounds" title="Toggle vaporization sounds"><svg viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="M16 9a5 5 0 0 1 0 6M18.5 6.5a9 9 0 0 1 0 11"/></svg></button>
+      </div>
     </header>
 
-    <section class="game-hud" id="gameHud" aria-live="polite" aria-label="Round status">
-      <div class="score-block"><span class="hud-label">GATHERED</span><span class="score-number" id="score">00</span><span class="score-unit">GARDEN TREASURES</span></div>
-      <div class="timer-block"><span class="hud-label">TIME IN THE GARDEN</span><span class="timer-number" id="timer">01:00</span><div class="timer-track"><i id="timerFill"></i></div></div>
+    <section class="game-hud" id="gameHud" aria-label="Round status">
+      <div class="score-block"><span class="hud-label">SCORE</span><span class="score-number" id="score" aria-live="polite">0</span><span class="score-unit">POINTS</span></div>
+      <div class="timer-block"><span class="hud-label">TIME LEFT</span><span class="timer-number" id="timer">01:00</span><div class="timer-track"><i id="timerFill"></i></div></div>
     </section>
 
-    <div class="reticle" id="reticle" aria-hidden="true"><span class="reticle-ring"></span><span class="reticle-core"></span><span class="reticle-tick tick-top"></span><span class="reticle-tick tick-right"></span><span class="reticle-tick tick-bottom"></span><span class="reticle-tick tick-left"></span><span class="reticle-label" id="reticleLabel">WITHIN REACH</span></div>
-    <div class="catch-flash" id="catchFlash" aria-hidden="true">+1</div>
+    <div class="reticle" id="reticle" aria-hidden="true"><span class="reticle-ring"></span><span class="reticle-core"></span><span class="reticle-tick tick-top"></span><span class="reticle-tick tick-right"></span><span class="reticle-tick tick-bottom"></span><span class="reticle-tick tick-left"></span><span class="reticle-label" id="reticleLabel">LOOK ALL AROUND</span></div>
+    <div class="catch-flash" id="catchFlash" aria-hidden="true">+100</div>
 
     <section class="welcome-panel" id="welcomePanel">
       <div class="welcome-copy">
         <div class="title-mark"><span></span><span></span><span></span><span></span><span></span></div>
-        <h1>Find your <span class="mobile-title-break"><br /></span>way through <span class="mobile-title-break"><br /></span>the <em>glow.</em></h1>
-        <p class="intro">Your greenhouse drifts among the stars.<br class="mobile-copy-break" /> Catch curled gourds and root bulbs.<br class="mobile-copy-break" /> Bring home whatever else floats close.</p>
+        <h1>The garden <span class="mobile-title-break"><br /></span>goes all the way <em>around.</em></h1>
+        <p class="intro">Float inside a whimsical garden that surrounds you. Look all around as strange garden oddities drift close.</p>
         <div class="howto">
           <div class="howto-step"><span class="step-glyph aim-glyph"><i></i></span><span><b>LOOK AROUND</b><small>Drag to turn. The garden goes all the way around.</small></span></div>
-          <div class="howto-step"><span class="step-glyph catch-glyph"><i></i></span><span><b>CATCH THE GLOW</b><small>Center a nearby oddity. Click or tap when it shimmers.</small></span></div>
+          <div class="howto-step"><span class="step-glyph catch-glyph"><i></i></span><span><b>VAPORIZE AN ODDITY</b><small>Center a nearby oddity and click or tap to turn it into light.</small></span></div>
         </div>
         <button class="start-button" id="startButton"><span>Enter the garden</span><svg viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
-        <div class="gentle-note"><span class="note-spark">✳</span><span>Take your time. Nothing here can hurt you.</span></div>
+        <div class="gentle-note"><span class="note-spark">✳</span><span>One minute. Look close. Score high.</span></div>
+      </div>
+    </section>
+
+    <div class="sr-only" id="targetReadout" aria-live="polite" aria-atomic="true"></div>
+
+    <section class="pause-panel is-hidden" id="pausePanel" aria-labelledby="pauseTitle" aria-live="polite">
+      <h2 id="pauseTitle">Take a <em>breath.</em></h2>
+      <p class="end-copy">Your time and score are waiting here.</p>
+      <p class="round-summary"><span>SCORE <strong id="pausedScore">0</strong></span><span>TIME LEFT <strong id="pausedTime">01:00</strong></span></p>
+      <div class="round-actions">
+        <button class="start-button" id="resumeButton"><span>Resume round</span><svg viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z"/></svg></button>
+        <button class="text-button" id="leaveButton">Leave round</button>
       </div>
     </section>
 
     <section class="end-panel is-hidden" id="endPanel" aria-live="polite">
       <div class="end-orb" aria-hidden="true"><span></span></div>
-      <p class="end-kicker">YOUR LITTLE HARVEST</p><h2>The garden<br /><em>remembers.</em></h2>
-      <p class="end-copy">You gathered <strong id="finalScore">0 garden treasures</strong> and carried their light home.</p>
-      <button class="start-button replay-button" id="replayButton"><span>Wander again</span><svg viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+      <h2>One minute,<br /><em>gone in a blink.</em></h2>
+      <p class="end-copy">Final score <strong id="finalScore">0</strong><br />Personal best <strong id="bestScore">0</strong></p>
+      <div class="round-actions">
+        <button class="start-button replay-button" id="replayButton"><span>Go around again</span><svg viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+        <button class="text-button" id="endLeaveButton">Leave round</button>
+      </div>
     </section>
-    <div class="bottom-hint" id="bottomHint"><span class="hint-icon">⌖</span><span>DRAG TO WANDER</span><span class="hint-divider"></span><span>CLICK A SHIMMERING ODDITY TO CATCH</span></div>
+    <div class="bottom-hint" id="bottomHint"><span class="hint-icon">⌖</span><span>DRAG TO LOOK ALL AROUND</span><span class="hint-divider"></span><span>CLICK OR TAP A NEARBY ODDITY TO VAPORIZE IT</span></div>
     <div class="toast" id="toast" role="status"></div>
   </main>`;
 
@@ -67,8 +85,13 @@ let pitch = 0;
 let dragging = false;
 let pointerMoved = false;
 let active = false;
+let paused = false;
 let remaining = 60;
 let score = 0;
+let bestScore = 0;
+let lastAnnouncedTarget = '';
+let backgroundPausePending = false;
+try { bestScore = Number(localStorage.getItem('roundgarden-best-score') || 0) || 0; } catch { /* Local best is optional when storage is unavailable. */ }
 let soundOn = false;
 let audioContext;
 let lastChirp = 0;
@@ -568,7 +591,9 @@ function createPod(index, initial = false) {
   group.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), randUnit());
   group.scale.setScalar(.75 + Math.random() * .28);
   scene.add(group);
-  const record = { group, core, heart, detailGroup, direction: group.position.clone().normalize(), speed: .33 + Math.random() * .13, phase: Math.random() * 8, caught: false, index };
+  const value = index >= 10 ? 500 : index >= 6 ? 250 : 100;
+  heart.scale.setScalar(value === 500 ? .86 : value === 250 ? .73 : .62);
+  const record = { group, core, heart, detailGroup, direction: group.position.clone().normalize(), speed: .33 + Math.random() * .13, phase: Math.random() * 8, caught: false, index, value };
   pods.push(record);
   pickables.push(core);
   return record;
@@ -594,24 +619,41 @@ function updateAiming() {
   raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
   const hit = raycaster.intersectObjects(pickables, false)[0];
   const candidate = hit && hit.distance < 12.8 ? pods.find((pod) => pod.core === hit.object) : null;
-  const reachable = Boolean(active && candidate && hit.distance < 12.8);
+  const reachable = Boolean(active && !paused && candidate && hit.distance < 12.8);
   document.querySelector('#reticle').classList.toggle('is-ready', reachable);
-  document.querySelector('#reticleLabel').textContent = reachable ? 'WITHIN REACH' : 'LOOK AROUND';
+  const multiplier = reachable ? proximityMultiplier(hit.distance) : 1;
+  const targetCopy = reachable ? `${candidate.value} POINTS · ×${multiplier}` : 'LOOK ALL AROUND';
+  document.querySelector('#reticleLabel').textContent = targetCopy;
+  const readout = reachable ? `Garden oddity worth ${candidate.value} points. ${multiplier} times proximity multiplier.` : '';
+  if (readout !== lastAnnouncedTarget) {
+    document.querySelector('#targetReadout').textContent = readout;
+    lastAnnouncedTarget = readout;
+  }
   return reachable ? candidate : null;
 }
-function catchPod() {
+function proximityMultiplier(distance) {
+  if (distance <= 4.2) return 3;
+  if (distance <= 8.5) return 2;
+  return 1;
+}
+function vaporizePod() {
   const pod = updateAiming();
   if (!pod) {
-    showToast('Center a shimmering garden oddity');
+    showToast('Center a nearby garden oddity to vaporize it.');
     return;
   }
-  score++;
-  document.querySelector('#score').textContent = String(score).padStart(2, '0');
+  const hitDistance = raycaster.intersectObject(pod.core, false)[0]?.distance ?? pod.group.position.length();
+  const multiplier = proximityMultiplier(hitDistance);
+  const points = pod.value * multiplier;
+  score += points;
+  document.querySelector('#score').textContent = score.toLocaleString();
   pod.caught = true;
   pod.group.visible = false;
+  document.querySelector('#catchFlash').textContent = `+${points.toLocaleString()}`;
   document.querySelector('#catchFlash').classList.remove('show');
   requestAnimationFrame(() => document.querySelector('#catchFlash').classList.add('show'));
   chirp(pod.index);
+  showToast(`${pod.value} points ×${multiplier} · vaporized into light`);
   const burst = makeBurst(pod.group.position.clone(), colorObjects[pod.index % colorObjects.length]);
   setTimeout(() => { scene.remove(burst); burst.geometry.dispose(); burst.material.dispose(); }, 700);
   setTimeout(() => resetPod(pod), 760);
@@ -675,37 +717,94 @@ function chirp(n) {
 
 function beginRound() {
   active = true;
+  paused = false;
   remaining = 60;
   score = 0;
-  document.querySelector('#score').textContent = '00';
+  document.querySelector('#score').textContent = '0';
   document.querySelector('#timer').textContent = '01:00';
+  document.querySelector('#timer').classList.remove('is-urgent');
   document.querySelector('#timerFill').style.transform = 'scaleX(1)';
   document.querySelector('#welcomePanel').classList.add('is-hidden');
   document.querySelector('#endPanel').classList.add('is-hidden');
+  document.querySelector('#pausePanel').classList.add('is-hidden');
+  document.querySelector('#pauseButton').hidden = false;
   document.querySelector('#gameHud').classList.add('is-active');
   document.querySelector('#reticle').classList.add('is-live');
   document.querySelector('#roundState').classList.add('is-live');
-  document.querySelector('#stateText').textContent = 'YOU ARE IN THE GREENHOUSE';
+  document.querySelector('#stateText').textContent = 'THE GARDEN IS AWAKE';
   document.querySelector('#bottomHint').classList.add('is-active');
-  showToast('The garden is yours. Look for a glow.');
+  document.querySelector('#pauseButton').focus({ preventScroll: true });
+  showToast('Look all around. The closer you wait, the more an oddity is worth.');
+}
+function pauseRound(fromBackground = false) {
+  if (!active || paused) return;
+  paused = true;
+  document.querySelector('#pausedScore').textContent = score.toLocaleString();
+  const seconds = Math.max(0, Math.ceil(remaining));
+  document.querySelector('#pausedTime').textContent = `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
+  document.querySelector('#roundState').classList.remove('is-live');
+  document.querySelector('#stateText').textContent = 'ROUND PAUSED';
+  document.querySelector('#pausePanel').classList.remove('is-hidden');
+  document.querySelector('#pauseButton').hidden = true;
+  document.querySelector('#bottomHint').classList.remove('is-active');
+  document.querySelector('#reticle').classList.remove('is-ready');
+  document.querySelector('#reticleLabel').textContent = 'ROUND PAUSED';
+  document.querySelector('#targetReadout').textContent = '';
+  lastAnnouncedTarget = '';
+  if (!fromBackground) document.querySelector('#resumeButton').focus({ preventScroll: true });
+}
+function resumeRound() {
+  if (!active || !paused) return;
+  paused = false;
+  document.querySelector('#pausePanel').classList.add('is-hidden');
+  document.querySelector('#pauseButton').hidden = false;
+  document.querySelector('#roundState').classList.add('is-live');
+  document.querySelector('#stateText').textContent = 'THE GARDEN IS AWAKE';
+  document.querySelector('#bottomHint').classList.add('is-active');
+  document.querySelector('#pauseButton').focus({ preventScroll: true });
+}
+function leaveRound() {
+  active = false;
+  paused = false;
+  document.querySelector('#pausePanel').classList.add('is-hidden');
+  document.querySelector('#endPanel').classList.add('is-hidden');
+  document.querySelector('#pauseButton').hidden = true;
+  document.querySelector('#gameHud').classList.remove('is-active');
+  document.querySelector('#reticle').classList.remove('is-live', 'is-ready');
+  document.querySelector('#roundState').classList.remove('is-live');
+  document.querySelector('#stateText').textContent = 'THE GARDEN IS RESTING';
+  document.querySelector('#bottomHint').classList.remove('is-active');
+  document.querySelector('#welcomePanel').classList.remove('is-hidden');
+  document.querySelector('#startButton').focus({ preventScroll: true });
 }
 function finishRound() {
   active = false;
+  paused = false;
   document.querySelector('#roundState').classList.remove('is-live');
-  document.querySelector('#stateText').textContent = 'THE GARDEN IS AT REST';
+  document.querySelector('#stateText').textContent = 'THE GARDEN IS RESTING';
   document.querySelector('#gameHud').classList.remove('is-active');
   document.querySelector('#reticle').classList.remove('is-live');
   document.querySelector('#bottomHint').classList.remove('is-active');
-  document.querySelector('#finalScore').textContent = `${score} ${score === 1 ? 'garden treasure' : 'garden treasures'}`;
+  document.querySelector('#pauseButton').hidden = true;
+  document.querySelector('#pausePanel').classList.add('is-hidden');
+  bestScore = Math.max(bestScore, score);
+  try { localStorage.setItem('roundgarden-best-score', String(bestScore)); } catch { /* The current round remains playable without storage. */ }
+  document.querySelector('#finalScore').textContent = score.toLocaleString();
+  document.querySelector('#bestScore').textContent = bestScore.toLocaleString();
   document.querySelector('#endPanel').classList.remove('is-hidden');
+  document.querySelector('#replayButton').focus({ preventScroll: true });
 }
 
 document.querySelector('#startButton').addEventListener('click', beginRound);
 document.querySelector('#replayButton').addEventListener('click', beginRound);
+document.querySelector('#pauseButton').addEventListener('click', () => pauseRound());
+document.querySelector('#resumeButton').addEventListener('click', resumeRound);
+document.querySelector('#leaveButton').addEventListener('click', leaveRound);
+document.querySelector('#endLeaveButton').addEventListener('click', leaveRound);
 document.querySelector('#soundButton').addEventListener('click', () => {
   soundOn = !soundOn;
   document.querySelector('#soundButton').classList.toggle('is-on', soundOn);
-  document.querySelector('#soundButton').setAttribute('aria-label', soundOn ? 'Mute catch sounds' : 'Enable catch sounds');
+  document.querySelector('#soundButton').setAttribute('aria-label', soundOn ? 'Mute vaporization sounds' : 'Enable vaporization sounds');
   if (soundOn) chirp(0);
 });
 
@@ -714,7 +813,7 @@ let pointerStartY = 0;
 let previousX = 0;
 let previousY = 0;
 canvas.addEventListener('pointerdown', (event) => {
-  if (event.button !== 0) return;
+  if (event.button !== 0 || paused) return;
   dragging = true;
   pointerMoved = false;
   pointerStartX = previousX = event.clientX;
@@ -722,7 +821,7 @@ canvas.addEventListener('pointerdown', (event) => {
   canvas.setPointerCapture(event.pointerId);
 });
 canvas.addEventListener('pointermove', (event) => {
-  if (!dragging) return;
+  if (!dragging || paused) return;
   const dx = event.clientX - previousX;
   const dy = event.clientY - previousY;
   previousX = event.clientX;
@@ -737,7 +836,7 @@ canvas.addEventListener('pointermove', (event) => {
 canvas.addEventListener('pointerup', () => {
   if (!dragging) return;
   dragging = false;
-  if (!pointerMoved && active) catchPod();
+  if (!pointerMoved && active && !paused) vaporizePod();
 });
 canvas.addEventListener('pointercancel', () => { dragging = false; });
 canvas.addEventListener('lostpointercapture', () => { dragging = false; });
@@ -751,7 +850,7 @@ function animate() {
   pollenField.rotation.x = Math.sin(t * .09) * .045;
   for (const pod of pods) {
     if (pod.caught) continue;
-    const approach = active ? 1 : .3;
+    const approach = paused ? 0 : active ? 1 : .3;
     pod.group.position.addScaledVector(pod.direction, -pod.speed * approach * dt);
     const breathe = 1 + Math.sin(t * 2 + pod.phase) * .045;
     const dist = pod.group.position.length();
@@ -762,8 +861,8 @@ function animate() {
     pod.group.rotation.y += dt * .15;
     const shimmer = .3 + Math.sin(t * 2.2 + pod.phase) * .14 + (dist < 12.8 ? .55 : 0);
     pod.core.material.emissiveIntensity = shimmer;
-    pod.heart.material.emissiveIntensity = 1.15 + shimmer;
-    if (dist < 1.45) resetPod(pod);
+    pod.heart.material.emissiveIntensity = (pod.value === 500 ? 1.85 : pod.value === 250 ? 1.45 : 1.15) + shimmer;
+    if (!paused && dist < 1.45) resetPod(pod);
   }
   const burstMarker = new THREE.Object3D();
   for (const burst of velocities) {
@@ -780,7 +879,7 @@ function animate() {
     burst.instanceMatrix.needsUpdate = true;
     burst.material.opacity = Math.max(0, 1 - burst.userData.age / .7);
   }
-  if (active) {
+  if (active && !paused) {
     remaining -= dt;
     const display = Math.max(0, Math.ceil(remaining));
     const minutes = Math.floor(display / 60);
@@ -796,5 +895,17 @@ function animate() {
 animate();
 
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden && active) showToast('The garden is still growing.');
+  if (document.hidden && active && !paused) {
+    pauseRound(true);
+    backgroundPausePending = true;
+  } else if (!document.hidden && backgroundPausePending && paused) {
+    backgroundPausePending = false;
+    document.querySelector('#resumeButton').focus({ preventScroll: true });
+    showToast('Paused while you were away. Your time and score are safe.');
+  }
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key !== 'Escape') return;
+  if (active && paused) resumeRound();
+  else if (active) pauseRound();
 });
