@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		41C62D5AD5E9E4E160E18795 /* RoundgardenCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A477E08D2317E30D9DA1405 /* RoundgardenCore */; };
+		6D960AC37C138547AC21ACA0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = DE8DA95F91313081098859E6 /* Localizable.xcstrings */; };
 		8D1A6C3C2D8C4958177B0C7A /* RoundgardenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5FBDFA2C218AA5F3C9E43 /* RoundgardenUITests.swift */; };
 		8E6535A62829B022C4F82DE7 /* RoundgardenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFE799CEB54D0DB35DFDF9D /* RoundgardenApp.swift */; };
 		C4B0049CAFD309E64F39BC7B /* GardenSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E260BD4A60CCF8C0DE8F9D1 /* GardenSceneView.swift */; };
@@ -30,6 +31,7 @@
 		BA3FBF87091FC121E9D9C277 /* game-core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "game-core"; path = "../../packages/game-core"; sourceTree = SOURCE_ROOT; };
 		BB9CA73B2428ECDBB641A7CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DDFE799CEB54D0DB35DFDF9D /* RoundgardenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundgardenApp.swift; sourceTree = "<group>"; };
+		DE8DA95F91313081098859E6 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		FEB433D6F6596D93E0D64666 /* RoundgardenUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = RoundgardenUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -57,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				7E260BD4A60CCF8C0DE8F9D1 /* GardenSceneView.swift */,
+				DE8DA95F91313081098859E6 /* Localizable.xcstrings */,
 				DDFE799CEB54D0DB35DFDF9D /* RoundgardenApp.swift */,
 			);
 			name = shared;
@@ -125,6 +128,7 @@
 			buildConfigurationList = 5D742AA2D9C02632D24BFF75 /* Build configuration list for PBXNativeTarget "Roundgarden" */;
 			buildPhases = (
 				FD6D43D6B4C297BEBBB9F91E /* Sources */,
+				89DCA88B1815E7B025DB4B02 /* Resources */,
 				BCF82472F017014A50D9648F /* Frameworks */,
 			);
 			buildRules = (
@@ -175,6 +179,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		89DCA88B1815E7B025DB4B02 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6D960AC37C138547AC21ACA0 /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D83A9D949FC79E10AAF80BBB /* Sources */ = {

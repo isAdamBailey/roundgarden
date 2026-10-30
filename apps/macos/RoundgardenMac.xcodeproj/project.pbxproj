@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0D1294C43F24B09030A562D9 /* RoundgardenMacUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C0D27B4ABFC35AB1ECDF79 /* RoundgardenMacUITests.swift */; };
+		71F8AF779DDE29A15E2C325E /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9B706DB1B4FE189FC784DF63 /* Localizable.xcstrings */; };
 		B9D194F8C9D10224A6AC38FC /* GardenSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52A8EB26C1A2365A294A4A4 /* GardenSceneView.swift */; };
 		BBDCFC39D93AF95DA5AF8097 /* RoundgardenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283657009501881725AFD57F /* RoundgardenApp.swift */; };
 		C4652DA5DB55B32DD762B751 /* RoundgardenCore in Frameworks */ = {isa = PBXBuildFile; productRef = B1A1E1B28C725FA26FBC1E72 /* RoundgardenCore */; };
@@ -29,6 +30,7 @@
 		304A64C87DA8C6F5A453365D /* RoundgardenMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RoundgardenMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AE7031FF6B018C04757446B /* game-core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "game-core"; path = "../../packages/game-core"; sourceTree = SOURCE_ROOT; };
 		49C0D27B4ABFC35AB1ECDF79 /* RoundgardenMacUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundgardenMacUITests.swift; sourceTree = "<group>"; };
+		9B706DB1B4FE189FC784DF63 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		B52A8EB26C1A2365A294A4A4 /* GardenSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenSceneView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -48,6 +50,7 @@
 			isa = PBXGroup;
 			children = (
 				B52A8EB26C1A2365A294A4A4 /* GardenSceneView.swift */,
+				9B706DB1B4FE189FC784DF63 /* Localizable.xcstrings */,
 				283657009501881725AFD57F /* RoundgardenApp.swift */,
 			);
 			name = shared;
@@ -97,6 +100,7 @@
 			buildConfigurationList = 1CA25038CB0F9D13F51A564F /* Build configuration list for PBXNativeTarget "RoundgardenMac" */;
 			buildPhases = (
 				3EC7978B519AA9DFD22CE6E3 /* Sources */,
+				AE1495E600D19C02476BEEDF /* Resources */,
 				13DFEF0737134C5CF430033E /* Frameworks */,
 			);
 			buildRules = (
@@ -165,6 +169,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AE1495E600D19C02476BEEDF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71F8AF779DDE29A15E2C325E /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3EC7978B519AA9DFD22CE6E3 /* Sources */ = {

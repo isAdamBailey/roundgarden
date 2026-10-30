@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import './style.css';
 
 const app = document.querySelector('#app');
+const reduceMotionPreference = matchMedia('(prefers-reduced-motion: reduce)');
 app.innerHTML = `
   <main class="game-shell" aria-label="Roundgarden game">
     <canvas class="world" aria-label="A three-dimensional garden surrounding you"></canvas>
@@ -845,21 +846,24 @@ function animate() {
   requestAnimationFrame(animate);
   const dt = Math.min(clock.getDelta(), .05);
   const t = clock.elapsedTime;
-  domeMaterial.uniforms.uTime.value = t;
-  pollenField.rotation.y = t * .006;
-  pollenField.rotation.x = Math.sin(t * .09) * .045;
+  const reduceMotion = reduceMotionPreference.matches;
+  domeMaterial.uniforms.uTime.value = reduceMotion ? 0 : t;
+  if (!reduceMotion) {
+    pollenField.rotation.y = t * .006;
+    pollenField.rotation.x = Math.sin(t * .09) * .045;
+  }
   for (const pod of pods) {
     if (pod.caught) continue;
     const approach = paused ? 0 : active ? 1 : .3;
     pod.group.position.addScaledVector(pod.direction, -pod.speed * approach * dt);
-    const breathe = 1 + Math.sin(t * 2 + pod.phase) * .045;
+    const breathe = reduceMotion ? 1 : 1 + Math.sin(t * 2 + pod.phase) * .045;
     const dist = pod.group.position.length();
     const scale = THREE.MathUtils.clamp((31 / Math.max(dist, 1)) ** .4, .8, 1.85) * breathe;
     pod.group.scale.setScalar(scale);
     pod.detailGroup.visible = dist < 19;
     for (let i = 1; i < pod.detailGroup.children.length; i++) pod.detailGroup.children[i].visible = dist < 11.5;
-    pod.group.rotation.y += dt * .15;
-    const shimmer = .3 + Math.sin(t * 2.2 + pod.phase) * .14 + (dist < 12.8 ? .55 : 0);
+    if (!reduceMotion) pod.group.rotation.y += dt * .15;
+    const shimmer = .3 + (reduceMotion ? 0 : Math.sin(t * 2.2 + pod.phase) * .14) + (dist < 12.8 ? .55 : 0);
     pod.core.material.emissiveIntensity = shimmer;
     pod.heart.material.emissiveIntensity = (pod.value === 500 ? 1.85 : pod.value === 250 ? 1.45 : 1.15) + shimmer;
     if (!paused && dist < 1.45) resetPod(pod);

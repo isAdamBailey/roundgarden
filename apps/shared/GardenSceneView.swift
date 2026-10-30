@@ -14,6 +14,8 @@ import simd
 struct GardenSceneView: View {
   let round: RoundState
   let onVaporize: (Int, Double) -> Void
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+  @Environment(\.colorSchemeContrast) private var colorContrast
   @State private var yaw = 0.0
   @State private var pitch = 0.0
   @State private var lastDragTranslation = CGSize.zero
@@ -38,7 +40,7 @@ struct GardenSceneView: View {
 
   private var targets: [AimTarget] {
     (0..<12).map { index in
-      let distance = produceDistance(index: index, elapsed: round.elapsedTime)
+      let distance = produceDistance(index: index, elapsed: sceneElapsedTime)
       let direction = produceDirection(index: index)
       let wobble = sin(round.elapsedTime * 1.7 + Double(index) * 1.6) * 0.32
       let position = direction * distance + SIMD3<Double>(wobble, wobble * 0.65, 0)
@@ -49,13 +51,18 @@ struct GardenSceneView: View {
     }
   }
 
+  private var sceneElapsedTime: Double {
+    reduceMotion ? 0 : round.elapsedTime
+  }
+
   var body: some View {
     GeometryReader { viewport in
       let uiScale = min(1.55, max(0.9, viewport.size.width / 430))
       ZStack {
         TimelineView(
           .animation(
-            minimumInterval: 1.0 / 30.0, paused: round.phase == .paused || round.phase == .complete)
+            minimumInterval: 1.0 / 30.0,
+            paused: reduceMotion || round.phase == .paused || round.phase == .complete)
         ) { timeline in
           RealityView { content in
             content.add(makeGarden())
@@ -132,12 +139,20 @@ struct GardenSceneView: View {
             .accessibilityHint(
               "Drag to look around. When an oddity is centered, tap to vaporize it.")
           #endif
+          .accessibilityAction(.default) {
+            vaporizeAimedTarget()
+          }
+          .accessibilityAction(named: Text("Vaporize centered oddity")) {
+            vaporizeAimedTarget()
+          }
           .gesture(cameraDragGesture)
           .allowsHitTesting(round.phase != .paused && round.phase != .complete)
 
         ZStack {
           Circle().stroke(
-            Color(red: 0.84, green: 0.96, blue: 0.79).opacity(0.66), lineWidth: 0.8 * uiScale
+            Color(red: 0.84, green: 0.96, blue: 0.79)
+              .opacity(colorContrast == .increased ? 0.98 : 0.66),
+            lineWidth: 0.8 * uiScale
           ).frame(width: 27 * uiScale, height: 27 * uiScale)
           Circle().fill(Color(red: 0.9, green: 1, blue: 0.79)).frame(
             width: 3 * uiScale, height: 3 * uiScale)
@@ -164,9 +179,15 @@ struct GardenSceneView: View {
           .background(.black.opacity(0.4), in: Capsule())
           .position(x: viewport.size.width / 2, y: viewport.size.height * 0.58)
           .accessibilityLabel(
-            "Garden oddity worth \(aimedTarget.target.value) points, \(RoundState.proximityMultiplier(for: aimedTarget.distance)) times proximity multiplier"
+            Text(
+              "Garden oddity worth \(aimedTarget.target.value) points, \(RoundState.proximityMultiplier(for: aimedTarget.distance)) times proximity multiplier. Activate to vaporize it into light."
+            )
           )
           .accessibilityAddTraits(.updatesFrequently)
+          .accessibilityAddTraits(.isButton)
+          .accessibilityAction(.default) {
+            vaporizeAimedTarget()
+          }
           .allowsHitTesting(false)
         }
       }
@@ -196,19 +217,21 @@ struct GardenSceneView: View {
         pitch = min(0.94, max(-0.94, pitch - delta.height * 0.004))
       }
       .onEnded { value in
-        if hypot(value.translation.width, value.translation.height) < 8,
-          round.phase == .playing,
-          let hit = aimedTarget
-        {
-          vaporizedTargetIDs.insert(hit.target.id)
-          onVaporize(hit.target.value, hit.distance)
-          Task { @MainActor in
-            try? await Task.sleep(for: .milliseconds(700))
-            vaporizedTargetIDs.remove(hit.target.id)
-          }
+        if hypot(value.translation.width, value.translation.height) < 8 {
+          vaporizeAimedTarget()
         }
         lastDragTranslation = .zero
       }
+  }
+
+  private func vaporizeAimedTarget() {
+    guard round.phase == .playing, let hit = aimedTarget else { return }
+    vaporizedTargetIDs.insert(hit.target.id)
+    onVaporize(hit.target.value, hit.distance)
+    Task { @MainActor in
+      try? await Task.sleep(for: .milliseconds(700))
+      vaporizedTargetIDs.remove(hit.target.id)
+    }
   }
 
   private func produceDirection(index: Int) -> SIMD3<Double> {
