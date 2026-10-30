@@ -1,0 +1,34 @@
+name: Native spike builds
+
+on:
+  pull_request:
+    paths:
+      - "spikes/RealityKitSpike/**"
+      - ".github/workflows/native-spike.yml"
+  push:
+    branches: [main]
+    paths:
+      - "spikes/RealityKitSpike/**"
+      - ".github/workflows/native-spike.yml"
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build macOS target
+        run: >-
+          xcodebuild -quiet
+          -project spikes/RealityKitSpike/RealityKitSpike.xcodeproj
+          -scheme RealityKitSpike_macOS
+          -destination 'generic/platform=macOS'
+          CODE_SIGNING_ALLOWED=NO
+          build
+      - name: Build iOS Simulator target
+        run: >-
+          xcodebuild -quiet
+          -project spikes/RealityKitSpike/RealityKitSpike.xcodeproj
+          -scheme RealityKitSpike_iOS
+          -destination 'generic/platform=iOS Simulator'
+          CODE_SIGNING_ALLOWED=NO
+          build
