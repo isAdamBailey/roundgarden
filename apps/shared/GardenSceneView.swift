@@ -190,6 +190,9 @@ struct GardenSceneView: View {
           )
           .accessibilityAddTraits(.updatesFrequently)
           .accessibilityIdentifier("aimed-garden-oddity")
+          .accessibilityAction(.default) {
+            vaporizeAimedTarget()
+          }
         }
       }
       .frame(width: viewport.size.width, height: viewport.size.height)
@@ -230,22 +233,15 @@ struct GardenSceneView: View {
   }
 
   private func vaporize(_ hit: (target: AimTarget, distance: Double)?) {
-    guard round.phase == .playing, let hit else {
-      print("[mac-debug] skip phase=\(round.phase) target=\(hit != nil)")
-      return
-    }
-    print(
-      "[mac-debug] hit id=\(hit.target.id) value=\(hit.target.value) distance=\(hit.distance) score=\(round.score)"
-    )
-    vaporizedTargetIDs.insert(hit.target.id)
+    guard round.phase == .playing, let hit,
+      !vaporizedTargetIDs.contains(hit.target.id)
+    else { return }
     var updatedRound = round
     guard let points = updatedRound.vaporize(value: hit.target.value, distance: hit.distance) else {
-      print(
-        "[mac-debug] rejected phase=\(round.phase) distance=\(hit.distance) score=\(round.score)")
       return
     }
     round = updatedRound
-    print("[mac-debug] awarded points=\(points) score=\(round.score)")
+    vaporizedTargetIDs.insert(hit.target.id)
     onVaporize(points)
     Task { @MainActor in
       try? await Task.sleep(for: .milliseconds(700))
