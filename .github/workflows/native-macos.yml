@@ -29,9 +29,9 @@ jobs:
           packages/game-core/Tests/RoundgardenCoreTests/*.swift
       - name: Test shared game core
         run: swift test --package-path packages/game-core
-      - name: Build and UI-test macOS target
+      - name: Build macOS app and UI-test bundle
         run: >-
-          xcodebuild -quiet test
+          xcodebuild -quiet build-for-testing
           -project apps/macos/RoundgardenMac.xcodeproj
           -scheme RoundgardenMac
           -destination 'platform=macOS'
