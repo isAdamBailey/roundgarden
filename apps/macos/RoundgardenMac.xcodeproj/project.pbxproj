@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0D1294C43F24B09030A562D9 /* RoundgardenMacUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C0D27B4ABFC35AB1ECDF79 /* RoundgardenMacUITests.swift */; };
 		71F8AF779DDE29A15E2C325E /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9B706DB1B4FE189FC784DF63 /* Localizable.xcstrings */; };
+		7C03ED08C19BC23A2B4D7D62 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 71D0F4BCF6D66BC1FF911D01 /* PrivacyInfo.xcprivacy */; };
 		B9D194F8C9D10224A6AC38FC /* GardenSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52A8EB26C1A2365A294A4A4 /* GardenSceneView.swift */; };
 		BBDCFC39D93AF95DA5AF8097 /* RoundgardenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283657009501881725AFD57F /* RoundgardenApp.swift */; };
 		C4652DA5DB55B32DD762B751 /* RoundgardenCore in Frameworks */ = {isa = PBXBuildFile; productRef = B1A1E1B28C725FA26FBC1E72 /* RoundgardenCore */; };
@@ -30,6 +31,7 @@
 		304A64C87DA8C6F5A453365D /* RoundgardenMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RoundgardenMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AE7031FF6B018C04757446B /* game-core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "game-core"; path = "../../packages/game-core"; sourceTree = SOURCE_ROOT; };
 		49C0D27B4ABFC35AB1ECDF79 /* RoundgardenMacUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundgardenMacUITests.swift; sourceTree = "<group>"; };
+		71D0F4BCF6D66BC1FF911D01 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		9B706DB1B4FE189FC784DF63 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		B52A8EB26C1A2365A294A4A4 /* GardenSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenSceneView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -51,6 +53,7 @@
 			children = (
 				B52A8EB26C1A2365A294A4A4 /* GardenSceneView.swift */,
 				9B706DB1B4FE189FC784DF63 /* Localizable.xcstrings */,
+				71D0F4BCF6D66BC1FF911D01 /* PrivacyInfo.xcprivacy */,
 				283657009501881725AFD57F /* RoundgardenApp.swift */,
 			);
 			name = shared;
@@ -176,6 +179,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				71F8AF779DDE29A15E2C325E /* Localizable.xcstrings in Resources */,
+				7C03ED08C19BC23A2B4D7D62 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,7 +274,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGNING_ALLOWED = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -289,15 +292,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_ALLOWED = NO;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Roundgarden;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.roundgarden.macos;
 				PRODUCT_NAME = Roundgarden;
 				SDKROOT = macosx;
@@ -309,15 +314,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_ALLOWED = NO;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Roundgarden;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.roundgarden.macos;
 				PRODUCT_NAME = Roundgarden;
 				SDKROOT = macosx;
@@ -392,7 +399,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGNING_ALLOWED = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
