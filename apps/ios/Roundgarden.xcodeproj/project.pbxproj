@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		30E5A8392F2B3131C0CE76CC /* GardenSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29897865964C3C87323DE86 /* GardenSceneView.swift */; };
 		41C62D5AD5E9E4E160E18795 /* RoundgardenCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A477E08D2317E30D9DA1405 /* RoundgardenCore */; };
-		552EB0F9C1ADE7A372055FF1 /* RoundgardenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8BEE70233EA9E23F48FBB6 /* RoundgardenApp.swift */; };
+		6D960AC37C138547AC21ACA0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = DE8DA95F91313081098859E6 /* Localizable.xcstrings */; };
 		8D1A6C3C2D8C4958177B0C7A /* RoundgardenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5FBDFA2C218AA5F3C9E43 /* RoundgardenUITests.swift */; };
+		8D7EC9DFA268FE1C0E2CD664 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D26A949646130E01DAB81467 /* PrivacyInfo.xcprivacy */; };
+		8E6535A62829B022C4F82DE7 /* RoundgardenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFE799CEB54D0DB35DFDF9D /* RoundgardenApp.swift */; };
+		C4B0049CAFD309E64F39BC7B /* GardenSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E260BD4A60CCF8C0DE8F9D1 /* GardenSceneView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,11 +27,13 @@
 
 /* Begin PBXFileReference section */
 		5622B051AD97B04EFEB3C608 /* Roundgarden.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Roundgarden.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E260BD4A60CCF8C0DE8F9D1 /* GardenSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenSceneView.swift; sourceTree = "<group>"; };
 		B6B5FBDFA2C218AA5F3C9E43 /* RoundgardenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundgardenUITests.swift; sourceTree = "<group>"; };
 		BA3FBF87091FC121E9D9C277 /* game-core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "game-core"; path = "../../packages/game-core"; sourceTree = SOURCE_ROOT; };
 		BB9CA73B2428ECDBB641A7CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		C29897865964C3C87323DE86 /* GardenSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenSceneView.swift; sourceTree = "<group>"; };
-		EA8BEE70233EA9E23F48FBB6 /* RoundgardenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundgardenApp.swift; sourceTree = "<group>"; };
+		D26A949646130E01DAB81467 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		DDFE799CEB54D0DB35DFDF9D /* RoundgardenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundgardenApp.swift; sourceTree = "<group>"; };
+		DE8DA95F91313081098859E6 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		FEB433D6F6596D93E0D64666 /* RoundgardenUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = RoundgardenUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -48,11 +52,21 @@
 		0B03623033EA8B6B00C3A52C /* Roundgarden */ = {
 			isa = PBXGroup;
 			children = (
-				C29897865964C3C87323DE86 /* GardenSceneView.swift */,
 				BB9CA73B2428ECDBB641A7CA /* Info.plist */,
-				EA8BEE70233EA9E23F48FBB6 /* RoundgardenApp.swift */,
 			);
 			path = Roundgarden;
+			sourceTree = "<group>";
+		};
+		3252A79940E2D9F4B72E9C2F /* shared */ = {
+			isa = PBXGroup;
+			children = (
+				7E260BD4A60CCF8C0DE8F9D1 /* GardenSceneView.swift */,
+				DE8DA95F91313081098859E6 /* Localizable.xcstrings */,
+				D26A949646130E01DAB81467 /* PrivacyInfo.xcprivacy */,
+				DDFE799CEB54D0DB35DFDF9D /* RoundgardenApp.swift */,
+			);
+			name = shared;
+			path = ../shared;
 			sourceTree = "<group>";
 		};
 		438B6146770851CDBA5D45B0 /* Packages */ = {
@@ -78,6 +92,7 @@
 				438B6146770851CDBA5D45B0 /* Packages */,
 				0B03623033EA8B6B00C3A52C /* Roundgarden */,
 				D8F3AC30D190E49897166177 /* RoundgardenUITests */,
+				3252A79940E2D9F4B72E9C2F /* shared */,
 				B44E6583305FD535444921DB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -116,6 +131,7 @@
 			buildConfigurationList = 5D742AA2D9C02632D24BFF75 /* Build configuration list for PBXNativeTarget "Roundgarden" */;
 			buildPhases = (
 				FD6D43D6B4C297BEBBB9F91E /* Sources */,
+				89DCA88B1815E7B025DB4B02 /* Resources */,
 				BCF82472F017014A50D9648F /* Frameworks */,
 			);
 			buildRules = (
@@ -167,6 +183,18 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		89DCA88B1815E7B025DB4B02 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6D960AC37C138547AC21ACA0 /* Localizable.xcstrings in Resources */,
+				8D7EC9DFA268FE1C0E2CD664 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D83A9D949FC79E10AAF80BBB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -180,8 +208,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30E5A8392F2B3131C0CE76CC /* GardenSceneView.swift in Sources */,
-				552EB0F9C1ADE7A372055FF1 /* RoundgardenApp.swift in Sources */,
+				C4B0049CAFD309E64F39BC7B /* GardenSceneView.swift in Sources */,
+				8E6535A62829B022C4F82DE7 /* RoundgardenApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,7 +228,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGNING_ALLOWED = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -282,8 +309,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Roundgarden/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Roundgarden;
@@ -293,6 +320,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.roundgarden.ios;
 				PRODUCT_NAME = Roundgarden;
 				SDKROOT = iphoneos;
@@ -305,7 +333,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGNING_ALLOWED = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -324,8 +351,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Roundgarden/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Roundgarden;
@@ -335,6 +362,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.roundgarden.ios;
 				PRODUCT_NAME = Roundgarden;
 				SDKROOT = iphoneos;

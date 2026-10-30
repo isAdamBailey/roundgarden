@@ -15,10 +15,10 @@ final class RoundgardenUITests: XCTestCase {
 
     let score = app.staticTexts["round-score"]
     XCTAssertTrue(score.waitForExistence(timeout: 10))
-    let initialScore = score.label
+    let initialScore = score.value as? String
     app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
     let scoreChanged = XCTNSPredicateExpectation(
-      predicate: NSPredicate(format: "label != %@", initialScore), object: score)
+      predicate: NSPredicate(format: "value != %@", initialScore ?? ""), object: score)
     XCTAssertEqual(XCTWaiter.wait(for: [scoreChanged], timeout: 3), .completed)
 
     let screenshot = XCTAttachment(screenshot: app.screenshot())

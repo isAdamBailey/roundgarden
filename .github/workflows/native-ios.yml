@@ -4,12 +4,14 @@ on:
   pull_request:
     paths:
       - "apps/ios/**"
+      - "apps/shared/**"
       - "packages/game-core/**"
       - ".github/workflows/native-ios.yml"
   push:
     branches: [main]
     paths:
       - "apps/ios/**"
+      - "apps/shared/**"
       - "packages/game-core/**"
       - ".github/workflows/native-ios.yml"
 
@@ -21,6 +23,7 @@ jobs:
       - name: Check Swift formatting
         run: >-
           xcrun swift-format lint --strict
+          apps/shared/*.swift
           apps/ios/Roundgarden/*.swift
           apps/ios/RoundgardenUITests/*.swift
           packages/game-core/Sources/RoundgardenCore/*.swift

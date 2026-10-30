@@ -1,0 +1,38 @@
+name: Native macOS build
+
+on:
+  pull_request:
+    paths:
+      - "apps/macos/**"
+      - "apps/shared/**"
+      - "packages/game-core/**"
+      - ".github/workflows/native-macos.yml"
+  push:
+    branches: [main]
+    paths:
+      - "apps/macos/**"
+      - "apps/shared/**"
+      - "packages/game-core/**"
+      - ".github/workflows/native-macos.yml"
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Swift formatting
+        run: >-
+          xcrun swift-format lint --strict
+          apps/shared/*.swift
+          apps/macos/RoundgardenMacUITests/*.swift
+          packages/game-core/Sources/RoundgardenCore/*.swift
+          packages/game-core/Tests/RoundgardenCoreTests/*.swift
+      - name: Test shared game core
+        run: swift test --package-path packages/game-core
+      - name: Build and UI-test macOS app
+        run: >-
+          xcodebuild test
+          -project apps/macos/RoundgardenMac.xcodeproj
+          -scheme RoundgardenMac
+          -destination 'platform=macOS,arch=arm64'
+          CODE_SIGNING_ALLOWED=NO

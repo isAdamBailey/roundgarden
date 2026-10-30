@@ -128,6 +128,14 @@ h1 em, h2 em { color: #c8f2a7; font-weight: 400; }
 .end-copy strong { color: #e1f3cf; font-weight: 600; }
 .replay-button { margin-top: 1px; }
 
+:where(button, a):focus-visible {
+  outline: 3px solid #efffd1;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 6px rgba(7, 20, 13, .92);
+}
+
+.game-hud, .bottom-hint, .reticle-label, .toast { text-shadow: 0 1px 6px #020806, 0 0 2px #020806; }
+
 @keyframes state-pulse { 0%,100% { box-shadow: 0 0 4px rgba(159,255,179,.55); } 50% { box-shadow: 0 0 14px rgba(159,255,179,.95); } }
 @keyframes sprout { from { transform: scaleY(.72); opacity: .54; } to { transform: scaleY(1.08); opacity: 1; } }
 @keyframes catch-pop { 0% { opacity: 0; transform: translate(-50%, 12px) scale(.75); } 25% { opacity: 1; transform: translate(-50%, -2px) scale(1.08); } 70% { opacity: 1; transform: translate(-50%, -10px) scale(1); } 100% { opacity: 0; transform: translate(-50%, -20px) scale(.94); } }
@@ -177,4 +185,13 @@ h1 em, h2 em { color: #c8f2a7; font-weight: 400; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+
+@media (prefers-contrast: more) {
+  .intro, .howto-step small, .gentle-note, .hud-label, .score-unit, .bottom-hint,
+  .text-button, .end-copy, .round-summary { color: #f1f8e9; }
+  .howto, .step-glyph, .text-button { border-color: #f1f8e9; }
+  .start-button { border-width: 2px; }
+  .reticle-ring { border-width: 2px; }
+  .toast, .pause-panel, .end-panel { border: 2px solid #f1f8e9; }
 }
