@@ -384,13 +384,15 @@ struct GardenSceneView: View {
             rotation: worldRotation,
             translation: worldPosition
           ))
-        veinInstances.append(
-          Transform(
-            scale: [1, size * 0.66, 1],
-            rotation: worldRotation,
-            translation: worldPosition + worldRotation.act(SIMD3<Float>(0, 0, size * 0.13))
-          ))
-        if i.isMultiple(of: 3), leafIndex.isMultiple(of: 2) {
+        if shellRadius <= 40 {
+          veinInstances.append(
+            Transform(
+              scale: [1, size * 0.66, 1],
+              rotation: worldRotation,
+              translation: worldPosition + worldRotation.act(SIMD3<Float>(0, 0, size * 0.13))
+            ))
+        }
+        if shellRadius <= 40, i.isMultiple(of: 3), leafIndex.isMultiple(of: 2) {
           let along: Float = leafIndex.isMultiple(of: 4) ? 0.34 : 0.66
           let y = (along - 0.5) * 0.84 * size * 1.12
           let width = sin(along * .pi) * 0.24 * size * 0.78
@@ -996,6 +998,7 @@ struct GardenSceneView: View {
     let material = SimpleMaterial(
       color: PlatformColor(red: 0.72, green: 0.73, blue: 0.43, alpha: 0.28), roughness: 0.58,
       isMetallic: false)
+    var ribTransforms: [Transform] = []
     for rib in 0..<8 {
       let longitude = Float(rib) * (.pi / 8)
       for segment in 0..<16 {
@@ -1010,13 +1013,17 @@ struct GardenSceneView: View {
             cos(upperLatitude) * cos(longitude), sin(upperLatitude),
             cos(upperLatitude) * sin(longitude)) * radius
         let delta = upper - lower
-        let ribSegment = ModelEntity(
-          mesh: .generateCylinder(height: simd_length(delta), radius: 0.028), materials: [material])
-        ribSegment.position = (lower + upper) * 0.5
-        ribSegment.orientation = simd_quatf(from: SIMD3<Float>(0, 1, 0), to: simd_normalize(delta))
-        root.addChild(ribSegment)
+        ribTransforms.append(
+          Transform(
+            scale: [1, simd_length(delta), 1],
+            rotation: simd_quatf(from: SIMD3<Float>(0, 1, 0), to: simd_normalize(delta)),
+            translation: (lower + upper) * 0.5
+          ))
       }
     }
+    addInstanced(
+      mesh: .generateCylinder(height: 1, radius: 0.028), material: material,
+      transforms: ribTransforms, name: "greenhouse-ribs", to: root)
   }
 
   private func addInstanced(
