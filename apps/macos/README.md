@@ -12,7 +12,7 @@ xcodegen generate --spec apps/macos/project.yml --project apps/macos
 xcodebuild -project apps/macos/RoundgardenMac.xcodeproj -scheme RoundgardenMac \
   -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO build
 xcodebuild -project apps/macos/RoundgardenMac.xcodeproj -scheme RoundgardenMac \
-  -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO test
+  -destination 'platform=macOS' CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=- test
 ```
 
 Use the pointer to drag the garden view or click a centered oddity. Arrow keys
