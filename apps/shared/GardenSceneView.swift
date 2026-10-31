@@ -22,6 +22,8 @@ struct GardenSceneView: View {
   @State private var vaporizedTargetIDs: Set<Int> = []
   @State private var sceneEntities = GardenSceneEntityCache()
   #if os(macOS)
+    // Scale only the RealityKit surface; the HUD and all garden geometry stay intact.
+    private let macRenderScale: CGFloat = 0.65
     @FocusState private var gardenHasFocus: Bool
   #endif
 
@@ -75,8 +77,11 @@ struct GardenSceneView: View {
           }
         }
         #if os(macOS)
-          .frame(width: viewport.size.width * 0.65, height: viewport.size.height * 0.65)
-          .scaleEffect(1.0 / 0.65)
+          .frame(
+            width: viewport.size.width * macRenderScale,
+            height: viewport.size.height * macRenderScale
+          )
+          .scaleEffect(1.0 / macRenderScale)
         #else
           .frame(maxWidth: .infinity, maxHeight: .infinity)
         #endif
