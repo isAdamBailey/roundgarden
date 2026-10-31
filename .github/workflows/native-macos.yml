@@ -35,4 +35,5 @@ jobs:
           -project apps/macos/RoundgardenMac.xcodeproj
           -scheme RoundgardenMac
           -destination 'platform=macOS,arch=arm64'
-          CODE_SIGNING_ALLOWED=NO
+          CODE_SIGNING_ALLOWED=YES
+          CODE_SIGN_IDENTITY=-

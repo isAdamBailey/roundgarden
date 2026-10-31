@@ -62,6 +62,8 @@ private struct GardenMenuView: View {
           Text("The garden goes all the way around.")
             .font(.system(size: 27, weight: .medium, design: .serif))
             .multilineTextAlignment(.center)
+            .lineLimit(2)
+            .fixedSize(horizontal: false, vertical: true)
           Text(
             "Float inside a whimsical garden that surrounds you. Look all around as strange garden oddities drift close."
           )
@@ -69,6 +71,8 @@ private struct GardenMenuView: View {
           .multilineTextAlignment(.center)
           .foregroundStyle(colorContrast == .increased ? .white : .white.opacity(0.82))
           .frame(maxWidth: 440)
+          .lineLimit(3)
+          .fixedSize(horizontal: false, vertical: true)
         }
 
         Button(action: onPlay) {
@@ -225,6 +229,8 @@ private struct GardenGameView: View {
         Text("One minute, gone in a blink.")
           .font(.system(size: 28, weight: .medium, design: .serif))
           .multilineTextAlignment(.center)
+          .lineLimit(2)
+          .fixedSize(horizontal: false, vertical: true)
         Text("Final score  ·  \(round.score.formatted())")
           .font(.system(size: 18, weight: .semibold, design: .rounded))
         Text("Personal best  ·  \(round.personalBest.formatted())")
