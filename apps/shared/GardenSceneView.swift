@@ -331,7 +331,7 @@ struct GardenSceneView: View {
     } else {
       canInstance = false
     }
-    let plantCount = canInstance ? 900 : 180
+    let plantCount = canInstance ? 450 : 180
     var leafInstances = leafMeshes.map { _ in Array(repeating: [Transform](), count: palette.count)
     }
     var veinInstances: [Transform] = []
@@ -514,7 +514,7 @@ struct GardenSceneView: View {
     }
     // Mirror the web renderer's seven-leaf clusters on the inner glass.
     // Keep the lower-system fallback smaller because it uses individual entities.
-    let coverClusters = canInstance ? 1800 : 300
+    let coverClusters = canInstance ? 900 : 300
     for i in 0..<coverClusters {
       let y = 1 - 2 * (Float(i) + 0.5) / Float(coverClusters)
       let angle = Float(i) * 2.399963
