@@ -11,6 +11,20 @@ import simd
   typealias PlatformColor = NSColor
 #endif
 
+private struct GardenMeshGeometry {
+  let positions: [SIMD3<Float>]
+  let normals: [SIMD3<Float>]
+  let indices: [UInt32]
+
+  var resource: MeshResource {
+    var descriptor = MeshDescriptor()
+    descriptor.positions = MeshBuffer(positions)
+    descriptor.normals = MeshBuffer(normals)
+    descriptor.primitives = .triangles(indices)
+    return (try? MeshResource.generate(from: [descriptor])) ?? .generateSphere(radius: 0.2)
+  }
+}
+
 struct GardenSceneView: View {
   @Binding var round: RoundState
   let onVaporize: (Int) -> Void
@@ -286,7 +300,7 @@ struct GardenSceneView: View {
     // Keep a continuous, quiet garden color behind the segmented gradient
     // dome so portrait, landscape, and resized Mac windows never show black.
     var backdropMaterial = UnlitMaterial(
-      color: PlatformColor(red: 0.012, green: 0.035, blue: 0.032, alpha: 1))
+      color: PlatformColor(red: 0.060, green: 0.120, blue: 0.065, alpha: 1))
     backdropMaterial.faceCulling = .none
     let backdrop = ModelEntity(mesh: .generateSphere(radius: 59), materials: [backdropMaterial])
     backdrop.name = "garden-backdrop"
@@ -325,14 +339,15 @@ struct GardenSceneView: View {
     root.addChild(fill)
 
     let ambience = PointLight()
-    ambience.light.intensity = 1000
+    ambience.light.intensity = 1400
     ambience.light.attenuationRadius = 62
-    ambience.light.color = .init(red: 1, green: 0.94, blue: 0.79, alpha: 1)
+    ambience.light.color = .init(red: 0.88, green: 0.98, blue: 0.83, alpha: 1)
     ambience.position = [0, 0, 0]
     root.addChild(ambience)
 
     // Fibonacci-distributed growth fills the same spherical shell as the web scene.
-    let leafMeshes = (0..<3).map { makeLeafMesh(shape: $0) }
+    let leafMeshes = (0..<4).map { makeLeafMesh(shape: $0) }
+    let leafMeshResources = leafMeshes.map(\.resource)
     let palette = (0..<9).map { index in
       SimpleMaterial(color: leafColor(index), roughness: 0.74, isMetallic: false)
     }
@@ -525,9 +540,10 @@ struct GardenSceneView: View {
           ))
       }
     }
-    // Mirror the web renderer's seven-leaf clusters on the inner glass.
-    // Keep the lower-system fallback smaller because it uses individual entities.
-    let coverClusters = canInstance ? 1800 : 300
+    // Mirror the web renderer's leaf clusters on the inner glass. Vary the
+    // cluster size so the canopy does not repeat as a uniform spherical grid.
+    // Keep the fallback smaller to cap the merged static mesh footprint.
+    let coverClusters = canInstance ? 3200 : 480
     for i in 0..<coverClusters {
       let y = 1 - 2 * (Float(i) + 0.5) / Float(coverClusters)
       let angle = Float(i) * 2.399963
@@ -545,10 +561,11 @@ struct GardenSceneView: View {
       let inward = -normal
       let sideways = simd_normalize(simd_cross(tangent, inward))
       let frame = simd_quatf(simd_float3x3(columns: (sideways, tangent, inward)))
-      let origin = normal * (48.5 + randomUnit(i * 7 + 31) * 4.5)
-      for leaf in 0..<7 {
+      let origin = normal * (53 + randomUnit(i * 7 + 31) * 3)
+      let leafCount = 6 + Int(randomUnit(i * 13 + 19) * 5)
+      for leaf in 0..<leafCount {
         let seed = i * 7 + leaf
-        let spreadAngle = Float(leaf) / 7 * 2 * .pi + randomUnit(seed * 5 + 2) * 0.48
+        let spreadAngle = Float(leaf) / Float(leafCount) * 2 * .pi + randomUnit(seed * 5 + 2) * 0.48
         let spread = 0.35 + randomUnit(seed * 5 + 3) * 1.35
         let translation =
           origin
@@ -558,7 +575,7 @@ struct GardenSceneView: View {
           simd_quatf(angle: (randomUnit(seed * 5 + 4) - 0.5) * 0.55, axis: [1, 0, 0])
           * simd_quatf(angle: (randomUnit(seed * 5 + 5) - 0.5) * 0.55, axis: [0, 1, 0])
           * simd_quatf(angle: (randomUnit(seed * 5 + 6) - 0.5) * 0.5, axis: [0, 0, 1])
-        let size = 1.8 + randomUnit(seed * 5 + 7) * 1.5
+        let size = 2.2 + randomUnit(seed * 5 + 7) * 1.8
         let leafShape = Int(randomUnit(seed * 5 + 10) * Float(leafMeshes.count))
         let colorIndex = foliageColorIndex(plant: i + seed, leaf: leaf)
         leafInstances[leafShape][colorIndex].append(
@@ -574,7 +591,7 @@ struct GardenSceneView: View {
         var material = palette[color]
         material.faceCulling = .none
         addInstanced(
-          mesh: leafMeshes[shape],
+          geometry: leafMeshes[shape],
           material: material,
           transforms: leafInstances[shape][color],
           name: "foliage-\(shape)-\(color)",
@@ -583,7 +600,7 @@ struct GardenSceneView: View {
       }
     }
     addInstanced(
-      mesh: .generateCylinder(height: 1, radius: 0.10),
+      geometry: makeCylinderGeometry(height: 1, radius: 0.10),
       material: SimpleMaterial(
         color: PlatformColor(red: 0.40, green: 0.49, blue: 0.23, alpha: 1), roughness: 0.86,
         isMetallic: false),
@@ -592,7 +609,7 @@ struct GardenSceneView: View {
       to: root
     )
     addInstanced(
-      mesh: .generateCylinder(height: 2.5, radius: 0.055),
+      geometry: makeCylinderGeometry(height: 2.5, radius: 0.055),
       material: SimpleMaterial(
         color: PlatformColor(red: 0.43, green: 0.48, blue: 0.26, alpha: 1), roughness: 0.9,
         isMetallic: false),
@@ -601,7 +618,7 @@ struct GardenSceneView: View {
       to: root
     )
     addInstanced(
-      mesh: .generateCylinder(height: 1, radius: 0.018),
+      geometry: makeCylinderGeometry(height: 1, radius: 0.018),
       material: SimpleMaterial(
         color: PlatformColor(red: 0.78, green: 0.86, blue: 0.49, alpha: 1), roughness: 0.78,
         isMetallic: false),
@@ -610,7 +627,7 @@ struct GardenSceneView: View {
       to: root
     )
     addInstanced(
-      mesh: .generateCylinder(height: 1, radius: 0.006),
+      geometry: makeCylinderGeometry(height: 1, radius: 0.006),
       material: SimpleMaterial(
         color: PlatformColor(red: 0.73, green: 0.82, blue: 0.47, alpha: 1), roughness: 0.76,
         isMetallic: false),
@@ -628,11 +645,11 @@ struct GardenSceneView: View {
       var material = SimpleMaterial(color: petalColors[index], roughness: 0.68, isMetallic: false)
       material.faceCulling = .none
       addInstanced(
-        mesh: leafMeshes[0], material: material, transforms: flowerInstances[index],
+        geometry: leafMeshes[0], material: material, transforms: flowerInstances[index],
         name: "flower-petals-\(index)", to: root)
     }
     addInstanced(
-      mesh: .generateSphere(radius: 1),
+      geometry: makeSphereGeometry(radius: 1),
       material: SimpleMaterial(
         color: PlatformColor(red: 1, green: 0.78, blue: 0.30, alpha: 1), roughness: 0.45,
         isMetallic: false),
@@ -641,7 +658,7 @@ struct GardenSceneView: View {
       to: root
     )
     addInstanced(
-      mesh: .generateCylinder(height: 1, radius: 0.035),
+      geometry: makeCylinderGeometry(height: 1, radius: 0.035),
       material: SimpleMaterial(
         color: PlatformColor(red: 0.55, green: 0.66, blue: 0.30, alpha: 1), roughness: 0.82,
         isMetallic: false),
@@ -650,7 +667,7 @@ struct GardenSceneView: View {
       to: root
     )
     addInstanced(
-      mesh: .generateCylinder(height: 1, radius: 1),
+      geometry: makeCylinderGeometry(height: 1, radius: 1),
       material: SimpleMaterial(
         color: PlatformColor(red: 0.34, green: 0.25, blue: 0.15, alpha: 1), roughness: 0.92,
         isMetallic: false),
@@ -684,7 +701,7 @@ struct GardenSceneView: View {
       for leafIndex in 0..<3 {
         let angle = Float(leafIndex) * 2 * .pi / 3
         let crownLeaf = ModelEntity(
-          mesh: leafMeshes[leafIndex % leafMeshes.count],
+          mesh: leafMeshResources[leafIndex % leafMeshResources.count],
           materials: [
             SimpleMaterial(
               color: leafColor(leafIndex + definition.paletteIndex), roughness: 0.7,
@@ -743,11 +760,13 @@ struct GardenSceneView: View {
     return root
   }
 
-  private func makeLeafMesh(shape: Int) -> MeshResource {
+  private func makeLeafMesh(shape: Int) -> GardenMeshGeometry {
     var positions: [SIMD3<Float>] = []
     var indices: [UInt32] = []
-    let rows = 12
-    let columns = 8
+    // Foliage is the scene's largest static mesh population. Keep its curves
+    // legible while using a coarser grid than the old 12 × 8 leaf surface.
+    let rows = 8
+    let columns = 5
     var normals: [SIMD3<Float>] = []
     let leafLength: Float = shape == 0 ? 0.84 : (shape == 1 ? 0.96 : 0.76)
     func surfacePoint(_ u: Float, _ v: Float) -> SIMD3<Float> {
@@ -758,6 +777,9 @@ struct GardenSceneView: View {
         halfWidth = pow(taper, 0.82) * 0.19
       case 2:
         halfWidth = pow(taper, 0.56) * 0.205
+      case 3:
+        let scallop = 0.86 + 0.14 * pow(sin(4 * .pi * v), 2)
+        halfWidth = pow(taper, 0.72) * 0.225 * scallop
       default:
         let lobes = 0.84 + 0.16 * pow(sin(4 * .pi * v), 2)
         halfWidth = taper * 0.24 * lobes
@@ -783,11 +805,56 @@ struct GardenSceneView: View {
         indices.append(contentsOf: [a, a + 1, b, a + 1, b + 1, b])
       }
     }
-    var descriptor = MeshDescriptor()
-    descriptor.positions = MeshBuffer(positions)
-    descriptor.normals = MeshBuffer(normals)
-    descriptor.primitives = .triangles(indices)
-    return (try? MeshResource.generate(from: [descriptor])) ?? .generateSphere(radius: 0.2)
+    return GardenMeshGeometry(positions: positions, normals: normals, indices: indices)
+  }
+
+  private func makeCylinderGeometry(height: Float, radius: Float) -> GardenMeshGeometry {
+    let segments = 8
+    var positions: [SIMD3<Float>] = []
+    var normals: [SIMD3<Float>] = []
+    var indices: [UInt32] = []
+    for y in [-height * 0.5, height * 0.5] {
+      for segment in 0..<segments {
+        let angle = Float(segment) / Float(segments) * 2 * .pi
+        let normal = SIMD3<Float>(cos(angle), 0, sin(angle))
+        positions.append([normal.x * radius, y, normal.z * radius])
+        normals.append(normal)
+      }
+    }
+    for segment in 0..<segments {
+      let next = (segment + 1) % segments
+      let lower = UInt32(segment)
+      let upper = lower + UInt32(segments)
+      indices.append(contentsOf: [
+        lower, upper, UInt32(next), UInt32(next), upper, UInt32(next + segments),
+      ])
+    }
+    return GardenMeshGeometry(positions: positions, normals: normals, indices: indices)
+  }
+
+  private func makeSphereGeometry(radius: Float) -> GardenMeshGeometry {
+    let latitudeSegments = 8
+    let longitudeSegments = 12
+    var positions: [SIMD3<Float>] = []
+    var normals: [SIMD3<Float>] = []
+    var indices: [UInt32] = []
+    for latitude in 0...latitudeSegments {
+      let theta = Float(latitude) / Float(latitudeSegments) * .pi
+      for longitude in 0...longitudeSegments {
+        let phi = Float(longitude) / Float(longitudeSegments) * 2 * .pi
+        let normal = SIMD3<Float>(sin(theta) * cos(phi), cos(theta), sin(theta) * sin(phi))
+        positions.append(normal * radius)
+        normals.append(normal)
+      }
+    }
+    for latitude in 0..<latitudeSegments {
+      for longitude in 0..<longitudeSegments {
+        let first = UInt32(latitude * (longitudeSegments + 1) + longitude)
+        let nextRow = first + UInt32(longitudeSegments + 1)
+        indices.append(contentsOf: [first, first + 1, nextRow, first + 1, nextRow + 1, nextRow])
+      }
+    }
+    return GardenMeshGeometry(positions: positions, normals: normals, indices: indices)
   }
 
   private func plantPoint(_ t: Float, bend: Float) -> SIMD3<Float> {
@@ -842,7 +909,7 @@ struct GardenSceneView: View {
     }
 
     let colors: [SIMD3<Float>] = [
-      [0.010, 0.025, 0.027], [0.020, 0.052, 0.045], [0.038, 0.095, 0.050], [0.095, 0.145, 0.062],
+      [0.048, 0.095, 0.050], [0.068, 0.120, 0.060], [0.090, 0.150, 0.070], [0.120, 0.180, 0.080],
     ]
     let materials = (0..<bandCount).map { band -> UnlitMaterial in
       let t = Float(band) / Float(bandCount - 1) * Float(colors.count - 1)
@@ -860,7 +927,7 @@ struct GardenSceneView: View {
       return ModelEntity(mesh: try MeshResource.generate(from: descriptors), materials: materials)
     } catch {
       var material = UnlitMaterial(
-        color: PlatformColor(red: 0.02, green: 0.05, blue: 0.04, alpha: 1))
+        color: PlatformColor(red: 0.060, green: 0.120, blue: 0.065, alpha: 1))
       material.faceCulling = .front
       return ModelEntity(mesh: .generateSphere(radius: radius), materials: [material])
     }
@@ -1033,17 +1100,15 @@ struct GardenSceneView: View {
       }
     }
     addInstanced(
-      mesh: .generateCylinder(height: 1, radius: 0.028), material: material,
+      geometry: makeCylinderGeometry(height: 1, radius: 0.028), material: material,
       transforms: ribTransforms, name: "greenhouse-ribs", to: root)
   }
 
   private func addInstanced(
-    mesh: MeshResource, material: SimpleMaterial, transforms: [Transform], name: String,
+    geometry: GardenMeshGeometry, material: SimpleMaterial, transforms: [Transform], name: String,
     to root: Entity
   ) {
     guard !transforms.isEmpty else { return }
-    let entity = ModelEntity(mesh: mesh, materials: [material])
-    entity.name = name
     if #available(iOS 26.0, macOS 26.0, *) {
       do {
         let instanceData = try LowLevelInstanceData(instanceCount: transforms.count)
@@ -1052,6 +1117,8 @@ struct GardenSceneView: View {
             buffer[index] = transform.matrix
           }
         }
+        let mesh = geometry.resource
+        let entity = ModelEntity(mesh: mesh, materials: [material])
         guard let mesh = entity.components[ModelComponent.self]?.mesh else { return }
         let modelID = mesh.contents.models.first?.id
         let instances = try MeshInstancesComponent(
@@ -1060,15 +1127,40 @@ struct GardenSceneView: View {
         root.addChild(entity)
         return
       } catch {
-        // The prototype falls back to individual entities if instancing cannot be allocated.
+        // Use the static merged-mesh path if instance allocation is unavailable.
       }
     }
-    for (index, transform) in transforms.enumerated() {
-      let instance = ModelEntity(mesh: mesh, materials: [material])
-      instance.name = "\(name)-\(index)"
-      instance.transform = transform
-      root.addChild(instance)
+
+    // Older supported OS versions do not expose RealityKit's low-level instance
+    // component. Bake static transforms into one mesh so foliage does not become
+    // thousands of independently updated scene entities.
+    var positions: [SIMD3<Float>] = []
+    var normals: [SIMD3<Float>] = []
+    var indices: [UInt32] = []
+    positions.reserveCapacity(geometry.positions.count * transforms.count)
+    normals.reserveCapacity(geometry.normals.count * transforms.count)
+    indices.reserveCapacity(geometry.indices.count * transforms.count)
+    for transform in transforms {
+      let vertexOffset = UInt32(positions.count)
+      let matrix = transform.matrix
+      for position in geometry.positions {
+        let point = matrix * SIMD4<Float>(position.x, position.y, position.z, 1)
+        positions.append([point.x, point.y, point.z])
+      }
+      for normal in geometry.normals {
+        normals.append(
+          simd_normalize(
+            transform.rotation.act(normal / transform.scale)))
+      }
+      for index in geometry.indices {
+        indices.append(vertexOffset + index)
+      }
     }
+    let combinedGeometry = GardenMeshGeometry(
+      positions: positions, normals: normals, indices: indices)
+    let entity = ModelEntity(mesh: combinedGeometry.resource, materials: [material])
+    entity.name = name
+    root.addChild(entity)
   }
 }
 
