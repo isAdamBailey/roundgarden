@@ -20,6 +20,7 @@ struct GardenSceneView: View {
   @State private var pitch = 0.0
   @State private var lastDragTranslation = CGSize.zero
   @State private var vaporizedTargetIDs: Set<Int> = []
+  @State private var sceneEntities = GardenSceneEntityCache()
   #if os(macOS)
     @FocusState private var gardenHasFocus: Bool
   #endif
@@ -64,13 +65,14 @@ struct GardenSceneView: View {
             minimumInterval: 1.0 / 30.0,
             paused: reduceMotion || round.phase == .paused || round.phase == .complete)
         ) { timeline in
+          let entities = sceneEntities
           RealityView { content in
-            content.add(makeGarden())
-          } update: { content in
-            guard
-              let camera = content.entities.first?.findEntity(named: "spike-camera")
-                as? PerspectiveCamera
-            else { return }
+            let garden = makeGarden()
+            entities.resolve(in: garden)
+            content.add(garden)
+          } update: { _ in
+            guard let camera = entities.camera else { return }
+            let frameTargets = targets
             let radius: Float = 0.08
             let y = Float(pitch)
             let horizontal = sqrt(max(0.01, 1 - y * y))
@@ -80,21 +82,17 @@ struct GardenSceneView: View {
             ]
             camera.look(at: .zero, from: camera.position, relativeTo: nil)
             for index in 0..<12 {
-              let name = "oddity-\(index)"
-              guard let produce = content.entities.first?.findEntity(named: name) else { continue }
+              guard let produce = entities.produce[index] else { continue }
               produce.isEnabled = !vaporizedTargetIDs.contains(index)
-              let position = targets[index].position
+              let position = frameTargets[index].position
               let distance = simd_length(position)
               produce.position = SIMD3<Float>(
                 Float(position.x), Float(position.y), Float(position.z))
               produce.look(at: .zero, from: produce.position, relativeTo: nil)
-              if let skinDetail = content.entities.first?.findEntity(
-                named: "produce-detail-\(index)")
-              {
+              if let skinDetail = entities.details[index] {
                 skinDetail.isEnabled = distance < 19
               }
-              if let innerGlow = content.entities.first?.findEntity(named: "produce-glow-\(index)")
-              {
+              if let innerGlow = entities.glows[index] {
                 innerGlow.isEnabled = distance < 12
               }
               let pulse =
@@ -1053,5 +1051,20 @@ struct GardenSceneView: View {
       instance.transform = transform
       root.addChild(instance)
     }
+  }
+}
+
+@MainActor
+private final class GardenSceneEntityCache {
+  var camera: PerspectiveCamera?
+  var produce: [Entity?] = []
+  var details: [Entity?] = []
+  var glows: [Entity?] = []
+
+  func resolve(in root: Entity) {
+    camera = root.findEntity(named: "spike-camera") as? PerspectiveCamera
+    produce = (0..<12).map { root.findEntity(named: "oddity-\($0)") }
+    details = (0..<12).map { root.findEntity(named: "produce-detail-\($0)") }
+    glows = (0..<12).map { root.findEntity(named: "produce-glow-\($0)") }
   }
 }
