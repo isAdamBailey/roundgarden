@@ -71,38 +71,15 @@ struct GardenSceneView: View {
             entities.resolve(in: garden)
             content.add(garden)
           } update: { _ in
-            guard let camera = entities.camera else { return }
-            let frameTargets = targets
-            let radius: Float = 0.08
-            let y = Float(pitch)
-            let horizontal = sqrt(max(0.01, 1 - y * y))
-            camera.position = [
-              Float(sin(yaw)) * horizontal * radius, y * radius,
-              Float(cos(yaw)) * horizontal * radius,
-            ]
-            camera.look(at: .zero, from: camera.position, relativeTo: nil)
-            for index in 0..<12 {
-              guard let produce = entities.produce[index] else { continue }
-              produce.isEnabled = !vaporizedTargetIDs.contains(index)
-              let position = frameTargets[index].position
-              let distance = simd_length(position)
-              produce.position = SIMD3<Float>(
-                Float(position.x), Float(position.y), Float(position.z))
-              produce.look(at: .zero, from: produce.position, relativeTo: nil)
-              if let skinDetail = entities.details[index] {
-                skinDetail.isEnabled = distance < 19
-              }
-              if let innerGlow = entities.glows[index] {
-                innerGlow.isEnabled = distance < 12
-              }
-              let pulse =
-                1 + sin(Float(timeline.date.timeIntervalSinceReferenceDate) * 2 + Float(index))
-                * 0.045
-              produce.scale = SIMD3<Float>(repeating: pulse)
-            }
+            updateGardenScene(at: timeline.date)
           }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        #if os(macOS)
+          .frame(width: viewport.size.width * 0.65, height: viewport.size.height * 0.65)
+          .scaleEffect(1.0 / 0.65)
+        #else
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+        #endif
         .gesture(cameraDragGesture)
         #if os(iOS)
           .ignoresSafeArea()
@@ -205,6 +182,35 @@ struct GardenSceneView: View {
     #if os(iOS)
       .ignoresSafeArea()
     #endif
+  }
+
+  private func updateGardenScene(at date: Date) {
+    guard let camera = sceneEntities.camera else { return }
+    let frameTargets = targets
+    let radius: Float = 0.08
+    let y = Float(pitch)
+    let horizontal = sqrt(max(0.01, 1 - y * y))
+    camera.position = [
+      Float(sin(yaw)) * horizontal * radius, y * radius,
+      Float(cos(yaw)) * horizontal * radius,
+    ]
+    camera.look(at: .zero, from: camera.position, relativeTo: nil)
+    for index in 0..<12 {
+      guard let produce = sceneEntities.produce[index] else { continue }
+      produce.isEnabled = !vaporizedTargetIDs.contains(index)
+      let position = frameTargets[index].position
+      let distance = simd_length(position)
+      produce.position = SIMD3<Float>(Float(position.x), Float(position.y), Float(position.z))
+      produce.look(at: .zero, from: produce.position, relativeTo: nil)
+      if let skinDetail = sceneEntities.details[index] {
+        skinDetail.isEnabled = distance < 19
+      }
+      if let innerGlow = sceneEntities.glows[index] {
+        innerGlow.isEnabled = distance < 12
+      }
+      let pulse = 1 + sin(Float(date.timeIntervalSinceReferenceDate) * 2 + Float(index)) * 0.045
+      produce.scale = SIMD3<Float>(repeating: pulse)
+    }
   }
 
   private var cameraDragGesture: some Gesture {
