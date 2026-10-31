@@ -62,7 +62,7 @@ struct GardenSceneView: View {
       ZStack {
         TimelineView(
           .animation(
-            minimumInterval: 1.0 / 30.0,
+            minimumInterval: 1.0 / 60.0,
             paused: reduceMotion || round.phase == .paused || round.phase == .complete)
         ) { timeline in
           let entities = sceneEntities
