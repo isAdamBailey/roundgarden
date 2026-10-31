@@ -11,7 +11,7 @@ struct RoundgardenApp: App {
 }
 
 private struct RoundgardenRootView: View {
-  @State private var isPlaying = false
+  @State private var isPlaying = ProcessInfo.processInfo.arguments.contains("--performance-soak")
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   var body: some View {
@@ -185,6 +185,9 @@ private struct GardenGameView: View {
     .background(Color(red: 0.012, green: 0.032, blue: 0.031).ignoresSafeArea())
     .sensoryFeedback(.success, trigger: awardCount)
     .task {
+      if ProcessInfo.processInfo.arguments.contains("--performance-soak") {
+        round.start()
+      }
       while !Task.isCancelled {
         try? await Task.sleep(for: .milliseconds(100))
         round.advance(by: 0.1)

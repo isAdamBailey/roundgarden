@@ -22,6 +22,8 @@ struct GardenSceneView: View {
   @State private var vaporizedTargetIDs: Set<Int> = []
   @State private var sceneEntities = GardenSceneEntityCache()
   #if os(macOS)
+    // Scale only the RealityKit surface; the HUD and all garden geometry stay intact.
+    private let macRenderScale: CGFloat = 0.65
     @FocusState private var gardenHasFocus: Bool
   #endif
 
@@ -71,38 +73,18 @@ struct GardenSceneView: View {
             entities.resolve(in: garden)
             content.add(garden)
           } update: { _ in
-            guard let camera = entities.camera else { return }
-            let frameTargets = targets
-            let radius: Float = 0.08
-            let y = Float(pitch)
-            let horizontal = sqrt(max(0.01, 1 - y * y))
-            camera.position = [
-              Float(sin(yaw)) * horizontal * radius, y * radius,
-              Float(cos(yaw)) * horizontal * radius,
-            ]
-            camera.look(at: .zero, from: camera.position, relativeTo: nil)
-            for index in 0..<12 {
-              guard let produce = entities.produce[index] else { continue }
-              produce.isEnabled = !vaporizedTargetIDs.contains(index)
-              let position = frameTargets[index].position
-              let distance = simd_length(position)
-              produce.position = SIMD3<Float>(
-                Float(position.x), Float(position.y), Float(position.z))
-              produce.look(at: .zero, from: produce.position, relativeTo: nil)
-              if let skinDetail = entities.details[index] {
-                skinDetail.isEnabled = distance < 19
-              }
-              if let innerGlow = entities.glows[index] {
-                innerGlow.isEnabled = distance < 12
-              }
-              let pulse =
-                1 + sin(Float(timeline.date.timeIntervalSinceReferenceDate) * 2 + Float(index))
-                * 0.045
-              produce.scale = SIMD3<Float>(repeating: pulse)
-            }
+            updateGardenScene(at: timeline.date)
           }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        #if os(macOS)
+          .frame(
+            width: viewport.size.width * macRenderScale,
+            height: viewport.size.height * macRenderScale
+          )
+          .scaleEffect(1.0 / macRenderScale)
+        #else
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+        #endif
         .gesture(cameraDragGesture)
         #if os(iOS)
           .ignoresSafeArea()
@@ -205,6 +187,35 @@ struct GardenSceneView: View {
     #if os(iOS)
       .ignoresSafeArea()
     #endif
+  }
+
+  private func updateGardenScene(at date: Date) {
+    guard let camera = sceneEntities.camera else { return }
+    let frameTargets = targets
+    let radius: Float = 0.08
+    let y = Float(pitch)
+    let horizontal = sqrt(max(0.01, 1 - y * y))
+    camera.position = [
+      Float(sin(yaw)) * horizontal * radius, y * radius,
+      Float(cos(yaw)) * horizontal * radius,
+    ]
+    camera.look(at: .zero, from: camera.position, relativeTo: nil)
+    for index in 0..<12 {
+      guard let produce = sceneEntities.produce[index] else { continue }
+      produce.isEnabled = !vaporizedTargetIDs.contains(index)
+      let position = frameTargets[index].position
+      let distance = simd_length(position)
+      produce.position = SIMD3<Float>(Float(position.x), Float(position.y), Float(position.z))
+      produce.look(at: .zero, from: produce.position, relativeTo: nil)
+      if let skinDetail = sceneEntities.details[index] {
+        skinDetail.isEnabled = distance < 19
+      }
+      if let innerGlow = sceneEntities.glows[index] {
+        innerGlow.isEnabled = distance < 12
+      }
+      let pulse = 1 + sin(Float(date.timeIntervalSinceReferenceDate) * 2 + Float(index)) * 0.045
+      produce.scale = SIMD3<Float>(repeating: pulse)
+    }
   }
 
   private var cameraDragGesture: some Gesture {
@@ -384,13 +395,15 @@ struct GardenSceneView: View {
             rotation: worldRotation,
             translation: worldPosition
           ))
-        veinInstances.append(
-          Transform(
-            scale: [1, size * 0.66, 1],
-            rotation: worldRotation,
-            translation: worldPosition + worldRotation.act(SIMD3<Float>(0, 0, size * 0.13))
-          ))
-        if i.isMultiple(of: 3), leafIndex.isMultiple(of: 2) {
+        if shellRadius <= 40 {
+          veinInstances.append(
+            Transform(
+              scale: [1, size * 0.66, 1],
+              rotation: worldRotation,
+              translation: worldPosition + worldRotation.act(SIMD3<Float>(0, 0, size * 0.13))
+            ))
+        }
+        if shellRadius <= 40, i.isMultiple(of: 3), leafIndex.isMultiple(of: 2) {
           let along: Float = leafIndex.isMultiple(of: 4) ? 0.34 : 0.66
           let y = (along - 0.5) * 0.84 * size * 1.12
           let width = sin(along * .pi) * 0.24 * size * 0.78
@@ -996,6 +1009,7 @@ struct GardenSceneView: View {
     let material = SimpleMaterial(
       color: PlatformColor(red: 0.72, green: 0.73, blue: 0.43, alpha: 0.28), roughness: 0.58,
       isMetallic: false)
+    var ribTransforms: [Transform] = []
     for rib in 0..<8 {
       let longitude = Float(rib) * (.pi / 8)
       for segment in 0..<16 {
@@ -1010,13 +1024,17 @@ struct GardenSceneView: View {
             cos(upperLatitude) * cos(longitude), sin(upperLatitude),
             cos(upperLatitude) * sin(longitude)) * radius
         let delta = upper - lower
-        let ribSegment = ModelEntity(
-          mesh: .generateCylinder(height: simd_length(delta), radius: 0.028), materials: [material])
-        ribSegment.position = (lower + upper) * 0.5
-        ribSegment.orientation = simd_quatf(from: SIMD3<Float>(0, 1, 0), to: simd_normalize(delta))
-        root.addChild(ribSegment)
+        ribTransforms.append(
+          Transform(
+            scale: [1, simd_length(delta), 1],
+            rotation: simd_quatf(from: SIMD3<Float>(0, 1, 0), to: simd_normalize(delta)),
+            translation: (lower + upper) * 0.5
+          ))
       }
     }
+    addInstanced(
+      mesh: .generateCylinder(height: 1, radius: 0.028), material: material,
+      transforms: ribTransforms, name: "greenhouse-ribs", to: root)
   }
 
   private func addInstanced(
