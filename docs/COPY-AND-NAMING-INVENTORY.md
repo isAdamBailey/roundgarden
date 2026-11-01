@@ -82,13 +82,13 @@ The web experience will serve two roles, following the FrameBeat approach: it re
 
 ## Remaining copy work before release
 
-- Play-first public landing page, iOS/macOS access, and web privacy page are tracked in Phase 6.1. Add store links only when each app is available and the privacy copy has been checked against actual data practices.
+- The public play-first landing, browser game path, app-access section, and web privacy page are implemented in Phase 6.1. Configure an official store badge only when its public listing exists; recheck the privacy copy against production hosting and any changed data practices before rollout.
 - Logo and app-icon treatment, final store listing formatting, and trademark/domain clearance.
 - iOS/macOS accessibility-label and score/timer announcement review after VoiceOver and keyboard-focus behavior are verified.
 - Interrupted-round messaging if a dedicated recovery surface is added; current rounds pause when the app leaves the foreground.
 - Settings labels for sound, motion, and quality options that actually ship.
 - Loading, error, empty, and saved-progress recovery states if persistence is added.
-- Support and privacy copy after the actual support channel, analytics, crash reporting, and data behavior are decided.
+- Add a support link only after a real support channel exists; update the privacy copy if hosting, analytics, crash reporting, or data behavior changes.
 - Final store keywords and platform-specific listings after the product name and features are approved.
 
 ## Approval and release checks

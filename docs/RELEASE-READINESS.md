@@ -22,7 +22,7 @@ The native targets currently save only an app-local personal-best score in `User
 - Confirm the bundle IDs are available and create both platform records in App Store Connect.
 - Enroll/select the developer team, configure signing, and archive with the release configuration.
 - Complete Apple’s age-rating questionnaire for the final game content.
-- Provide a real support URL and privacy-policy URL. Neither has been chosen or published, so no URL is invented here.
+- Choose a real support URL before submission. The web privacy page is implemented at `/privacy.html`; publish the site and use its production URL in App Store Connect.
 - Approve the product name and release copy; complete trademark/domain checks before using the name publicly.
 - Create and approve app icons. Current repository screenshots are development evidence and are not store-ready promotional assets.
 - Capture current, clean gameplay screenshots after the release build is reviewed. Apple currently requires iPhone screenshots at a supported Dynamic Island display size, 13-inch iPad screenshots when the app runs on iPad, and 16:10 screenshots for Mac. Verify accepted dimensions again when uploading.

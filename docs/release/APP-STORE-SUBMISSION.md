@@ -48,7 +48,7 @@ These notes are drafts. Confirm every statement against the signed candidate and
 - Create the required app icon assets and confirm they match the approved in-game identity.
 - Capture the release app on an iPhone with a currently accepted display size, a 13-inch iPad, and a Mac. Apple currently lists iPhone, 13-inch iPad when supported, and Mac screenshots as required sizes for those platforms. Verify exact dimensions at upload time because supported devices change.
 - Ensure screenshots and previews show actual app behavior, have no alpha channel, and follow Apple’s metadata and review guidelines. App previews are optional; do not make a preview a gate if still images are sufficient.
-- Set the support URL and privacy-policy URL after those pages exist. The repository currently has no approved URLs.
+- Set a real support URL after the support channel exists. Publish the web privacy page at `/privacy.html` and enter its production URL in App Store Connect.
 - Answer the age-rating and privacy questionnaires in App Store Connect from the final game and binary. The privacy manifest describes API usage; it does not replace App Store privacy disclosures or a published privacy policy.
 - Recheck SDK, screenshot, metadata, age-rating, privacy-manifest, and review requirements on the upload date.
 
