@@ -27,9 +27,9 @@ final class RoundgardenMacUITests: XCTestCase {
     )
 
     app.buttons["Pause"].click()
-    XCTAssertTrue(app.staticTexts["Round paused"].waitForExistence(timeout: 5))
+    XCTAssertTrue(app.staticTexts["Take a breath."].waitForExistence(timeout: 5))
     app.buttons["Resume"].click()
-    app.buttons["Menu"].click()
+    app.buttons["Leave round"].click()
     XCTAssertTrue(app.buttons["Enter the garden"].waitForExistence(timeout: 5))
   }
 }

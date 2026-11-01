@@ -27,11 +27,11 @@ final class RoundgardenUITests: XCTestCase {
     add(screenshot)
 
     app.buttons["Pause"].tap()
-    XCTAssertTrue(app.staticTexts["Round paused"].waitForExistence(timeout: 5))
+    XCTAssertTrue(app.staticTexts["Take a breath."].waitForExistence(timeout: 5))
     app.buttons["Resume"].tap()
     XCUIDevice.shared.orientation = .landscapeLeft
     waitForOrientation(app, landscape: true)
-    app.buttons["Menu"].tap()
+    app.buttons["Leave round"].tap()
     XCTAssertTrue(app.buttons["Enter the garden"].waitForExistence(timeout: 5))
   }
 

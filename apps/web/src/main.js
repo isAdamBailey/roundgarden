@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import './style.css';
 
 const app = document.querySelector('#app');
+const noNearbyOddityMessage = 'No oddity close enough yet. Keep an eye on the far side.';
 const reduceMotionPreference = matchMedia('(prefers-reduced-motion: reduce)');
 app.innerHTML = `
   <main class="game-shell" aria-label="Roundgarden game">
@@ -28,10 +29,10 @@ app.innerHTML = `
       <div class="welcome-copy">
         <div class="title-mark"><span></span><span></span><span></span><span></span><span></span></div>
         <h1>The garden <span class="mobile-title-break"><br /></span>goes all the way <em>around.</em></h1>
-        <p class="intro">Float inside a whimsical garden that surrounds you. Look all around as strange garden oddities drift close.</p>
+        <p class="intro">A strange kind of weather is in bloom. Float inside as garden oddities drift close; the nearer they wander, the brighter they become.</p>
         <div class="howto">
-          <div class="howto-step"><span class="step-glyph aim-glyph"><i></i></span><span><b>LOOK AROUND</b><small>Drag to turn. The garden goes all the way around.</small></span></div>
-          <div class="howto-step"><span class="step-glyph catch-glyph"><i></i></span><span><b>VAPORIZE AN ODDITY</b><small>Center a nearby oddity and click or tap to turn it into light.</small></span></div>
+          <div class="howto-step"><span class="step-glyph aim-glyph"><i></i></span><span><b>LOOK ALL AROUND</b><small>Drag to look all around.</small></span></div>
+          <div class="howto-step"><span class="step-glyph catch-glyph"><i></i></span><span><b>VAPORIZE AN ODDITY</b><small>Center a nearby oddity, then click or tap to vaporize it into light.</small></span></div>
         </div>
         <button class="start-button" id="startButton"><span>Enter the garden</span><svg viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
         <div class="gentle-note"><span class="note-spark">✳</span><span>One minute. Look close. Score high.</span></div>
@@ -52,7 +53,7 @@ app.innerHTML = `
 
     <section class="end-panel is-hidden" id="endPanel" aria-live="polite">
       <div class="end-orb" aria-hidden="true"><span></span></div>
-      <h2>One minute,<br /><em>gone in a blink.</em></h2>
+      <h2>Shadows pass.<br /><em>The garden grows on.</em></h2>
       <p class="end-copy">Final score <strong id="finalScore">0</strong><br />Personal best <strong id="bestScore">0</strong></p>
       <div class="round-actions">
         <button class="start-button replay-button" id="replayButton"><span>Go around again</span><svg viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
@@ -625,7 +626,7 @@ function updateAiming() {
   const multiplier = reachable ? proximityMultiplier(hit.distance) : 1;
   const targetCopy = reachable ? `${candidate.value} POINTS · ×${multiplier}` : 'LOOK ALL AROUND';
   document.querySelector('#reticleLabel').textContent = targetCopy;
-  const readout = reachable ? `Garden oddity worth ${candidate.value} points. ${multiplier} times proximity multiplier.` : '';
+  const readout = reachable ? `Garden oddity worth ${candidate.value} points. ${multiplier} times proximity multiplier.` : noNearbyOddityMessage;
   if (readout !== lastAnnouncedTarget) {
     document.querySelector('#targetReadout').textContent = readout;
     lastAnnouncedTarget = readout;
@@ -640,7 +641,7 @@ function proximityMultiplier(distance) {
 function vaporizePod() {
   const pod = updateAiming();
   if (!pod) {
-    showToast('Center a nearby garden oddity to vaporize it.');
+    showToast(noNearbyOddityMessage);
     return;
   }
   const hitDistance = raycaster.intersectObject(pod.core, false)[0]?.distance ?? pod.group.position.length();
@@ -735,7 +736,7 @@ function beginRound() {
   document.querySelector('#stateText').textContent = 'THE GARDEN IS AWAKE';
   document.querySelector('#bottomHint').classList.add('is-active');
   document.querySelector('#pauseButton').focus({ preventScroll: true });
-  showToast('Look all around. The closer you wait, the more an oddity is worth.');
+  showToast('The far side has a bright idea. Keep looking all around.');
 }
 function pauseRound(fromBackground = false) {
   if (!active || paused) return;

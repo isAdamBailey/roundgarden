@@ -1,6 +1,6 @@
 # Roundgarden: name and copy inventory
 
-**Status:** Roundgarden is the selected product name. The in-game and store copy below remains draft and is not approved as final release copy.
+**Status:** Roundgarden is the selected product name. The current web, iOS, and macOS in-game copy is finalized under the owner's allusive direction approved on 2026-11-01. Store and launch copy remain draft for release review.
 
 ## Product and audience
 
@@ -23,6 +23,7 @@ Roundgarden is the chosen product name; the other candidates remain as archived 
 ## Voice and language rules
 
 - Make the atmosphere whimsical, surreal, and strange, with playful dream logic rather than horror.
+- Hide musical wordplay inside original garden, weather, light, distance, and shadow imagery. Do not name songs or artists or quote lyrics; the references should read as garden whimsy on their own.
 - Let headlines and descriptive copy be dreamlike. Keep controls, scores, and state labels direct.
 - Describe the view as a garden that goes all the way around or surrounds the player. Avoid technical language such as “sphere” in ordinary instructions.
 - Call the objects **garden oddities** generally. Use a specific name only if an individual oddity is visibly recognizable and needs one.
@@ -32,16 +33,19 @@ Roundgarden is the chosen product name; the other candidates remain as archived 
 - Sound is optional vaporization feedback, not a promised soundtrack or a central feature.
 - Do not claim unverified settings, features, compatibility, privacy behavior, or visual facts.
 
-## Draft in-game copy
+## Final in-game copy for current surfaces
 
-| Surface | Draft | Notes |
+| Surface | Copy | Notes |
 | --- | --- | --- |
 | Product name | **Roundgarden** | Selected by the product owner; release copy is still draft. |
 | Headline | **The garden goes all the way around.** | Clear, with a slightly uncanny edge. Alternative for tone testing: **There is no outside. Only garden.** |
-| Intro | **Float inside a whimsical garden that surrounds you. Look all around as strange garden oddities drift close.** | Does not assert stars or a greenhouse. |
+| Intro | **A strange kind of weather is in bloom. Float inside as garden oddities drift close; the nearer they wander, the brighter they become.** | A quiet weather-and-light allusion, with the distance cue grounded in visible gameplay. |
 | Primary action | **Enter the garden** | Direct invitation. |
-| Look instruction | **Drag to look all around.** | Applies to mouse, trackpad, and touch drag, adapted per platform. |
-| Vaporize instruction | **Tap or click a nearby garden oddity to vaporize it into light.** | Use only when the object is within reach. |
+| Look instruction | **Drag to look all around.** | Direct and shared across mouse, trackpad, and touch; macOS also names arrow keys. |
+| Vaporize instruction | **Center a nearby oddity, then click or tap to vaporize it into light.** | Direct and adapted to available input. |
+| Native menu controls | **Drag or use arrow keys to look all around. Center a nearby oddity and click to vaporize it into light.** (macOS); **Drag to look all around. Center a nearby oddity and tap to vaporize it into light.** (iOS) | Native onboarding now includes the same two actions as web onboarding, with platform-specific input. |
+| One-minute prompt | **One minute. Look close. Score high.** | Shared across web, iOS, and macOS onboarding. |
+| Native ready state | **Ready to wander?**; **The oddities drift near, glow brighter, and disappear into light. Vaporize as many as you can before your minute is up.**; **Start 60-second round** | The native flow asks for a separate round start after entering the garden; web starts its round from the welcome action. Both explain the same one-minute goal and vaporization loop. |
 | Active status | **The garden is awake.** | Surreal state copy; keep the HUD status clear in accessibility announcements. |
 | Score label | **SCORE** | Plain and scannable. |
 | Personal best | **BEST {score}** | Saved locally on the device. |
@@ -49,9 +53,10 @@ Roundgarden is the chosen product name; the other candidates remain as archived 
 | Centered target value | **{value} POINTS** | Show while a target is centered; use visual cues to show relative value. |
 | Close bonus | **×{multiplier}** | Show with the reticle/target feedback, up to ×3. |
 | Vaporization feedback | **+{points}** | Pair with the light effect; points depend on oddity value and distance. |
-| No nearby target | **Nothing close enough yet. Keep looking all around.** | Clear, with a small surreal undertone. |
-| Pause / resume | **Pause** / **Resume** | Direct controls. |
-| Round complete | **One minute, gone in a blink.** | Surreal end heading; display the score plainly below it. |
+| No nearby target | **No oddity close enough yet. Keep an eye on the far side.** | The visual hint stays clear; “far side” carries a quiet distance/looking allusion. |
+| Pause / resume | **Pause** / **Resume**; paused heading **Take a breath.**; supporting copy **Your time and score are waiting here.** | Direct controls with shared, reassuring pause copy across web and native. |
+| Leave round | **Leave round** | Shared label in the web and native game views. |
+| Round complete | **Shadows pass. The garden grows on.** | Original, gently hopeful shadow wordplay; display the score plainly below it. |
 | Replay action | **Go around again** | Candidate CTA. |
 | Accessibility: view | **Garden view. Drag to look all around.** | Functional label. |
 | Accessibility: target | **Garden oddity, worth {value} points, {distance state}. Activate to vaporize it into light.** | Final phrasing depends on native focus behavior and verified scoring feedback. |
@@ -75,13 +80,12 @@ The web experience will serve two roles, following the FrameBeat approach: it re
 
 **You have one minute to score as high as you can. Beat your personal best, then go around again.**
 
-## Remaining copy to complete before release
+## Remaining copy work before release
 
-- Website landing-page sections and platform-specific iOS/macOS calls to action. Add store links or badges only when each app is actually available; do not imply a release date or feature that has not been confirmed.
+- Play-first public landing page, iOS/macOS access, and web privacy page are tracked in Phase 6.1. Add store links only when each app is available and the privacy copy has been checked against actual data practices.
 - Logo and app-icon treatment, final store listing formatting, and trademark/domain clearance.
-- Platform-specific control instructions for touch, mouse, trackpad, and keyboard.
-- Pause, resume, leave-round, replay, and interrupted-round copy.
-- Accessibility labels and score/timer announcements after native interaction is implemented.
+- iOS/macOS accessibility-label and score/timer announcement review after VoiceOver and keyboard-focus behavior are verified.
+- Interrupted-round messaging if a dedicated recovery surface is added; current rounds pause when the app leaves the foreground.
 - Settings labels for sound, motion, and quality options that actually ship.
 - Loading, error, empty, and saved-progress recovery states if persistence is added.
 - Support and privacy copy after the actual support channel, analytics, crash reporting, and data behavior are decided.
@@ -89,7 +93,7 @@ The web experience will serve two roles, following the FrameBeat approach: it re
 
 ## Approval and release checks
 
-- Roundgarden was selected by the product owner on 2026-10-29. Product-owner approval is still required before finalizing release copy.
+- Roundgarden was selected by the product owner on 2026-10-29. The current in-game copy follows the product owner's 2026-11-01 creative direction; product-owner review of store and launch copy is still required.
 - Check the selected name against App Store listings, domains, and relevant trademark registries before publishing. The current App Store search is not a clearance search.
 - Reconcile privacy, compatibility, and feature statements with the shipped app and actual App Store Connect disclosures.
 - Finalize platform-specific copy only after native controls and accessibility behavior are implemented and verified.

@@ -65,7 +65,7 @@ private struct GardenMenuView: View {
             .lineLimit(2)
             .fixedSize(horizontal: false, vertical: true)
           Text(
-            "Float inside a whimsical garden that surrounds you. Look all around as strange garden oddities drift close."
+            "A strange kind of weather is in bloom. Float inside as garden oddities drift close; the nearer they wander, the brighter they become."
           )
           .font(.system(size: 15, weight: .regular, design: .rounded))
           .multilineTextAlignment(.center)
@@ -74,6 +74,17 @@ private struct GardenMenuView: View {
           .lineLimit(3)
           .fixedSize(horizontal: false, vertical: true)
         }
+
+        Text(menuControlsText)
+          .font(.system(size: 14, weight: .regular, design: .rounded))
+          .multilineTextAlignment(.center)
+          .foregroundStyle(colorContrast == .increased ? .white : .white.opacity(0.82))
+          .frame(maxWidth: 440)
+          .fixedSize(horizontal: false, vertical: true)
+
+        Text("One minute. Look close. Score high.")
+          .font(.system(size: 12, weight: .semibold, design: .rounded))
+          .foregroundStyle(colorContrast == .increased ? .white : .white.opacity(0.72))
 
         Button(action: onPlay) {
           Label("Enter the garden", systemImage: "arrow.right")
@@ -90,6 +101,14 @@ private struct GardenMenuView: View {
       .padding(32)
     }
     .background(reduceTransparency ? Color.black.opacity(0.94) : Color.clear)
+  }
+
+  private var menuControlsText: LocalizedStringKey {
+    #if os(macOS)
+      "Drag or use arrow keys to look all around. Center a nearby oddity and click to vaporize it into light."
+    #else
+      "Drag to look all around. Center a nearby oddity and tap to vaporize it into light."
+    #endif
   }
 }
 
@@ -113,7 +132,7 @@ private struct GardenGameView: View {
       VStack {
         HStack {
           Button(action: onExit) {
-            Label("Menu", systemImage: "chevron.left")
+            Label("Leave round", systemImage: "chevron.left")
               .frame(minWidth: 44, minHeight: 44)
           }
           .accessibilityHint("Returns to the Roundgarden menu.")
@@ -213,23 +232,29 @@ private struct GardenGameView: View {
       if round.phase == .ready {
         Text("Ready to wander?")
           .font(.system(size: 28, weight: .medium, design: .serif))
-        Text("Look around and vaporize the garden oddities before they drift away.")
-          .font(.system(size: 15, weight: .regular, design: .rounded))
-          .multilineTextAlignment(.center)
-          .foregroundStyle(.white.opacity(0.8))
+        Text(
+          "The oddities drift near, glow brighter, and disappear into light. Vaporize as many as you can before your minute is up."
+        )
+        .font(.system(size: 15, weight: .regular, design: .rounded))
+        .multilineTextAlignment(.center)
+        .foregroundStyle(.white.opacity(0.8))
         Button("Start 60-second round") { round.start() }
           .buttonStyle(.borderedProminent)
           .tint(Color(red: 0.45, green: 0.61, blue: 0.34))
           .frame(minHeight: 48)
       } else if round.phase == .paused {
-        Text("Round paused")
+        Text("Take a breath.")
           .font(.system(size: 28, weight: .medium, design: .serif))
+        Text("Your time and score are waiting here.")
+          .font(.system(size: 15, weight: .regular, design: .rounded))
+          .multilineTextAlignment(.center)
+          .foregroundStyle(.white.opacity(0.8))
         Button("Resume round") { round.resume() }
           .buttonStyle(.borderedProminent)
           .tint(Color(red: 0.45, green: 0.61, blue: 0.34))
           .frame(minHeight: 48)
       } else {
-        Text("One minute, gone in a blink.")
+        Text("Shadows pass.\nThe garden grows on.")
           .font(.system(size: 28, weight: .medium, design: .serif))
           .multilineTextAlignment(.center)
           .lineLimit(2)
