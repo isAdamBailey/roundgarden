@@ -1,101 +1,456 @@
 {
-  "sourceLanguage" : "en",
-  "strings" : {
-    "A strange kind of weather is in bloom. Float inside as garden oddities drift close; the nearer they wander, the brighter they become." : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "A strange kind of weather is in bloom. Float inside as garden oddities drift close; the nearer they wander, the brighter they become." } }
+  "sourceLanguage": "en",
+  "strings": {
+    "%arg POINTS  ·  ×%arg": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$arg POINTS  ·  ×%2$arg"
+          }
+        }
       }
     },
-    "Drag or use arrow keys to look all around. Center a nearby oddity and click to vaporize it into light." : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Drag or use arrow keys to look all around. Center a nearby oddity and click to vaporize it into light." } }
+    "%arg points": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%arg points"
+          }
+        }
       }
     },
-    "Drag to look all around. Center a nearby oddity and tap to vaporize it into light." : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Drag to look all around. Center a nearby oddity and tap to vaporize it into light." } }
+    "%arg points · vaporized into light": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%arg points · vaporized into light"
+          }
+        }
       }
     },
-    "DRAG TO LOOK  ·  CLICK TO VAPORIZE" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "DRAG TO LOOK  ·  CLICK TO VAPORIZE" } }
+    "%arg seconds": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%arg seconds"
+          }
+        }
       }
     },
-    "DRAG TO LOOK  ·  TAP TO VAPORIZE" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "DRAG TO LOOK  ·  TAP TO VAPORIZE" } }
+    "A strange kind of weather is in bloom. Float inside as garden oddities drift close; the nearer they wander, the brighter they become.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A strange kind of weather is in bloom. Float inside as garden oddities drift close; the nearer they wander, the brighter they become."
+          }
+        }
       }
     },
-    "Enter the garden" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter the garden" } }
+    "DRAG TO LOOK  ·  CLICK TO VAPORIZE": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DRAG TO LOOK  ·  CLICK TO VAPORIZE"
+          }
+        }
       }
     },
-    "Go around again" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Go around again" } }
+    "DRAG TO LOOK  ·  TAP TO VAPORIZE": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DRAG TO LOOK  ·  TAP TO VAPORIZE"
+          }
+        }
       }
     },
-    "One minute. Look close. Score high." : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "One minute. Look close. Score high." } }
+    "Drag or use arrow keys to look all around. Center a nearby oddity and click to vaporize it into light.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag or use arrow keys to look all around. Center a nearby oddity and click to vaporize it into light."
+          }
+        }
       }
     },
-    "Leave round" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Leave round" } }
+    "Drag to look all around. Center a nearby oddity and tap to vaporize it into light.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag to look all around. Center a nearby oddity and tap to vaporize it into light."
+          }
+        }
       }
     },
-    "Shadows pass.\nThe garden grows on." : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Shadows pass.\nThe garden grows on." } }
+    "Drag to look around. When an oddity is centered, tap to vaporize it.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag to look around. When an oddity is centered, tap to vaporize it."
+          }
+        }
       }
     },
-    "Take a breath." : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Take a breath." } }
+    "Drag to look. Use arrow keys to turn. Click a centered oddity to vaporize it.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag to look. Use arrow keys to turn. Click a centered oddity to vaporize it."
+          }
+        }
       }
     },
-    "The oddities drift near, glow brighter, and disappear into light. Vaporize as many as you can before your minute is up." : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "The oddities drift near, glow brighter, and disappear into light. Vaporize as many as you can before your minute is up." } }
+    "Enter the garden": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter the garden"
+          }
+        }
       }
     },
-    "Your time and score are waiting here." : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Your time and score are waiting here." } }
+    "Final score  ·  %arg": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Final score  ·  %arg"
+          }
+        }
       }
     },
-    "Pause" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pause" } }
+    "Garden oddity worth %arg points, %arg times proximity multiplier. Activate to vaporize it into light.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Garden oddity worth %1$arg points, %2$arg times proximity multiplier. Activate to vaporize it into light."
+          }
+        }
       }
     },
-    "Ready to wander?" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Ready to wander?" } }
+    "Garden view": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Garden view"
+          }
+        }
       }
     },
-    "Resume" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Resume" } }
+    "Go around again": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go around again"
+          }
+        }
       }
     },
-    "Resume round" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Resume round" } }
+    "Leave round": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leave round"
+          }
+        }
       }
     },
-    "The garden goes all the way around." : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "The garden goes all the way around." } }
+    "Look down": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Look down"
+          }
+        }
       }
     },
-    "Vaporize centered oddity" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Vaporize centered oddity" } }
+    "Look left": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Look left"
+          }
+        }
+      }
+    },
+    "Look right": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Look right"
+          }
+        }
+      }
+    },
+    "Look up": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Look up"
+          }
+        }
+      }
+    },
+    "One minute. Look close. Score high.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One minute. Look close. Score high."
+          }
+        }
+      }
+    },
+    "Opens the garden. Drag anywhere in the garden to look around.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens the garden. Drag anywhere in the garden to look around."
+          }
+        }
+      }
+    },
+    "Pause": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause"
+          }
+        }
+      }
+    },
+    "Personal best  ·  %arg": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Personal best  ·  %arg"
+          }
+        }
+      }
+    },
+    "Personal best %arg points": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Personal best %arg points"
+          }
+        }
+      }
+    },
+    "Ready to wander?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready to wander?"
+          }
+        }
+      }
+    },
+    "Resume": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resume"
+          }
+        }
+      }
+    },
+    "Resume round": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resume round"
+          }
+        }
+      }
+    },
+    "Returns to the Roundgarden menu.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Returns to the Roundgarden menu."
+          }
+        }
+      }
+    },
+    "SCORE  ·  %arg": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SCORE  ·  %arg"
+          }
+        }
+      }
+    },
+    "Score": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score"
+          }
+        }
+      }
+    },
+    "Shadows pass.\nThe garden grows on.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shadows pass.\nThe garden grows on."
+          }
+        }
+      }
+    },
+    "Start 60-second round": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start 60-second round"
+          }
+        }
+      }
+    },
+    "Take a breath.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Take a breath."
+          }
+        }
+      }
+    },
+    "The garden goes all the way around.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The garden goes all the way around."
+          }
+        }
+      }
+    },
+    "The oddities drift near, glow brighter, and disappear into light. Vaporize as many as you can before your minute is up.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The oddities drift near, glow brighter, and disappear into light. Vaporize as many as you can before your minute is up."
+          }
+        }
+      }
+    },
+    "Time remaining": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time remaining"
+          }
+        }
+      }
+    },
+    "Vaporize centered oddity": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vaporize centered oddity"
+          }
+        }
+      }
+    },
+    "Vaporized into light. %arg points.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vaporized into light. %arg points."
+          }
+        }
+      }
+    },
+    "View direction %arg degrees": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View direction %arg degrees"
+          }
+        }
+      }
+    },
+    "Your time and score are waiting here.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your time and score are waiting here."
+          }
+        }
+      }
+    },
+    "roundgarden": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "roundgarden"
+          }
+        }
+      }
+    },
+    "Score: %arg points": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score: %arg points"
+          }
+        }
+      }
+    },
+    "Time remaining: %arg seconds": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time remaining: %arg seconds"
+          }
+        }
       }
     }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

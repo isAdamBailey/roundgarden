@@ -109,6 +109,21 @@ struct GardenSceneView: View {
           .contentShape(Rectangle())
           .accessibilityElement()
           .accessibilityLabel("Garden view")
+          .accessibilityValue(Text("View direction \(Int(yaw * 180 / .pi)) degrees"))
+          .accessibilityAddTraits(.updatesFrequently)
+          .accessibilityIdentifier("garden-view")
+          .accessibilityAction(named: Text("Look left")) {
+            yaw += 0.08
+          }
+          .accessibilityAction(named: Text("Look right")) {
+            yaw -= 0.08
+          }
+          .accessibilityAction(named: Text("Look up")) {
+            pitch = min(0.94, pitch + 0.08)
+          }
+          .accessibilityAction(named: Text("Look down")) {
+            pitch = max(-0.94, pitch - 0.08)
+          }
           #if os(macOS)
             .accessibilityHint(
               "Drag to look. Use arrow keys to turn. Click a centered oddity to vaporize it."
@@ -142,6 +157,9 @@ struct GardenSceneView: View {
             vaporizeAimedTarget()
           }
           .allowsHitTesting(false)
+          #if os(macOS)
+            .onAppear { gardenHasFocus = true }
+          #endif
 
         ZStack {
           Circle().stroke(
@@ -174,7 +192,14 @@ struct GardenSceneView: View {
             .foregroundStyle(Color(red: 0.91, green: 0.96, blue: 0.83))
             .padding(.horizontal, 12 * uiScale)
             .padding(.vertical, 8 * uiScale)
-            .background(.black.opacity(0.4), in: Capsule())
+            .background(
+              .black.opacity(colorContrast == .increased ? 0.96 : 0.84), in: Capsule()
+            )
+            .overlay {
+              if colorContrast == .increased {
+                Capsule().stroke(.white, lineWidth: 1.5)
+              }
+            }
           }
           .buttonStyle(.plain)
           .position(x: viewport.size.width / 2, y: viewport.size.height * 0.58)
@@ -197,6 +222,20 @@ struct GardenSceneView: View {
             .ignoresSafeArea()
           #endif
       )
+      #if os(macOS)
+        .overlay {
+          if gardenHasFocus {
+            RoundedRectangle(cornerRadius: 10)
+            .stroke(
+              Color(red: 0.84, green: 0.96, blue: 0.79),
+              lineWidth: colorContrast == .increased ? 3 : 2
+            )
+            .padding(5)
+            .allowsHitTesting(false)
+            .accessibilityHidden(true)
+          }
+        }
+      #endif
       .preferredColorScheme(.dark)
     }
     #if os(iOS)
