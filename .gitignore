@@ -1,5 +1,8 @@
 node_modules
 dist
+!apps/web/dist/
+apps/web/dist/*
+!apps/web/dist/.gitkeep
 **/.build/
 apps/web/.env*
 !apps/web/.env.example
