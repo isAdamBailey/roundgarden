@@ -34,6 +34,7 @@ struct GardenSceneView: View {
   @State private var pitch = 0.0
   @State private var lastDragTranslation = CGSize.zero
   @State private var vaporizedTargetIDs: Set<Int> = []
+  @State private var vaporizeStartTimes: [Int: Date] = [:]
   @State private var sceneEntities = GardenSceneEntityCache()
   #if os(macOS)
     // Scale only the RealityKit surface; the HUD and all garden geometry stay intact.
@@ -64,7 +65,7 @@ struct GardenSceneView: View {
       let definition = GardenContent.starterOddities[index]
       return AimTarget(
         id: definition.id, value: definition.pointValue, position: position,
-        radius: 1.15 * definition.scale)
+        radius: 1.15 * definition.scale * produceDistanceScale(distance))
     }
   }
 
@@ -219,6 +220,7 @@ struct GardenSceneView: View {
       produce.isEnabled = !vaporizedTargetIDs.contains(index)
       let position = frameTargets[index].position
       let distance = simd_length(position)
+      let definition = GardenContent.starterOddities[index]
       produce.position = SIMD3<Float>(Float(position.x), Float(position.y), Float(position.z))
       produce.look(at: .zero, from: produce.position, relativeTo: nil)
       if let skinDetail = sceneEntities.details[index] {
@@ -227,9 +229,34 @@ struct GardenSceneView: View {
       if let innerGlow = sceneEntities.glows[index] {
         innerGlow.isEnabled = distance < 12
       }
+      if let burst = sceneEntities.bursts[index],
+        let start = vaporizeStartTimes[definition.id]
+      {
+        let progress = Float(min(1, max(0, date.timeIntervalSince(start) / 0.7)))
+        burst.position = produce.position
+        burst.isEnabled = progress < 1
+        for (sparkIndex, spark) in burst.children.enumerated() {
+          let count = Float(burst.children.count)
+          let vertical = 1 - 2 * (Float(sparkIndex) + 0.5) / count
+          let angle = Float(sparkIndex) * 2.399963 + Float(definition.id) * 0.73
+          let horizontal = sqrt(max(0, 1 - vertical * vertical))
+          let direction = SIMD3<Float>(cos(angle) * horizontal, vertical, sin(angle) * horizontal)
+          let variation = Float((sparkIndex * 7 + definition.id * 3) % 11) / 10
+          spark.position = direction * (progress * (1.6 + variation * 3.1))
+          spark.scale = SIMD3<Float>(repeating: max(0.02, 0.9 - progress * 0.88))
+        }
+      } else {
+        sceneEntities.bursts[index]?.isEnabled = false
+      }
       let pulse = 1 + sin(Float(date.timeIntervalSinceReferenceDate) * 2 + Float(index)) * 0.045
-      produce.scale = SIMD3<Float>(repeating: pulse)
+      let scale = Float(definition.scale * produceDistanceScale(distance)) * pulse
+      produce.scale = SIMD3<Float>(repeating: scale)
     }
+  }
+
+  /// Match the web game's visible growth as oddities approach the player.
+  private func produceDistanceScale(_ distance: Double) -> Double {
+    min(1.85, max(0.8, pow(31 / max(distance, 1), 0.4)))
   }
 
   private var cameraDragGesture: some Gesture {
@@ -265,10 +292,12 @@ struct GardenSceneView: View {
     }
     round = updatedRound
     vaporizedTargetIDs.insert(hit.target.id)
+    vaporizeStartTimes[hit.target.id] = Date()
     onVaporize(points)
     Task { @MainActor in
       try? await Task.sleep(for: .milliseconds(700))
       vaporizedTargetIDs.remove(hit.target.id)
+      vaporizeStartTimes.removeValue(forKey: hit.target.id)
     }
   }
 
@@ -684,6 +713,7 @@ struct GardenSceneView: View {
       PlatformColor(red: 0.52, green: 0.72, blue: 0.35, alpha: 1),
       PlatformColor(red: 0.96, green: 0.72, blue: 0.43, alpha: 1),
     ]
+    let burstMesh = MeshResource.generateSphere(radius: 0.085)
     for definition in GardenContent.starterOddities {
       let index = definition.id
       let fruit = Entity()
@@ -736,6 +766,18 @@ struct GardenSceneView: View {
       innerGlow.position = [0.02, 1.45, 0.48]
       innerGlow.isEnabled = false
       fruit.addChild(innerGlow)
+      let burst = Entity()
+      burst.name = "vaporize-burst-\(index)"
+      burst.isEnabled = false
+      let burstMaterial = UnlitMaterial(color: fruitColors[definition.paletteIndex])
+      for _ in 0..<14 {
+        burst.addChild(
+          ModelEntity(
+            mesh: burstMesh,
+            materials: [burstMaterial]
+          ))
+      }
+      root.addChild(burst)
       let tendrilPoints: [SIMD3<Float>] = [
         [0, 2.05, 0], [-0.08, 2.23, 0.02], [-0.23, 2.34, 0.08],
         [-0.13, 2.45, 0.13], [0.02, 2.4, 0.16],
@@ -1170,11 +1212,13 @@ private final class GardenSceneEntityCache {
   var produce: [Entity?] = []
   var details: [Entity?] = []
   var glows: [Entity?] = []
+  var bursts: [Entity?] = []
 
   func resolve(in root: Entity) {
     camera = root.findEntity(named: "spike-camera") as? PerspectiveCamera
     produce = (0..<12).map { root.findEntity(named: "oddity-\($0)") }
     details = (0..<12).map { root.findEntity(named: "produce-detail-\($0)") }
     glows = (0..<12).map { root.findEntity(named: "produce-glow-\($0)") }
+    bursts = (0..<12).map { root.findEntity(named: "vaporize-burst-\($0)") }
   }
 }
