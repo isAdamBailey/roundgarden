@@ -22,7 +22,7 @@ The public play-first landing page, iOS/macOS access, and web privacy page are t
 - `xcodebuild -quiet test -project apps/ios/Roundgarden.xcodeproj -scheme Roundgarden -destination 'id=3560A3A8-03FB-4A00-9178-092115E8B159' -derivedDataPath /tmp/roundgarden-copy-ios-final CODE_SIGNING_ALLOWED=NO` — passed, 1 UI test.
 - Generic iOS Simulator and macOS builds passed with code signing disabled.
 - `xcrun swift-format lint --strict` on shared, UI-test, and game-core Swift files; `jq empty apps/shared/Localizable.xcstrings`; and `git diff --check` — passed.
-- The macOS UI test did not reach gameplay: the runner could not find the existing **Enter the garden** button after launch. The Mac build passed; UI-test behavior remains inconclusive in this environment.
+- The local macOS UI test did not reach gameplay: XCTest launched the app without exposing its window, so it could not find the existing **Enter the garden** button. The same macOS UI-test workflow passed on GitHub Actions for PR #21.
 
 ## Remaining Phase 6 work
 
