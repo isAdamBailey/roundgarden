@@ -21,7 +21,7 @@ The public play-first landing page, iOS/macOS access, and web privacy page are t
 - Web review covered desktop and narrow mobile onboarding, active HUD/instructions, and round-end copy over foliage. CSS includes visible keyboard focus, stronger `prefers-contrast: more` styling, and opaque backing for welcome copy. Native HUD and reticle copy use opaque backing over the 3D scene.
 - [macOS HUD and gameplay screenshot](../apps/macos/screenshots/phase6-accessibility-hud.png) shows the dark HUD and target backing, plus the visible garden keyboard-focus ring.
 - Reduced-motion review: web observes `prefers-reduced-motion`, freezes time-driven scene animation, removes breathing/rotation/shimmer, and shortens CSS animation/transition; native disables menu transition and pauses the scene timeline when Reduce Motion is enabled.
-- The English string catalog contains 43 source entries, including extracted SwiftUI copy and interpolation variants, and compiles successfully. This confirms localization-ready key extraction; no non-English translation is claimed.
+- The English string catalog contains 45 source entries, including extracted SwiftUI copy and interpolation variants, and compiles successfully. This confirms localization-ready key extraction; no non-English translation is claimed.
 
 ## Validation
 
@@ -30,8 +30,9 @@ The public play-first landing page, iOS/macOS access, and web privacy page are t
 - `xcodebuild -quiet test -project apps/ios/Roundgarden.xcodeproj -scheme Roundgarden -destination 'id=3560A3A8-03FB-4A00-9178-092115E8B159' -derivedDataPath /tmp/roundgarden-phase6-accessibility-ios-final CODE_SIGNING_ALLOWED=NO` — passed, 1 UI test.
 - Generic iOS Simulator and macOS builds passed with code signing disabled.
 - `xcrun swift-format lint --strict` on shared and UI-test Swift files; `xcrun xcstringstool compile apps/shared/Localizable.xcstrings`; `jq empty apps/shared/Localizable.xcstrings`; and `git diff --check` — passed.
-- The local macOS UI test did not expose its app window to XCTest, so its launch assertion could not run. Manual macOS accessibility-tree interaction verified the garden viewport and custom navigation action; hosted macOS UI CI is required to validate the complete automated flow for this change.
+- The local macOS UI test did not expose its app window to XCTest, so its launch assertion could not run locally. Manual macOS accessibility-tree interaction verified the garden viewport and custom navigation action; the hosted Native macOS workflow passed the complete UI test on the final PR head.
+- [PR #22](https://github.com/isAdamBailey/roundgarden/pull/22) merged after Web, Native iOS, and Native macOS workflows passed.
 
 ## Outcome
 
-All current Phase 6 copy, accessibility, and polish checklist items are implemented and reviewed. There are no help/support surfaces in the current apps. The public play-first landing page, app access, and privacy page remain explicitly tracked in Phase 6.1. Do not treat English catalog extraction as completed translation work.
+All current Phase 6 copy, accessibility, and polish checklist items are implemented and reviewed; the Phase 6 gate passed with PR #22. There are no help/support surfaces in the current apps. The public play-first landing page, app access, and privacy page remain explicitly tracked in Phase 6.1. Do not treat English catalog extraction as completed translation work.
