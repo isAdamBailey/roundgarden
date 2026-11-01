@@ -5,21 +5,22 @@ Roundgarden's web app is a static Vite site. The game logic is JavaScript that r
 ## Configure the Forge site
 
 1. Create a Forge site using the **Static HTML / HTML** project type and connect this repository.
-2. Set the site's web directory (document root) to `/apps/web/dist` under the repository checkout. Forge's Nginx site serves the generated files directly from there.
+2. Enable Forge zero-downtime deployments and set the site's web directory (document root) to `/current/apps/web/dist`. Forge switches the `current` symlink to the activated release after a successful deployment.
 3. Node.js is already installed on the server and is used only during deployment to build the site. It is not needed to serve visitors.
 4. Add the store URLs to the site's environment as `VITE_APP_STORE_URL` and `VITE_GOOGLE_PLAY_URL`. Use one Apple App Store URL for Apple devices; Apple handles device availability from that listing. Leave a value empty until its public listing exists. Enable Forge's automatic environment sourcing for the deployment script so these values are available during the build.
-5. In the site's deployment script, use the repository root as the working directory:
+5. In the site's deployment script, build each new release before activating it. Forge handles fetching the repository and creating the release directory:
 
 ```sh
-cd "$FORGE_SITE_PATH"
-git pull origin "$FORGE_SITE_BRANCH"
+$CREATE_RELEASE()
+cd "$FORGE_RELEASE_DIRECTORY"
 npm ci
 npm run build
+$ACTIVATE_RELEASE()
 ```
 
 These store URLs are public values, not secrets: Vite embeds them in the generated JavaScript at build time. They are not runtime server settings. If you prefer a file-based setup, place them in an untracked `apps/web/.env.production` on the server; Vite reads that file from the web app root during production builds. Never commit a file with live listing URLs. The build accepts Apple App Store URLs only on `apps.apple.com`, and Google Play URLs only on `play.google.com`.
 
-The build writes `apps/web/dist`, which Forge serves as the site's document root. Keep generated build files out of Git. `privacy.html` and its stylesheet are included in the output; the privacy link works as a normal static page on refresh. Nginx serves the Three.js bundles directly, so do not configure a PHP front controller or use `vite preview` as the production server. Use `npm run build` here; `npm run dev` starts Vite's development server and is not the production build.
+The build writes `apps/web/dist` inside the new release, and Forge serves it through `/current/apps/web/dist` after activation. Keep generated build files out of Git. `privacy.html` and its stylesheet are included in the output; the privacy link works as a normal static page on refresh. Nginx serves the Three.js bundles directly, so do not configure a PHP front controller or use `vite preview` as the production server. Use `npm run build` here; `npm run dev` starts Vite's development server and is not the production build.
 
 ## Before public launch
 
@@ -30,6 +31,7 @@ The build writes `apps/web/dist`, which Forge serves as the site's document root
 
 ## References
 
+- [Forge zero-downtime deployments](https://laravel.com/blog/forge-zero-downtime-deployments)
 - [Forge API site types and deployment scripts](https://forge.laravel.com/api-documentation)
 - [Vite static deployment](https://vite.dev/guide/static-deploy)
 - [Apple App Store badge guidelines](https://developer.apple.com/app-store/marketing/guidelines/)
