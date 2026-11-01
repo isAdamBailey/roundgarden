@@ -49,8 +49,7 @@ app.innerHTML = `
           <section class="app-access" id="apps" aria-labelledby="appsTitle">
             <div class="section-heading"><h2 id="appsTitle">Find Roundgarden in the stores.</h2></div>
             <div class="store-badges" aria-label="Roundgarden app stores">
-              <a class="store-badge" data-store="ios" hidden aria-label="Download Roundgarden on the App Store"></a>
-              <a class="store-badge" data-store="mac" hidden aria-label="Download Roundgarden on the Mac App Store"></a>
+              <a class="store-badge" data-store="apple" hidden aria-label="Download Roundgarden on the App Store"></a>
               <a class="store-badge" data-store="android" hidden aria-label="Get Roundgarden on Google Play"></a>
             </div>
             <p class="store-empty-state" data-no-store-listings>No public app store listings are available.</p>
@@ -86,8 +85,7 @@ app.innerHTML = `
   </main>`;
 
 const storeListings = [
-  { key: 'ios', url: import.meta.env.VITE_APP_STORE_URL, host: 'apps.apple.com', badge: 'https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83', alt: 'Download on the App Store' },
-  { key: 'mac', url: import.meta.env.VITE_MAC_APP_STORE_URL, host: 'apps.apple.com', badge: 'https://tools.applemediaservices.com/api/badges/download-on-the-mac-app-store/black/en-us?size=250x83', alt: 'Download on the Mac App Store' },
+  { key: 'apple', url: import.meta.env.VITE_APP_STORE_URL, host: 'apps.apple.com', badge: 'https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83', alt: 'Download on the App Store' },
   { key: 'android', url: import.meta.env.VITE_GOOGLE_PLAY_URL, host: 'play.google.com', badge: 'https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png', alt: 'Get it on Google Play' }
 ];
 let availableStoreCount = 0;
