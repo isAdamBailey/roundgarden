@@ -9,7 +9,8 @@ app.innerHTML = `
     <canvas class="world" aria-label="A three-dimensional garden surrounding you"></canvas>
     <div class="vignette" aria-hidden="true"></div>
     <header class="topbar">
-      <a class="wordmark" href="#" aria-label="Roundgarden home"><span class="wordmark-icon"><i></i><i></i><i></i></span><span>roundgarden</span></a>
+      <a class="wordmark" href="/" aria-label="Roundgarden home"><span class="wordmark-icon"><i></i><i></i><i></i></span><span>roundgarden</span></a>
+      <nav class="site-nav" aria-label="Main navigation"><a href="#apps">Apps</a><a href="/privacy.html">Privacy</a></nav>
       <div class="round-state" id="roundState"><span class="state-dot"></span><span id="stateText">THE GARDEN IS RESTING</span></div>
       <div class="header-controls">
         <button class="pause-button" id="pauseButton" aria-label="Pause round" title="Pause round" hidden><svg class="pause-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg><span class="pause-text">Pause</span></button>
@@ -25,17 +26,36 @@ app.innerHTML = `
     <div class="reticle" id="reticle" aria-hidden="true"><span class="reticle-ring"></span><span class="reticle-core"></span><span class="reticle-tick tick-top"></span><span class="reticle-tick tick-right"></span><span class="reticle-tick tick-bottom"></span><span class="reticle-tick tick-left"></span><span class="reticle-label" id="reticleLabel">LOOK ALL AROUND</span></div>
     <div class="catch-flash" id="catchFlash" aria-hidden="true">+100</div>
 
-    <section class="welcome-panel" id="welcomePanel">
-      <div class="welcome-copy">
-        <div class="title-mark"><span></span><span></span><span></span><span></span><span></span></div>
-        <h1>The garden <span class="mobile-title-break"><br /></span>goes all the way <em>around.</em></h1>
-        <p class="intro">A strange kind of weather is in bloom. Float inside as garden oddities drift close; the nearer they wander, the brighter they become.</p>
-        <div class="howto">
-          <div class="howto-step"><span class="step-glyph aim-glyph"><i></i></span><span><b>LOOK ALL AROUND</b><small>Drag to look all around.</small></span></div>
-          <div class="howto-step"><span class="step-glyph catch-glyph"><i></i></span><span><b>VAPORIZE AN ODDITY</b><small>Center a nearby oddity, then click or tap to vaporize it into light.</small></span></div>
+    <section class="welcome-panel marketing-panel" id="welcomePanel" aria-label="Roundgarden introduction">
+      <div class="marketing-content">
+        <div class="marketing-hero">
+          <div class="welcome-copy">
+            <div class="title-mark" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+            <h1>A strange garden<br />all the way <em>around.</em></h1>
+            <p class="intro">Float at the center of a living garden. Look in every direction, vaporize drifting oddities into light, and see how high you can score in one minute.</p>
+            <button class="start-button" id="startButton"><span>Play in your browser</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+            <div class="gentle-note"><span class="note-spark" aria-hidden="true">✳</span><span>Free to play. No download needed.</span></div>
+          </div>
+          <div class="garden-note" aria-hidden="true">
+            <span class="garden-note-line"></span>
+            <p>Look close.<br /><em>The garden moves.</em></p>
+          </div>
         </div>
-        <button class="start-button" id="startButton"><span>Enter the garden</span><svg viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
-        <div class="gentle-note"><span class="note-spark">✳</span><span>One minute. Look close. Score high.</span></div>
+        <div class="marketing-details">
+          <div class="howto marketing-howto">
+            <div class="howto-step"><span class="step-glyph aim-glyph" aria-hidden="true"><i></i></span><span><b>LOOK ALL AROUND</b><small>Drag with a mouse or a finger to explore the garden.</small></span></div>
+            <div class="howto-step"><span class="step-glyph catch-glyph" aria-hidden="true"><i></i></span><span><b>VAPORIZE AN ODDITY</b><small>Center one that drifts close, then click or tap to turn it into light.</small></span></div>
+          </div>
+          <section class="app-access" id="apps" aria-labelledby="appsTitle">
+            <div class="section-heading"><h2 id="appsTitle">Find Roundgarden in the stores.</h2></div>
+            <div class="store-badges" aria-label="Roundgarden app stores">
+              <a class="store-badge" data-store="apple" hidden aria-label="Download Roundgarden on the App Store"></a>
+              <a class="store-badge" data-store="android" hidden aria-label="Get Roundgarden on Google Play"></a>
+            </div>
+            <p class="store-empty-state" data-no-store-listings>No public app store listings are available.</p>
+          </section>
+          <footer class="marketing-footer"><span>Roundgarden — a one-minute garden adventure.</span><a href="/privacy.html">Privacy</a></footer>
+        </div>
       </div>
     </section>
 
@@ -63,6 +83,33 @@ app.innerHTML = `
     <div class="bottom-hint" id="bottomHint"><span class="hint-icon">⌖</span><span>DRAG TO LOOK ALL AROUND</span><span class="hint-divider"></span><span>CLICK OR TAP A NEARBY ODDITY TO VAPORIZE IT</span></div>
     <div class="toast" id="toast" role="status"></div>
   </main>`;
+
+const storeListings = [
+  { key: 'apple', url: import.meta.env.VITE_APP_STORE_URL, host: 'apps.apple.com', badge: 'https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83', alt: 'Download on the App Store' },
+  { key: 'android', url: import.meta.env.VITE_GOOGLE_PLAY_URL, host: 'play.google.com', badge: 'https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png', alt: 'Get it on Google Play' }
+];
+let availableStoreCount = 0;
+for (const listing of storeListings) {
+  const anchor = document.querySelector(`[data-store="${listing.key}"]`);
+  if (!listing.url) continue;
+  try {
+    const destination = new URL(listing.url);
+    if (destination.protocol !== 'https:' || destination.hostname !== listing.host) continue;
+    anchor.href = destination.href;
+    anchor.target = '_blank';
+    anchor.rel = 'noopener noreferrer';
+    const image = document.createElement('img');
+    image.src = listing.badge;
+    image.alt = listing.alt;
+    image.width = 160;
+    image.height = 53;
+    image.loading = 'lazy';
+    anchor.append(image);
+    anchor.hidden = false;
+    availableStoreCount += 1;
+  } catch { /* Invalid store URLs leave their platform marked as not listed. */ }
+}
+if (availableStoreCount > 0) document.querySelector('[data-no-store-listings]').hidden = true;
 
 const canvas = document.querySelector('.world');
 const scene = new THREE.Scene();
