@@ -64,7 +64,7 @@ struct GardenSceneView: View {
       let definition = GardenContent.starterOddities[index]
       return AimTarget(
         id: definition.id, value: definition.pointValue, position: position,
-        radius: 1.15 * definition.scale)
+        radius: 1.15 * definition.scale * produceDistanceScale(distance))
     }
   }
 
@@ -219,6 +219,7 @@ struct GardenSceneView: View {
       produce.isEnabled = !vaporizedTargetIDs.contains(index)
       let position = frameTargets[index].position
       let distance = simd_length(position)
+      let definition = GardenContent.starterOddities[index]
       produce.position = SIMD3<Float>(Float(position.x), Float(position.y), Float(position.z))
       produce.look(at: .zero, from: produce.position, relativeTo: nil)
       if let skinDetail = sceneEntities.details[index] {
@@ -228,8 +229,14 @@ struct GardenSceneView: View {
         innerGlow.isEnabled = distance < 12
       }
       let pulse = 1 + sin(Float(date.timeIntervalSinceReferenceDate) * 2 + Float(index)) * 0.045
-      produce.scale = SIMD3<Float>(repeating: pulse)
+      let scale = Float(definition.scale * produceDistanceScale(distance)) * pulse
+      produce.scale = SIMD3<Float>(repeating: scale)
     }
+  }
+
+  /// Match the web game's visible growth as oddities approach the player.
+  private func produceDistanceScale(_ distance: Double) -> Double {
+    min(1.85, max(0.8, pow(31 / max(distance, 1), 0.4)))
   }
 
   private var cameraDragGesture: some Gesture {
