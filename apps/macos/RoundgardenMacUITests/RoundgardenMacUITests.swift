@@ -33,16 +33,15 @@ final class RoundgardenMacUITests: XCTestCase {
     XCTAssertTrue(target.label.contains("Activate to vaporize it into light."))
     let score = app.descendants(matching: .any).matching(identifier: "round-score").firstMatch
     XCTAssertTrue(score.waitForExistence(timeout: 5))
-    XCTAssertEqual(score.label, "Score")
-    XCTAssertEqual(score.value as? String, "0 points")
+    XCTAssertEqual(score.label, "Score: 0 points")
     let timer = app.descendants(matching: .any).matching(identifier: "round-timer").firstMatch
     XCTAssertTrue(timer.waitForExistence(timeout: 5))
-    XCTAssertEqual(timer.label, "Time remaining")
-    XCTAssertTrue((timer.value as? String)?.contains("seconds") == true)
-    let initialScore = score.value as? String
+    XCTAssertTrue(timer.label.hasPrefix("Time remaining:"))
+    XCTAssertTrue(timer.label.contains("seconds"))
+    let initialScore = score.label
     target.click()
     let scoreUpdated = XCTNSPredicateExpectation(
-      predicate: NSPredicate(format: "value != %@", initialScore ?? ""), object: score)
+      predicate: NSPredicate(format: "label != %@", initialScore), object: score)
     XCTAssertTrue(
       XCTWaiter.wait(for: [scoreUpdated], timeout: 5) == .completed,
       "Activating the centered oddity should increase the score."

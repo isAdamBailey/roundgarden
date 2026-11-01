@@ -430,6 +430,26 @@
           }
         }
       }
+    },
+    "Score: %arg points": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score: %arg points"
+          }
+        }
+      }
+    },
+    "Time remaining: %arg seconds": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time remaining: %arg seconds"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

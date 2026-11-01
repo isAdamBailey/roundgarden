@@ -17,21 +17,20 @@ final class RoundgardenUITests: XCTestCase {
 
     let score = app.descendants(matching: .any).matching(identifier: "round-score").firstMatch
     XCTAssertTrue(score.waitForExistence(timeout: 10))
-    XCTAssertEqual(score.label, "Score")
-    XCTAssertEqual(score.value as? String, "0 points")
+    XCTAssertEqual(score.label, "Score: 0 points")
     let timer = app.descendants(matching: .any).matching(identifier: "round-timer").firstMatch
     XCTAssertTrue(timer.waitForExistence(timeout: 5))
-    XCTAssertEqual(timer.label, "Time remaining")
-    XCTAssertTrue((timer.value as? String)?.contains("seconds") == true)
+    XCTAssertTrue(timer.label.hasPrefix("Time remaining:"))
+    XCTAssertTrue(timer.label.contains("seconds"))
 
     let target = app.buttons["aimed-garden-oddity"]
     XCTAssertTrue(target.waitForExistence(timeout: 10))
     XCTAssertTrue(target.label.contains("Garden oddity worth"))
     XCTAssertTrue(target.label.contains("Activate to vaporize it into light."))
-    let initialScore = score.value as? String
+    let initialScore = score.label
     target.tap()
     let scoreChanged = XCTNSPredicateExpectation(
-      predicate: NSPredicate(format: "value != %@", initialScore ?? ""), object: score)
+      predicate: NSPredicate(format: "label != %@", initialScore), object: score)
     XCTAssertEqual(XCTWaiter.wait(for: [scoreChanged], timeout: 3), .completed)
     let feedback = app.staticTexts["vaporize-feedback"]
     XCTAssertTrue(feedback.waitForExistence(timeout: 5))
