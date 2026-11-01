@@ -61,6 +61,7 @@ private struct GardenMenuView: View {
             .tracking(-1)
           Text("The garden goes all the way around.")
             .font(.system(size: 27, weight: .medium, design: .serif))
+            .accessibilityAddTraits(.isHeader)
             .multilineTextAlignment(.center)
             .lineLimit(2)
             .fixedSize(horizontal: false, vertical: true)
@@ -94,6 +95,7 @@ private struct GardenMenuView: View {
         .buttonStyle(.borderedProminent)
         .tint(Color(red: 0.45, green: 0.61, blue: 0.34))
         .accessibilityHint("Opens the garden. Drag anywhere in the garden to look around.")
+        .accessibilityIdentifier("enter-garden-button")
         #if os(macOS)
           .keyboardShortcut(.defaultAction)
         #endif
@@ -136,6 +138,7 @@ private struct GardenGameView: View {
               .frame(minWidth: 44, minHeight: 44)
           }
           .accessibilityHint("Returns to the Roundgarden menu.")
+          .accessibilityIdentifier("leave-round-button")
 
           Spacer()
 
@@ -143,12 +146,17 @@ private struct GardenGameView: View {
             Text("SCORE  ·  \(round.score.formatted())")
               .font(.system(size: 11, weight: .semibold, design: .rounded))
               .tracking(1.2)
+              .accessibilityElement(children: .ignore)
               .accessibilityLabel(Text("Score"))
               .accessibilityValue(Text("\(round.score.formatted()) points"))
+              .accessibilityAddTraits(.updatesFrequently)
               .accessibilityIdentifier("round-score")
             Text(timerText)
               .font(.system(size: 24, weight: .medium, design: .rounded).monospacedDigit())
-              .accessibilityLabel(Text("\(Int(ceil(round.remainingTime))) seconds remaining"))
+              .accessibilityElement(children: .ignore)
+              .accessibilityLabel(Text("Time remaining"))
+              .accessibilityValue(Text("\(Int(ceil(round.remainingTime))) seconds"))
+              .accessibilityAddTraits(.updatesFrequently)
               .accessibilityIdentifier("round-timer")
           }
 
@@ -163,6 +171,7 @@ private struct GardenGameView: View {
           .accessibilityHint(
             round.phase == .paused ? "Resumes the round." : "Pauses the round and garden motion."
           )
+          .accessibilityIdentifier("pause-resume-button")
           #if os(macOS)
             .keyboardShortcut(.escape, modifiers: [])
           #endif
@@ -171,6 +180,11 @@ private struct GardenGameView: View {
         .tint(.white.opacity(0.9))
         .padding(.horizontal, 20)
         .padding(.top, 8)
+        .padding(.vertical, 8)
+        .background(
+          .black.opacity(reduceTransparency || colorContrast == .increased ? 0.96 : 0.86),
+          in: RoundedRectangle(cornerRadius: 16)
+        )
 
         Spacer()
 
@@ -183,7 +197,10 @@ private struct GardenGameView: View {
               Text("\(lastAwardPoints.formatted()) points · vaporized into light")
                 .font(.system(size: 13, weight: .medium, design: .rounded))
                 .accessibilityLabel(
-                  Text("Vaporized into light. \(lastAwardPoints.formatted()) points."))
+                  Text("Vaporized into light. \(lastAwardPoints.formatted()) points.")
+                )
+                .accessibilityAddTraits(.updatesFrequently)
+                .accessibilityIdentifier("vaporize-feedback")
             }
           }
           .font(.system(size: 15, weight: .medium, design: .rounded))
@@ -232,6 +249,7 @@ private struct GardenGameView: View {
       if round.phase == .ready {
         Text("Ready to wander?")
           .font(.system(size: 28, weight: .medium, design: .serif))
+          .accessibilityAddTraits(.isHeader)
         Text(
           "The oddities drift near, glow brighter, and disappear into light. Vaporize as many as you can before your minute is up."
         )
@@ -242,9 +260,11 @@ private struct GardenGameView: View {
           .buttonStyle(.borderedProminent)
           .tint(Color(red: 0.45, green: 0.61, blue: 0.34))
           .frame(minHeight: 48)
+          .accessibilityIdentifier("start-round-button")
       } else if round.phase == .paused {
         Text("Take a breath.")
           .font(.system(size: 28, weight: .medium, design: .serif))
+          .accessibilityAddTraits(.isHeader)
         Text("Your time and score are waiting here.")
           .font(.system(size: 15, weight: .regular, design: .rounded))
           .multilineTextAlignment(.center)
@@ -253,9 +273,11 @@ private struct GardenGameView: View {
           .buttonStyle(.borderedProminent)
           .tint(Color(red: 0.45, green: 0.61, blue: 0.34))
           .frame(minHeight: 48)
+          .accessibilityIdentifier("resume-round-button")
       } else {
         Text("Shadows pass.\nThe garden grows on.")
           .font(.system(size: 28, weight: .medium, design: .serif))
+          .accessibilityAddTraits(.isHeader)
           .multilineTextAlignment(.center)
           .lineLimit(2)
           .fixedSize(horizontal: false, vertical: true)
@@ -269,6 +291,7 @@ private struct GardenGameView: View {
           .buttonStyle(.borderedProminent)
           .tint(Color(red: 0.45, green: 0.61, blue: 0.34))
           .frame(minHeight: 48)
+          .accessibilityIdentifier("replay-round-button")
       }
     }
     .padding(24)
