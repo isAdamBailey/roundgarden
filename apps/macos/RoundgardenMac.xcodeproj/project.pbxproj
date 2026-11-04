@@ -10,6 +10,7 @@
 		0D1294C43F24B09030A562D9 /* RoundgardenMacUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C0D27B4ABFC35AB1ECDF79 /* RoundgardenMacUITests.swift */; };
 		71F8AF779DDE29A15E2C325E /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9B706DB1B4FE189FC784DF63 /* Localizable.xcstrings */; };
 		7C03ED08C19BC23A2B4D7D62 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 71D0F4BCF6D66BC1FF911D01 /* PrivacyInfo.xcprivacy */; };
+		B052624ABAF3D7AB4D286C0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BE568242E9B39FF4C9FEF79 /* Assets.xcassets */; };
 		B9D194F8C9D10224A6AC38FC /* GardenSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52A8EB26C1A2365A294A4A4 /* GardenSceneView.swift */; };
 		BBDCFC39D93AF95DA5AF8097 /* RoundgardenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283657009501881725AFD57F /* RoundgardenApp.swift */; };
 		C4652DA5DB55B32DD762B751 /* RoundgardenCore in Frameworks */ = {isa = PBXBuildFile; productRef = B1A1E1B28C725FA26FBC1E72 /* RoundgardenCore */; };
@@ -27,11 +28,13 @@
 
 /* Begin PBXFileReference section */
 		031CE69802C8AF4305B623C6 /* RoundgardenMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoundgardenMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0BE568242E9B39FF4C9FEF79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		283657009501881725AFD57F /* RoundgardenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundgardenApp.swift; sourceTree = "<group>"; };
 		304A64C87DA8C6F5A453365D /* RoundgardenMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RoundgardenMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AE7031FF6B018C04757446B /* game-core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "game-core"; path = "../../packages/game-core"; sourceTree = SOURCE_ROOT; };
 		49C0D27B4ABFC35AB1ECDF79 /* RoundgardenMacUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundgardenMacUITests.swift; sourceTree = "<group>"; };
 		71D0F4BCF6D66BC1FF911D01 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		766DB9D17CA42B930EC7F301 /* RoundgardenMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RoundgardenMac.entitlements; sourceTree = "<group>"; };
 		9B706DB1B4FE189FC784DF63 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		B52A8EB26C1A2365A294A4A4 /* GardenSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenSceneView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -60,6 +63,15 @@
 			path = ../shared;
 			sourceTree = "<group>";
 		};
+		1D7E1BAA5C5CA14A29F5A545 /* RoundgardenMac */ = {
+			isa = PBXGroup;
+			children = (
+				0BE568242E9B39FF4C9FEF79 /* Assets.xcassets */,
+				766DB9D17CA42B930EC7F301 /* RoundgardenMac.entitlements */,
+			);
+			path = RoundgardenMac;
+			sourceTree = "<group>";
+		};
 		84BFC28ECC0FE939BB45CD1C /* RoundgardenMacUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -72,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				92295AC57F2706D5EDB2D961 /* Packages */,
+				1D7E1BAA5C5CA14A29F5A545 /* RoundgardenMac */,
 				84BFC28ECC0FE939BB45CD1C /* RoundgardenMacUITests */,
 				030E6B6C18FF0315B3D9363A /* shared */,
 				E2DA64DA8A083B39DCFEA24A /* Products */,
@@ -178,6 +191,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B052624ABAF3D7AB4D286C0D /* Assets.xcassets in Resources */,
 				71F8AF779DDE29A15E2C325E /* Localizable.xcstrings in Resources */,
 				7C03ED08C19BC23A2B4D7D62 /* PrivacyInfo.xcprivacy in Resources */,
 			);
@@ -293,11 +307,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = RoundgardenMac/RoundgardenMac.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Roundgarden;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 Adam Bailey";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -315,11 +331,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = RoundgardenMac/RoundgardenMac.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Roundgarden;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 Adam Bailey";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

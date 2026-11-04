@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		41C62D5AD5E9E4E160E18795 /* RoundgardenCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A477E08D2317E30D9DA1405 /* RoundgardenCore */; };
+		5A5BC7ED9267801F81477A79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 167BE952C38AC05BB9ED372B /* Assets.xcassets */; };
 		6D960AC37C138547AC21ACA0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = DE8DA95F91313081098859E6 /* Localizable.xcstrings */; };
 		8D1A6C3C2D8C4958177B0C7A /* RoundgardenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5FBDFA2C218AA5F3C9E43 /* RoundgardenUITests.swift */; };
 		8D7EC9DFA268FE1C0E2CD664 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D26A949646130E01DAB81467 /* PrivacyInfo.xcprivacy */; };
@@ -26,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		167BE952C38AC05BB9ED372B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5622B051AD97B04EFEB3C608 /* Roundgarden.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Roundgarden.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E260BD4A60CCF8C0DE8F9D1 /* GardenSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenSceneView.swift; sourceTree = "<group>"; };
 		B6B5FBDFA2C218AA5F3C9E43 /* RoundgardenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundgardenUITests.swift; sourceTree = "<group>"; };
@@ -52,6 +54,7 @@
 		0B03623033EA8B6B00C3A52C /* Roundgarden */ = {
 			isa = PBXGroup;
 			children = (
+				167BE952C38AC05BB9ED372B /* Assets.xcassets */,
 				BB9CA73B2428ECDBB641A7CA /* Info.plist */,
 			);
 			path = Roundgarden;
@@ -188,6 +191,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A5BC7ED9267801F81477A79 /* Assets.xcassets in Resources */,
 				6D960AC37C138547AC21ACA0 /* Localizable.xcstrings in Resources */,
 				8D7EC9DFA268FE1C0E2CD664 /* PrivacyInfo.xcprivacy in Resources */,
 			);
