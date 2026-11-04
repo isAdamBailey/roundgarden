@@ -26,7 +26,7 @@ Do not imply that approval of one platform means the other platform is approved.
 | Proposed initial version/build | `1.0` / `1` | `1.0` / `1` |
 | Deployment floor | iOS 18 | macOS 15 |
 | Store screenshots required | iPhone; iPad because the app supports iPad | Mac |
-| Current repository capture | Development simulator evidence only; replace with reviewed release-build captures | Development menu capture only; replace with reviewed release-build captures |
+| Current repository capture | Release-configuration simulator captures for iPhone and 13-inch iPad; see the [screenshot inventory](APP-STORE-SCREENSHOTS.md) | Release archive menu capture at 2880 × 1800; see the [screenshot inventory](APP-STORE-SCREENSHOTS.md) |
 | Review flow to verify | Enter the garden, complete a 60-second round, pause/resume, finish and replay | Enter the garden, drag to look, use arrow keys after focusing the garden, click a centered oddity, pause/resume with Escape, finish and replay |
 
 Bundle identifiers and initial versions are proposals until verified in the Apple account and approved by the owner. The Mac category is Games. Entitlements currently remain empty; add one only if release functionality requires it.
@@ -47,7 +47,7 @@ These notes are drafts. Confirm every statement against the signed candidate and
 
 - Approve the product name, subtitle, descriptions, keywords, icon, and platform-specific control wording. The [copy and naming inventory](../COPY-AND-NAMING-INVENTORY.md) remains draft; name clearance is still outstanding.
 - Create the required app icon assets and confirm they match the approved in-game identity.
-- Capture the release app on an iPhone with a currently accepted display size, a 13-inch iPad, and a Mac. Apple currently lists iPhone, 13-inch iPad when supported, and Mac screenshots as required sizes for those platforms. Verify exact dimensions at upload time because supported devices change.
+- The repository includes release-configuration screenshots for the currently required iPhone, 13-inch iPad, and Mac display classes. Review the [screenshot inventory](APP-STORE-SCREENSHOTS.md), then confirm the upload slots and accepted dimensions in App Store Connect immediately before upload because supported devices change.
 - Ensure screenshots and previews show actual app behavior, have no alpha channel, and follow Apple’s metadata and review guidelines. App previews are optional; do not make a preview a gate if still images are sufficient.
 - Set the support URL and privacy-policy URL after those pages exist. The repository currently has no approved URLs.
 - Answer the age-rating and privacy questionnaires in App Store Connect from the final game and binary. The privacy manifest describes API usage; it does not replace App Store privacy disclosures or a published privacy policy.
