@@ -1,12 +1,12 @@
 # Apple release readiness
 
-**Status:** preparation only. No signed archive, App Store Connect record, or TestFlight build has been created.
+**Status:** preparation only. App Store Connect record `6830464374` now covers iOS and macOS with the shared bundle identifier; no distribution-signed archive or TestFlight build exists yet.
 
 ## Repository configuration
 
 | Setting | iOS | macOS | Status |
 | --- | --- | --- | --- |
-| Bundle identifier | `com.roundgarden.ios` | `com.roundgarden.macos` | Proposed; confirm availability and ownership in the Apple Developer account before registration. |
+| Bundle identifier | `io.adambailey.roundgarden` | `io.adambailey.roundgarden` | Shared App ID registered and selected for App Store Connect record `6830464374`, matching FrameBeat. Remove the unused mistaken `com.roundgarden.ios` App ID from the developer account. |
 | Marketing version | `1.0` | `1.0` | Initial candidate; change before release if product scope requires it. |
 | Build number | `1` | `1` | Initial candidate; increment separately for each platform upload. |
 | Minimum OS | iOS 18 | macOS 15 | Set in XcodeGen specs; validate on these oldest supported releases before submission. |
@@ -22,7 +22,7 @@ The project specs allow Xcode signing for archives. Local unsigned builds and CI
 - Enabled the required macOS App Sandbox entitlement with no file or network exceptions.
 - Added the product-owner-provided `NSHumanReadableCopyright` string to macOS metadata and verified it in the signed archive.
 - Regenerated both Xcode projects from their specs. iOS Simulator and macOS builds passed.
-- Unsigned generic Release archives succeeded for iOS and macOS. Both contain `Assets.car` and `PrivacyInfo.xcprivacy`; archive metadata reports the proposed bundle IDs and version/build `1.0 (1)`.
+- Unsigned generic Release archives succeeded for iOS and macOS. Both contain `Assets.car` and `PrivacyInfo.xcprivacy`; regenerate them with the selected shared bundle ID before signing and upload.
 - A macOS Release archive signed locally with an ad-hoc identity contains the App Sandbox entitlement, confirmed with `codesign`. This is not the developer identity needed for distribution and was not a runtime sandbox smoke test.
 - These are packaging checks only. No signing identity, Apple account ownership, physical-device smoke/performance result, App Store Connect declaration, TestFlight distribution, or release approval is established by the unsigned archives.
 

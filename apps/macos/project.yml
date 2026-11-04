@@ -20,7 +20,7 @@ targets:
         product: RoundgardenCore
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.roundgarden.macos
+        PRODUCT_BUNDLE_IDENTIFIER: io.adambailey.roundgarden
         PRODUCT_NAME: Roundgarden
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         CODE_SIGN_ENTITLEMENTS: RoundgardenMac/RoundgardenMac.entitlements
@@ -41,7 +41,7 @@ targets:
       - target: RoundgardenMac
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.roundgarden.macos.uitests
+        PRODUCT_BUNDLE_IDENTIFIER: io.adambailey.roundgarden.uitests
         SWIFT_VERSION: "5.0"
         MACOSX_DEPLOYMENT_TARGET: "15.0"
         GENERATE_INFOPLIST_FILE: YES

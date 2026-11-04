@@ -1,13 +1,13 @@
 # App Store submission and launch runbook
 
-**Status:** draft procedure. No app record, signed build, TestFlight candidate, or App Review submission exists yet. The Phase 4–7 gates and product-owner copy approval remain open. Do not submit until those prerequisites are resolved and the owner selects the release timing.
+**Status:** draft procedure. App Store Connect record `6830464374` exists for both platforms; no distribution-signed build, TestFlight candidate, or App Review submission exists yet. The Phase 4–7 gates and product-owner copy approval remain open. Do not submit until those prerequisites are resolved and the owner selects the release timing.
 
 ## Submission order
 
-Treat the iOS and macOS apps as separate platform submissions. Complete the following for each platform and keep its App Store Connect record, binary, screenshots, and review notes together:
+Treat iOS and macOS as platform builds under one App Store Connect app record with the shared bundle identifier `io.adambailey.roundgarden`, matching FrameBeat's setup. Create one record with both platforms enabled, then complete platform-specific binary, screenshots, metadata, and review notes:
 
 1. Merge and verify the release candidate changes. Record the exact commit SHA and create the release tag only after review, validation, icon approval, and required metadata are complete. Build from a clean checkout of that commit. Once an archive is submitted, any code or asset change requires a new reviewed commit and a new build number; never alter the source while reusing the same uploaded build.
-2. Confirm the proposed bundle identifier is available and belongs to the developer account. Create the platform app record and configure signing in that account; never commit credentials or signing certificates to this repository.
+2. Confirm the shared bundle identifier is registered to the developer account. Create one App Store Connect record with iOS and macOS enabled, and configure signing in Xcode; never commit credentials or signing certificates to this repository.
 3. Build a Release archive and run the [repository archive preflight](../RELEASE-READINESS.md#phase-7-repository-preparation). Then sign the archive and verify the bundle identifier, marketing version, build number, privacy manifest, entitlements, and signing identity. Increment each platform's build number before every subsequent upload. The macOS build must include the required `NSHumanReadableCopyright` value approved for the product owner.
    - After signing, run `python3 scripts/verify-native-archive.py macos /path/to/Roundgarden-macOS.xcarchive --require-signature`. Confirm the Mac archive includes App Sandbox and the expected developer team in Xcode Organizer. Launch the signed Mac app and verify normal gameplay under the sandbox.
 4. Complete App Store Connect metadata and required declarations from the actual binary: age-rating answers, privacy details, export-compliance answers, support/privacy URLs, and accurate compatibility statements. Re-audit every included SDK and data flow before answering privacy questions.
@@ -22,14 +22,14 @@ Do not imply that approval of one platform means the other platform is approved.
 
 | | iOS | macOS |
 | --- | --- | --- |
-| Proposed bundle identifier | `com.roundgarden.ios` | `com.roundgarden.macos` |
+| Bundle identifier | `io.adambailey.roundgarden` | `io.adambailey.roundgarden` |
 | Proposed initial version/build | `1.0` / `1` | `1.0` / `1` |
 | Deployment floor | iOS 18 | macOS 15 |
 | Store screenshots required | iPhone; iPad because the app supports iPad | Mac |
 | Current repository capture | Release-configuration simulator captures for iPhone and 13-inch iPad; see the [screenshot inventory](APP-STORE-SCREENSHOTS.md) | Release archive menu capture at 2880 × 1800; see the [screenshot inventory](APP-STORE-SCREENSHOTS.md) |
 | Review flow to verify | Enter the garden, complete a 60-second round, pause/resume, finish and replay | Enter the garden, drag to look, use arrow keys after focusing the garden, click a centered oddity, pause/resume with Escape, finish and replay |
 
-Bundle identifiers and initial versions are proposals until verified in the Apple account and approved by the owner. The Mac category is Games. Entitlements currently remain empty; add one only if release functionality requires it.
+The shared bundle identifier is registered to the Apple Developer team and attached to App Store Connect record `6830464374`. The mistaken unused `com.roundgarden.ios` App ID is pending removal. The Mac category is Games. Entitlements currently remain empty; add one only if release functionality requires it.
 
 ## Draft App Review notes
 

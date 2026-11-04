@@ -238,7 +238,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.roundgarden.ios.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.adambailey.roundgarden.uitests;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -325,7 +325,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.roundgarden.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = io.adambailey.roundgarden;
 				PRODUCT_NAME = Roundgarden;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -343,7 +343,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.roundgarden.ios.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.adambailey.roundgarden.uitests;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -367,7 +367,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.roundgarden.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = io.adambailey.roundgarden;
 				PRODUCT_NAME = Roundgarden;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
