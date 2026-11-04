@@ -1,6 +1,6 @@
 # Apple release readiness
 
-**Status:** preparation only. App Store Connect record `6830464374` now covers iOS and macOS with the shared bundle identifier; no distribution-signed archive or TestFlight build exists yet.
+**Status:** preparation only. App Store Connect record `6830464374` covers iOS and macOS with the shared bundle identifier. App Store Connect provisioning profiles now exist for both platforms, and a signed iOS archive passed the repository signature preflight. That archive predates the Xcode string-catalog migration in the current working tree and is not a release candidate; build fresh archives from the reviewed source. No build has been uploaded to TestFlight or App Review.
 
 ## Repository configuration
 
@@ -10,11 +10,11 @@
 | Marketing version | `1.0` | `1.0` | Initial candidate; change before release if product scope requires it. |
 | Build number | `1` | `1` | Initial candidate; increment separately for each platform upload. |
 | Minimum OS | iOS 18 | macOS 15 | Set in XcodeGen specs; validate on these oldest supported releases before submission. |
-| Signing team | unset | unset | Select the enrolled team in Xcode or CI when credentials are available. |
+| Signing team | Adam Bailey in local Xcode | Adam Bailey in local Xcode | App Store profiles are configured by name in the project specs. The team selection stays local to Xcode; do not commit the team ID or signing secrets. |
 | Entitlements | none | App Sandbox | The macOS App Sandbox is required for Mac App Store distribution. Only the sandbox entitlement is enabled; add other permissions only for verified product needs. |
 | Copyright metadata | — | `Copyright © 2026 Adam Bailey` | Product owner provided the exact macOS Info.plist string; included in the locally signed archive. |
 
-The project specs allow Xcode signing for archives. Local unsigned builds and CI still pass `CODE_SIGNING_ALLOWED=NO` explicitly. Do not commit a developer team ID or signing secret. The macOS target declares the mandatory App Sandbox entitlement; verify the signed app runs sandboxed before submission.
+Release signing uses the manually selected App Store profiles `Roundgarden iOS App Store` and `Roundgarden Mac App Store`, with the existing Apple Distribution certificate. Debug signing remains Apple Development. The profiles and certificate are managed in the developer account and installed locally in Xcode; the repository contains only profile names, never a team ID or signing secret. Local unsigned builds and CI still pass `CODE_SIGNING_ALLOWED=NO` explicitly. The macOS target declares the mandatory App Sandbox entitlement; verify the signed app runs sandboxed before submission.
 
 ### Phase 7 repository preparation
 
@@ -24,7 +24,8 @@ The project specs allow Xcode signing for archives. Local unsigned builds and CI
 - Regenerated both Xcode projects from their specs. iOS Simulator and macOS builds passed.
 - Unsigned generic Release archives succeeded for iOS and macOS. Both contain `Assets.car` and `PrivacyInfo.xcprivacy`; regenerate them with the selected shared bundle ID before signing and upload.
 - A macOS Release archive signed locally with an ad-hoc identity contains the App Sandbox entitlement, confirmed with `codesign`. This is not the developer identity needed for distribution and was not a runtime sandbox smoke test.
-- These are packaging checks only. No signing identity, Apple account ownership, physical-device smoke/performance result, App Store Connect declaration, TestFlight distribution, or release approval is established by the unsigned archives.
+- Xcode created an iOS App Store archive for `io.adambailey.roundgarden` (version 1.0, build 1) using the Apple Distribution identity; `scripts/verify-native-archive.py --require-signature` passed. Xcode subsequently migrated `Localizable.xcstrings`, so rebuild after this source change is reviewed. No Mac App Store archive has been created yet.
+- The earlier unsigned archives are packaging checks only and do not establish signing or Apple account ownership. No physical-device smoke/performance result, completed App Store Connect declarations, TestFlight distribution, or release approval is established yet.
 
 Before signing a new archive, run the repository preflight against each `.xcarchive`:
 

@@ -37,6 +37,8 @@ targets:
           CODE_SIGN_IDENTITY: Apple Development
         Release:
           CODE_SIGN_IDENTITY: Apple Distribution
+          CODE_SIGN_STYLE: Manual
+          PROVISIONING_PROFILE_SPECIFIER: "Roundgarden Mac App Store"
   RoundgardenMacUITests:
     type: bundle.ui-testing
     platform: macOS
