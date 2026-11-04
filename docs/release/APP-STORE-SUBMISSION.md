@@ -29,7 +29,7 @@ Do not imply that approval of one platform means the other platform is approved.
 | Current repository capture | Release-configuration simulator captures for iPhone and 13-inch iPad; see the [screenshot inventory](APP-STORE-SCREENSHOTS.md) | Release archive menu capture at 2880 × 1800; see the [screenshot inventory](APP-STORE-SCREENSHOTS.md) |
 | Review flow to verify | Enter the garden, complete a 60-second round, pause/resume, finish and replay | Enter the garden, drag to look, use arrow keys after focusing the garden, click a centered oddity, pause/resume with Escape, finish and replay |
 
-The shared bundle identifier is registered to the Apple Developer team and attached to App Store Connect record `6830464374`. The mistaken unused `com.roundgarden.ios` App ID is pending removal. The Mac category is Games. Entitlements currently remain empty; add one only if release functionality requires it.
+The shared bundle identifier is registered to the Apple Developer team and attached to App Store Connect record `6830464374`. The mistaken unused `com.roundgarden.ios` App ID has been removed. The Mac category is Games. Entitlements currently remain empty; add one only if release functionality requires it.
 
 ## Draft App Review notes
 

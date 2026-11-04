@@ -6,7 +6,7 @@
 
 | Setting | iOS | macOS | Status |
 | --- | --- | --- | --- |
-| Bundle identifier | `io.adambailey.roundgarden` | `io.adambailey.roundgarden` | Shared App ID registered and selected for App Store Connect record `6830464374`, matching FrameBeat. Remove the unused mistaken `com.roundgarden.ios` App ID from the developer account. |
+| Bundle identifier | `io.adambailey.roundgarden` | `io.adambailey.roundgarden` | Shared App ID registered and selected for App Store Connect record `6830464374`, matching FrameBeat. The mistaken unused `com.roundgarden.ios` App ID has been removed. |
 | Marketing version | `1.0` | `1.0` | Initial candidate; change before release if product scope requires it. |
 | Build number | `1` | `1` | Initial candidate; increment separately for each platform upload. |
 | Minimum OS | iOS 18 | macOS 15 | Set in XcodeGen specs; validate on these oldest supported releases before submission. |
