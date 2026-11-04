@@ -14,7 +14,7 @@ from pathlib import Path
 
 CONFIG = {
     "ios": {
-        "bundle_id": "com.roundgarden.ios",
+        "bundle_id": "io.adambailey.roundgarden",
         "platform": "iPhoneOS",
         "minimum_os": "18.0",
         "resources": Path("."),
@@ -23,7 +23,7 @@ CONFIG = {
         ),
     },
     "macos": {
-        "bundle_id": "com.roundgarden.macos",
+        "bundle_id": "io.adambailey.roundgarden",
         "platform": "MacOSX",
         "minimum_os": "15.0",
         "resources": Path("Contents/Resources"),
