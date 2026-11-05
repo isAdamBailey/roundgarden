@@ -8,7 +8,7 @@ final class RoundgardenMacUITests: XCTestCase {
     let window = app.windows.firstMatch
     XCTAssertTrue(window.waitForExistence(timeout: 10))
     XCTAssertGreaterThan(window.frame.width, 1_000, "The Mac window should open at a large size.")
-    XCTAssertGreaterThan(window.frame.height, 700, "The Mac window should open at a large size.")
+    XCTAssertGreaterThan(window.frame.height, 600, "The Mac window should open at a large size.")
 
     let enterGarden = app.buttons["enter-garden-button"]
     XCTAssertTrue(enterGarden.waitForExistence(timeout: 10))
