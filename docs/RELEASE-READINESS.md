@@ -55,9 +55,11 @@ The native targets currently save only an app-local personal-best score in `User
 - The registered iOS and macOS bundle IDs, version/build values, Mac Games category, and UserDefaults privacy manifest are configured in the Xcode projects and verified in the fresh signed archives.
 - Apple requires App Sandbox for Mac App Store distribution. The signed macOS archive carries the configured entitlement; an on-device sandbox smoke check remains open.
 - Original Roundgarden app icons are included in both native asset catalogs and the archives. Product-owner review of the icons remains open.
+- The public site now has a support page at `/support.html` with the product-owner-provided support email. App Store Connect iOS and macOS version drafts use that Support URL and the public homepage as the Marketing URL. The site change must be merged and deployed before either URL is considered verified.
+- The App Store Connect Privacy Policy URL is set to `https://roundgarden.adambailey.io/privacy.html`. The `Data Not Collected` response is saved as a draft; it has not been published.
 - The bundle ID and App Store Connect record are configured, and fresh signed archives exist for both platforms. Rebuild from a new reviewed commit and increment the platform build number if any source or asset changes are made before upload.
 - Complete Apple’s age-rating questionnaire for the final game content.
-- Choose a real support URL before submission. The web privacy page is implemented at `/privacy.html`; publish the site and use its production URL in App Store Connect.
+- Verify `/support.html`, `/privacy.html`, and the homepage return the expected public pages after deployment; keep App Store Connect URLs pointed at the live pages.
 - Approve the product name and release copy; complete trademark/domain checks before using the name publicly.
 - Review and approve the app icons and prepared screenshots before store use.
 - Release-configuration screenshots are prepared for supported iPhone, 13-inch iPad, and Mac display classes; see `docs/release/APP-STORE-SCREENSHOTS.md`. Review the iPad window-resize grip and capture a Mac gameplay view if preferred. Verify accepted dimensions again when uploading.
