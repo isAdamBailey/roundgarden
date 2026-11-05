@@ -1,6 +1,6 @@
 # App Store submission and launch runbook
 
-**Status:** draft procedure. App Store Connect record `6830464374` exists for both platforms. iOS and Mac App Store provisioning profiles have been created and selected in local Xcode signing settings. A signed iOS archive exists for version 1.0 (1), but Xcode later migrated the string catalog; rebuild from reviewed source before upload. There is no Mac App Store archive, TestFlight candidate, or App Review submission yet. The Phase 4–7 gates and product-owner copy approval remain open. Do not submit until those prerequisites are resolved and the owner selects the release timing.
+**Status:** draft procedure; upload and submission remain on hold. App Store Connect record `6830464374` exists for both platforms. iOS and Mac App Store provisioning profiles are configured in the project specs. Fresh iOS and macOS archives from merged commit `7129929` (version 1.0, build 1) passed signed archive preflight with Adam Bailey's Apple Distribution identity; the Mac archive includes App Sandbox and the approved copyright metadata. Both version drafts now point their Support URL to `https://roundgarden.adambailey.io/support.html` and Marketing URL to `https://roundgarden.adambailey.io/`. The shared Privacy Policy URL is `https://roundgarden.adambailey.io/privacy.html`; the App Privacy response is still a draft and has not been published. The support-page change must be deployed before the Support URL can be considered verified. No build has been uploaded to TestFlight or submitted to App Review. Do not upload or submit until the product owner directs that store action and the remaining release gates are resolved.
 
 ## Submission order
 
@@ -29,7 +29,7 @@ Do not imply that approval of one platform means the other platform is approved.
 | Current repository capture | Release-configuration simulator captures for iPhone and 13-inch iPad; see the [screenshot inventory](APP-STORE-SCREENSHOTS.md) | Release archive menu capture at 2880 × 1800; see the [screenshot inventory](APP-STORE-SCREENSHOTS.md) |
 | Review flow to verify | Enter the garden, complete a 60-second round, pause/resume, finish and replay | Enter the garden, drag to look, use arrow keys after focusing the garden, click a centered oddity, pause/resume with Escape, finish and replay |
 
-The shared bundle identifier is registered to the Apple Developer team and attached to App Store Connect record `6830464374`. The mistaken unused `com.roundgarden.ios` App ID has been removed. The Mac category is Games. Entitlements currently remain empty; add one only if release functionality requires it.
+The shared bundle identifier is registered to the Apple Developer team and attached to App Store Connect record `6830464374`. The mistaken unused `com.roundgarden.ios` App ID has been removed. The Mac category is Games. The iOS app has no additional entitlements; the Mac app uses the required App Sandbox entitlement with no extra file or network permissions.
 
 ## Draft App Review notes
 
@@ -49,7 +49,7 @@ These notes are drafts. Confirm every statement against the signed candidate and
 - Create the required app icon assets and confirm they match the approved in-game identity.
 - The repository includes release-configuration screenshots for the currently required iPhone, 13-inch iPad, and Mac display classes. Review the [screenshot inventory](APP-STORE-SCREENSHOTS.md), then confirm the upload slots and accepted dimensions in App Store Connect immediately before upload because supported devices change.
 - Ensure screenshots and previews show actual app behavior, have no alpha channel, and follow Apple’s metadata and review guidelines. App previews are optional; do not make a preview a gate if still images are sufficient.
-- Set a real support URL after the support channel exists. Publish the web privacy page at `/privacy.html` and enter its production URL in App Store Connect.
+- A public support page at `/support.html` now displays the owner-provided support email. Both platform version drafts use its production URL; verify it loads after the website deployment. The Marketing URL points to the production homepage.
 - Answer the age-rating and privacy questionnaires in App Store Connect from the final game and binary. The privacy manifest describes API usage; it does not replace App Store privacy disclosures or a published privacy policy.
 - Recheck SDK, screenshot, metadata, age-rating, privacy-manifest, and review requirements on the upload date.
 

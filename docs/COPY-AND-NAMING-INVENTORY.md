@@ -88,7 +88,7 @@ The web experience will serve two roles, following the FrameBeat approach: it re
 - Interrupted-round messaging if a dedicated recovery surface is added; current rounds pause when the app leaves the foreground.
 - Settings labels for sound, motion, and quality options that actually ship.
 - Loading, error, empty, and saved-progress recovery states if persistence is added.
-- Add a support link only after a real support channel exists; update the privacy copy if hosting, analytics, crash reporting, or data behavior changes.
+- A public support email and support page have been selected for release preparation; confirm the live support page after deployment. Update the privacy copy if hosting, analytics, crash reporting, or data behavior changes.
 - Final store keywords and platform-specific listings after the product name and features are approved.
 
 ## Approval and release checks

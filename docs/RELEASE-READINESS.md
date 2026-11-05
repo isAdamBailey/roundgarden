@@ -1,6 +1,6 @@
 # Apple release readiness
 
-**Status:** preparation only. App Store Connect record `6830464374` covers iOS and macOS with the shared bundle identifier. App Store Connect provisioning profiles now exist for both platforms, and a signed iOS archive passed the repository signature preflight. That archive predates the Xcode string-catalog migration in the current working tree and is not a release candidate; build fresh archives from the reviewed source. No build has been uploaded to TestFlight or App Review.
+**Status:** archive preparation complete; no store action taken. App Store Connect record `6830464374` covers iOS and macOS with the shared bundle identifier. Fresh iOS and macOS archives were built from merged commit `7129929` on 2026-11-03, signed with Adam Bailey's Apple Distribution identity, and passed the repository signed-archive checks. Neither archive has been uploaded to TestFlight or App Review. Store action remains on hold pending the product owner's direction.
 
 ## Repository configuration
 
@@ -24,8 +24,11 @@ Release signing uses the manually selected App Store profiles `Roundgarden iOS A
 - Regenerated both Xcode projects from their specs. iOS Simulator and macOS builds passed.
 - Unsigned generic Release archives succeeded for iOS and macOS. Both contain `Assets.car` and `PrivacyInfo.xcprivacy`; regenerate them with the selected shared bundle ID before signing and upload.
 - A macOS Release archive signed locally with an ad-hoc identity contains the App Sandbox entitlement, confirmed with `codesign`. This is not the developer identity needed for distribution and was not a runtime sandbox smoke test.
-- Xcode created an iOS App Store archive for `io.adambailey.roundgarden` (version 1.0, build 1) using the Apple Distribution identity; `scripts/verify-native-archive.py --require-signature` passed. Xcode subsequently migrated `Localizable.xcstrings`, so rebuild after this source change is reviewed. No Mac App Store archive has been created yet.
-- The earlier unsigned archives are packaging checks only and do not establish signing or Apple account ownership. No physical-device smoke/performance result, completed App Store Connect declarations, TestFlight distribution, or release approval is established yet.
+- Fresh signed archives from merged commit `7129929` passed `scripts/verify-native-archive.py --require-signature` for both platforms:
+  - iOS: `~/Library/Developer/Xcode/Archives/2026-11-03/Roundgarden iOS 1.0 (1).xcarchive`
+  - macOS: `~/Library/Developer/Xcode/Archives/2026-11-03/Roundgarden Mac 1.0 (1).xcarchive`
+- Both archives use `io.adambailey.roundgarden`, version/build `1.0 (1)`, and Adam Bailey's Apple Distribution identity. The Mac archive also contains App Sandbox and the approved `Copyright © 2026 Adam Bailey` metadata.
+- No physical-device smoke/performance result, completed App Store Connect declarations, TestFlight distribution, or release approval is established yet. Do not upload or submit until the product owner directs that store action.
 
 Before signing a new archive, run the repository preflight against each `.xcarchive`:
 
@@ -49,18 +52,19 @@ The native targets currently save only an app-local personal-best score in `User
 
 ## Store preparation still required
 
-- The proposed iOS and macOS bundle IDs, version/build values, Mac Games category, and UserDefaults privacy manifest are configured in the Xcode projects. They remain proposals until verified against the Apple Developer account and final archive.
-- Apple requires App Sandbox for Mac App Store distribution. Confirm the signed macOS archive carries the configured entitlement and passes an on-device sandbox smoke check.
-- Original Roundgarden app icons are now included in both native asset catalogs. Review them in the release build and replace them if product approval requests a different treatment.
-- Confirm the bundle IDs are available and create both platform records in App Store Connect.
-- Enroll/select the developer team, configure signing, and archive with the release configuration.
+- The registered iOS and macOS bundle IDs, version/build values, Mac Games category, and UserDefaults privacy manifest are configured in the Xcode projects and verified in the fresh signed archives.
+- Apple requires App Sandbox for Mac App Store distribution. The signed macOS archive carries the configured entitlement; an on-device sandbox smoke check remains open.
+- Original Roundgarden app icons are included in both native asset catalogs and the archives. Product-owner review of the icons remains open.
+- The public site now has a support page at `/support.html` with the product-owner-provided support email. App Store Connect iOS and macOS version drafts use that Support URL and the public homepage as the Marketing URL. The site change must be merged and deployed before either URL is considered verified.
+- The App Store Connect Privacy Policy URL is set to `https://roundgarden.adambailey.io/privacy.html`. The `Data Not Collected` response is saved as a draft; it has not been published.
+- The bundle ID and App Store Connect record are configured, and fresh signed archives exist for both platforms. Rebuild from a new reviewed commit and increment the platform build number if any source or asset changes are made before upload.
 - Complete Apple’s age-rating questionnaire for the final game content.
-- Choose a real support URL before submission. The web privacy page is implemented at `/privacy.html`; publish the site and use its production URL in App Store Connect.
+- Verify `/support.html`, `/privacy.html`, and the homepage return the expected public pages after deployment; keep App Store Connect URLs pointed at the live pages.
 - Approve the product name and release copy; complete trademark/domain checks before using the name publicly.
-- Approve the app icons. Current repository screenshots are development evidence and are not store-ready promotional assets.
-- Capture current, clean gameplay screenshots after the release build is reviewed. Apple currently requires iPhone screenshots at a supported Dynamic Island display size, 13-inch iPad screenshots when the app runs on iPad, and 16:10 screenshots for Mac. Verify accepted dimensions again when uploading.
+- Review and approve the app icons and prepared screenshots before store use.
+- Release-configuration screenshots are prepared for supported iPhone, 13-inch iPad, and Mac display classes; see `docs/release/APP-STORE-SCREENSHOTS.md`. Review the iPad window-resize grip and capture a Mac gameplay view if preferred. Verify accepted dimensions again when uploading.
 - Complete store descriptions, subtitle, keywords, review notes, and platform-specific compatibility claims from the approved copy inventory.
-- Upload signed builds to App Store Connect, distribute candidates with TestFlight where applicable, collect feedback, and track fixes in reviewed PRs.
+- Upload signed builds to App Store Connect, distribute candidates with TestFlight where applicable, collect feedback, and track fixes in reviewed PRs only after the product owner authorizes store action.
 - Run release smoke tests on supported iPhone, iPad, and Mac hardware. Measure frame time and memory with shadows enabled; the earlier owner-approved device deferral remains open.
 
 ## Current Apple guidance checked 2026-11-03

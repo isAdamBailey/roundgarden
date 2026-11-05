@@ -54,7 +54,7 @@ app.innerHTML = `
             </div>
             <p class="store-empty-state" data-no-store-listings>No public app store listings are available.</p>
           </section>
-          <footer class="marketing-footer"><span>Roundgarden — a one-minute garden adventure.</span><a href="/privacy.html">Privacy</a></footer>
+          <footer class="marketing-footer"><span>Roundgarden — a one-minute garden adventure.</span><nav aria-label="Support and policies"><a href="/support.html">Support</a><a href="/privacy.html">Privacy</a></nav></footer>
         </div>
       </div>
     </section>
