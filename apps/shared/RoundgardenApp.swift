@@ -4,9 +4,16 @@ import SwiftUI
 @main
 struct RoundgardenApp: App {
   var body: some Scene {
-    WindowGroup {
-      RoundgardenRootView()
-    }
+    #if os(macOS)
+      WindowGroup {
+        RoundgardenRootView()
+      }
+      .defaultSize(width: 1440, height: 900)
+    #else
+      WindowGroup {
+        RoundgardenRootView()
+      }
+    #endif
   }
 }
 
