@@ -5,6 +5,11 @@ final class RoundgardenMacUITests: XCTestCase {
     let app = XCUIApplication()
     app.launch()
 
+    let window = app.windows.firstMatch
+    XCTAssertTrue(window.waitForExistence(timeout: 10))
+    XCTAssertGreaterThan(window.frame.width, 1_000, "The Mac window should open at a large size.")
+    XCTAssertGreaterThan(window.frame.height, 700, "The Mac window should open at a large size.")
+
     let enterGarden = app.buttons["enter-garden-button"]
     XCTAssertTrue(enterGarden.waitForExistence(timeout: 10))
     XCTAssertEqual(enterGarden.label, "Enter the garden")
@@ -31,6 +36,7 @@ final class RoundgardenMacUITests: XCTestCase {
     XCTAssertTrue(target.waitForExistence(timeout: 10))
     XCTAssertTrue(target.label.contains("Garden oddity worth"))
     XCTAssertTrue(target.label.contains("Activate to vaporize it into light."))
+    XCTAssertEqual(target.value as? String, "In range")
     let score = app.descendants(matching: .any).matching(identifier: "round-score").firstMatch
     XCTAssertTrue(score.waitForExistence(timeout: 5))
     XCTAssertEqual(score.label, "Score: 0 points")
@@ -39,7 +45,8 @@ final class RoundgardenMacUITests: XCTestCase {
     XCTAssertTrue(timer.label.hasPrefix("Time remaining:"))
     XCTAssertTrue(timer.label.contains("seconds"))
     let initialScore = score.label
-    target.click()
+    // Activate from elsewhere in the garden, not only through the small target cue.
+    window.coordinate(withNormalizedOffset: CGVector(dx: 0.84, dy: 0.48)).click()
     let scoreUpdated = XCTNSPredicateExpectation(
       predicate: NSPredicate(format: "label != %@", initialScore), object: score)
     XCTAssertTrue(

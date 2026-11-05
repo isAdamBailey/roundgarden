@@ -37,7 +37,7 @@ struct GardenSceneView: View {
   @State private var vaporizeStartTimes: [Int: Date] = [:]
   @State private var sceneEntities = GardenSceneEntityCache()
   #if os(macOS)
-    // Scale only the RealityKit surface; the HUD and all garden geometry stay intact.
+    // Keep the measured lower-resolution render surface while filling the full window.
     private let macRenderScale: CGFloat = 0.65
     @FocusState private var gardenHasFocus: Bool
   #endif
@@ -100,10 +100,15 @@ struct GardenSceneView: View {
         #else
           .frame(maxWidth: .infinity, maxHeight: .infinity)
         #endif
-        .gesture(cameraDragGesture)
         #if os(iOS)
           .ignoresSafeArea()
         #endif
+
+        Color.clear
+          .contentShape(Rectangle())
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+          .gesture(cameraDragGesture)
+          .accessibilityHidden(true)
 
         Color.clear
           .contentShape(Rectangle())
@@ -161,13 +166,20 @@ struct GardenSceneView: View {
             .onAppear { gardenHasFocus = true }
           #endif
 
+        let targetIsReady = aimedTarget != nil && round.phase == .playing
         ZStack {
           Circle().stroke(
-            Color(red: 0.84, green: 0.96, blue: 0.79)
-              .opacity(colorContrast == .increased ? 0.98 : 0.66),
-            lineWidth: 0.8 * uiScale
+            targetIsReady
+              ? Color(red: 0.90, green: 1, blue: 0.68)
+              : Color(red: 0.84, green: 0.96, blue: 0.79)
+                .opacity(colorContrast == .increased ? 0.98 : 0.66),
+            lineWidth: (targetIsReady ? 2 : 0.8) * uiScale
           ).frame(width: 27 * uiScale, height: 27 * uiScale)
-          Circle().fill(Color(red: 0.9, green: 1, blue: 0.79)).frame(
+          Circle().fill(
+            targetIsReady
+              ? Color(red: 0.94, green: 1, blue: 0.78)
+              : Color(red: 0.9, green: 1, blue: 0.79)
+          ).frame(
             width: 3 * uiScale, height: 3 * uiScale)
           Rectangle().fill(.white.opacity(0.58)).frame(width: 1 * uiScale, height: 4 * uiScale)
             .offset(y: -17 * uiScale)
@@ -178,36 +190,50 @@ struct GardenSceneView: View {
           Rectangle().fill(.white.opacity(0.58)).frame(width: 4 * uiScale, height: 1 * uiScale)
             .offset(x: 17 * uiScale)
         }
+        .scaleEffect(targetIsReady ? 1.2 : 1)
+        .shadow(
+          color: targetIsReady ? Color(red: 0.74, green: 1, blue: 0.58).opacity(0.9) : .clear,
+          radius: targetIsReady ? 12 : 0
+        )
+        .animation(.easeOut(duration: 0.18), value: targetIsReady)
         .allowsHitTesting(false)
 
-        if let aimedTarget, round.phase == .playing {
-          Button {
-            vaporize(aimedTarget)
-          } label: {
-            Text(
-              "\(aimedTarget.target.value) POINTS  ·  ×\(RoundState.proximityMultiplier(for: aimedTarget.distance))"
-            )
-            .font(.system(size: 12 * uiScale, weight: .semibold, design: .rounded))
-            .tracking(0.8 * uiScale)
-            .foregroundStyle(Color(red: 0.91, green: 0.96, blue: 0.83))
-            .padding(.horizontal, 12 * uiScale)
-            .padding(.vertical, 8 * uiScale)
-            .background(
-              .black.opacity(colorContrast == .increased ? 0.96 : 0.84), in: Capsule()
-            )
-            .overlay {
-              if colorContrast == .increased {
-                Capsule().stroke(.white, lineWidth: 1.5)
+        if round.phase == .playing {
+          let targetCopy = aimedTarget.map {
+            "\($0.target.value) POINTS  ·  ×\(RoundState.proximityMultiplier(for: $0.distance))"
+          } ?? "LOOK ALL AROUND"
+          Button(action: vaporizeAimedTarget) {
+            Text(targetCopy)
+              .font(.system(size: 12 * uiScale, weight: .semibold, design: .rounded))
+              .tracking(0.8 * uiScale)
+              .foregroundStyle(
+                targetIsReady
+                  ? Color(red: 0.91, green: 0.98, blue: 0.77)
+                  : Color.white.opacity(colorContrast == .increased ? 0.9 : 0.65))
+              .padding(.horizontal, 12 * uiScale)
+              .padding(.vertical, 8 * uiScale)
+              .background(
+                .black.opacity(colorContrast == .increased ? 0.96 : 0.84), in: Capsule()
+              )
+              .overlay {
+                Capsule().stroke(
+                  targetIsReady
+                    ? Color(red: 0.77, green: 1, blue: 0.65).opacity(0.85)
+                    : .white.opacity(0.22),
+                  lineWidth: targetIsReady || colorContrast == .increased ? 1.5 : 0.8
+                )
               }
-            }
           }
           .buttonStyle(.plain)
-          .position(x: viewport.size.width / 2, y: viewport.size.height * 0.58)
+          .position(x: viewport.size.width / 2, y: viewport.size.height / 2 + 42 * uiScale)
           .accessibilityLabel(
             Text(
-              "Garden oddity worth \(aimedTarget.target.value) points, \(RoundState.proximityMultiplier(for: aimedTarget.distance)) times proximity multiplier. Activate to vaporize it into light."
+              aimedTarget.map {
+                "Garden oddity worth \($0.target.value) points, \(RoundState.proximityMultiplier(for: $0.distance)) times proximity multiplier. Activate to vaporize it into light."
+              } ?? "No nearby garden oddity centered. Turn or look around to find one within reach."
             )
           )
+          .accessibilityValue(Text(targetIsReady ? "In range" : "Out of range"))
           .accessibilityAddTraits(.updatesFrequently)
           .accessibilityIdentifier("aimed-garden-oddity")
           .accessibilityAction(.default) {

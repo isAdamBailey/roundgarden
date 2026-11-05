@@ -310,7 +310,7 @@
 				CODE_SIGN_ENTITLEMENTS = RoundgardenMac/RoundgardenMac.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Roundgarden;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
@@ -336,7 +336,7 @@
 				CODE_SIGN_IDENTITY = "Apple Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Roundgarden;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
