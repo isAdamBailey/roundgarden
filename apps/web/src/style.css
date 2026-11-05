@@ -235,6 +235,7 @@ h1 em, h2 em { color: #c8f2a7; font-weight: 400; }
 .store-badge:focus-visible { outline: 2px solid #d8ffb5; outline-offset: 5px; }
 .store-badge[hidden] { display: none !important; }
 .marketing-footer { display: flex; justify-content: space-between; gap: 20px; width: min(970px, 100%); padding: 25px 0 34px; color: #8fa694; font-size: 10px; }
+.marketing-footer nav { display: flex; gap: 18px; }
 
 @media (max-width: 760px) {
   .topbar { gap: 12px; }

@@ -10,7 +10,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(webRoot, 'index.html'),
-        privacy: resolve(webRoot, 'privacy.html')
+        privacy: resolve(webRoot, 'privacy.html'),
+        support: resolve(webRoot, 'support.html')
       },
       output: {
         manualChunks: (id) => id.includes('/node_modules/three/') ? 'three' : undefined
