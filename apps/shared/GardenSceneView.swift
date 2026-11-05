@@ -199,9 +199,10 @@ struct GardenSceneView: View {
         .allowsHitTesting(false)
 
         if round.phase == .playing {
-          let targetCopy = aimedTarget.map {
-            "\($0.target.value) POINTS  ·  ×\(RoundState.proximityMultiplier(for: $0.distance))"
-          } ?? "LOOK ALL AROUND"
+          let targetCopy =
+            aimedTarget.map {
+              "\($0.target.value) POINTS  ·  ×\(RoundState.proximityMultiplier(for: $0.distance))"
+            } ?? "LOOK ALL AROUND"
           Button(action: vaporizeAimedTarget) {
             Text(targetCopy)
               .font(.system(size: 12 * uiScale, weight: .semibold, design: .rounded))
@@ -209,7 +210,8 @@ struct GardenSceneView: View {
               .foregroundStyle(
                 targetIsReady
                   ? Color(red: 0.91, green: 0.98, blue: 0.77)
-                  : Color.white.opacity(colorContrast == .increased ? 0.9 : 0.65))
+                  : Color.white.opacity(colorContrast == .increased ? 0.9 : 0.65)
+              )
               .padding(.horizontal, 12 * uiScale)
               .padding(.vertical, 8 * uiScale)
               .background(
