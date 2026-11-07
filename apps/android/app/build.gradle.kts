@@ -48,6 +48,8 @@ val buildWebGame by tasks.registering(Exec::class) {
         repoRoot.resolve("apps/web/index.html"),
         repoRoot.resolve("apps/web/vite.config.js"),
         repoRoot.resolve("apps/web/package.json"),
+        repoRoot.resolve("package.json"),
+        repoRoot.resolve("package-lock.json"),
     )
     outputs.dir(webDist)
 }

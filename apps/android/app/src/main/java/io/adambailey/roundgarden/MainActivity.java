@@ -53,10 +53,8 @@ public final class MainActivity extends Activity {
         });
         setContentView(gameView);
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null || gameView.restoreState(savedInstanceState) == null) {
             gameView.loadUrl("https://appassets.androidplatform.net/assets/game/index.html?android-app=1");
-        } else {
-            gameView.restoreState(savedInstanceState);
         }
     }
 
