@@ -171,9 +171,6 @@ h1 em, h2 em { color: #c8f2a7; font-weight: 400; }
   .hint-icon { font-size: 13px; }
   .welcome-panel.is-hidden { transform: translateY(8px); }
 }
-@media (max-width: 760px) {
-  .android-app .welcome-panel { align-items: center; }
-}
 @media (max-width: 390px) {
   .topbar { padding-left: 12px; padding-right: 12px; }
   .round-state { padding: 4px 5px; font-size: 6px; gap: 4px; letter-spacing: .06em; }
@@ -251,6 +248,7 @@ h1 em, h2 em { color: #c8f2a7; font-weight: 400; }
   .round-state { display: none; }
   .header-controls { margin-left: 0; }
   .marketing-panel { inset: 65px 0 0; }
+  .android-app .welcome-panel { align-items: center; }
   .marketing-hero { min-height: max(580px, calc(100svh - 65px)); grid-template-columns: 1fr; align-content: center; gap: 24px; padding: 44px 26px 48px; background: linear-gradient(90deg, rgba(4, 14, 11, .92), rgba(4, 14, 11, .58)), linear-gradient(0deg, rgba(4, 14, 11, .88), rgba(4, 14, 11, .18)); }
   .marketing-panel .welcome-copy { width: 100%; max-width: 560px; }
   .marketing-panel .title-mark { margin-bottom: 22px; }

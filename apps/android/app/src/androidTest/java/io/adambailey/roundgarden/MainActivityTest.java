@@ -2,6 +2,7 @@ package io.adambailey.roundgarden;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,25 +26,49 @@ public final class MainActivityTest {
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void loadsBundledGameWithAndroidEntryCopy() throws Exception {
-        AtomicReference<String> startButtonText = new AtomicReference<>();
+    public void loadsBundledGameAndRoundControlsWork() throws Exception {
+        String gameReady = null;
         long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(20);
         while (System.nanoTime() < deadline
-                && !"\"Enter the garden\"".equals(startButtonText.get())) {
-            CountDownLatch evaluationComplete = new CountDownLatch(1);
-            activityRule.getScenario().onActivity(activity -> {
-                WebView webView = findWebView(activity.getWindow().getDecorView());
-                assertNotNull("Activity should contain its game WebView", webView);
-                webView.evaluateJavascript(
-                        "document.querySelector('#startButton span')?.textContent ?? null",
-                        result -> {
-                            startButtonText.set(result);
-                            evaluationComplete.countDown();
-                        });
-            });
-            evaluationComplete.await(500, TimeUnit.MILLISECONDS);
+                && !"\"Enter the garden|true\"".equals(gameReady)) {
+            gameReady = evaluateJavascript(
+                    "(document.querySelector('#startButton span')?.textContent ?? 'missing') + '|' "
+                            + "+ (window.roundgardenRendererReady === true)");
+            if (!"\"Enter the garden|true\"".equals(gameReady)) {
+                Thread.sleep(250);
+            }
         }
-        assertEquals("\"Enter the garden\"", startButtonText.get());
+        assertEquals("\"Enter the garden|true\"", gameReady);
+
+        String transitions = evaluateJavascript(
+                "(() => { "
+                        + "document.querySelector('#startButton').click(); "
+                        + "const started = document.querySelector('#welcomePanel').classList.contains('is-hidden') "
+                        + "&& !document.querySelector('#pauseButton').hidden; "
+                        + "document.querySelector('#pauseButton').click(); "
+                        + "const paused = !document.querySelector('#pausePanel').classList.contains('is-hidden') "
+                        + "&& document.querySelector('#pauseButton').hidden; "
+                        + "document.querySelector('#resumeButton').click(); "
+                        + "const resumed = document.querySelector('#pausePanel').classList.contains('is-hidden') "
+                        + "&& !document.querySelector('#pauseButton').hidden; "
+                        + "return [started, paused, resumed].join('|'); "
+                        + "})()");
+        assertEquals("\"true|true|true\"", transitions);
+    }
+
+    private String evaluateJavascript(String script) throws Exception {
+        AtomicReference<String> result = new AtomicReference<>();
+        CountDownLatch evaluationComplete = new CountDownLatch(1);
+        activityRule.getScenario().onActivity(activity -> {
+            WebView webView = findWebView(activity.getWindow().getDecorView());
+            assertNotNull("Activity should contain its game WebView", webView);
+            webView.evaluateJavascript(script, value -> {
+                result.set(value);
+                evaluationComplete.countDown();
+            });
+        });
+        assertTrue("JavaScript evaluation should complete", evaluationComplete.await(5, TimeUnit.SECONDS));
+        return result.get();
     }
 
     private static WebView findWebView(View view) {

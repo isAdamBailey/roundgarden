@@ -54,9 +54,7 @@ val buildWebGame by tasks.registering(Exec::class) {
 
 val packageWebGame by tasks.registering(Sync::class) {
     dependsOn(buildWebGame)
-    from(webDist) {
-        exclude("privacy.html", "support.html")
-    }
+    from(webDist)
     into(packagedGame)
 }
 

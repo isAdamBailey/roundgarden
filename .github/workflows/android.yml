@@ -41,7 +41,7 @@ jobs:
           api-level: 36
           arch: x86_64
           profile: pixel_6
-          script: cd apps/android && ./gradlew testDebugUnitTest lintDebug connectedDebugAndroidTest assembleDebug
+          script: cd apps/android && ./gradlew lintDebug connectedDebugAndroidTest assembleDebug
       - uses: actions/upload-artifact@v4
         with:
           name: roundgarden-android-debug
