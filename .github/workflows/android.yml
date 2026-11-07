@@ -51,8 +51,12 @@ jobs:
           profile: pixel_6
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           pre-emulator-launch-script: cd apps/android && ./gradlew lintDebug assembleDebug assembleDebugAndroidTest
-          script: cd apps/android && ./gradlew connectedDebugAndroidTest
+          script: cd apps/android && ./gradlew connectedDebugAndroidTest --info
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: roundgarden-android-debug
-          path: apps/android/app/build/outputs/apk/debug/app-debug.apk
+          name: roundgarden-android-debug-and-test-results
+          path: |
+            apps/android/app/build/outputs/apk/debug/app-debug.apk
+            apps/android/app/build/outputs/androidTest-results/connected/debug
+            apps/android/app/build/reports/androidTests/connected/debug
