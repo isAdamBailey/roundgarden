@@ -1,0 +1,48 @@
+name: Android app
+
+on:
+  pull_request:
+    paths:
+      - "apps/android/**"
+      - "apps/web/**"
+      - "package-lock.json"
+      - "package.json"
+      - ".nvmrc"
+      - ".github/workflows/android.yml"
+  push:
+    branches: [main]
+    paths:
+      - "apps/android/**"
+      - "apps/web/**"
+      - "package-lock.json"
+      - "package.json"
+      - ".nvmrc"
+      - ".github/workflows/android.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - uses: android-actions/setup-android@v3
+      - name: Install Android SDK platform
+        run: sdkmanager "platforms;android-37.2"
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 36
+          arch: x86_64
+          profile: pixel_6
+          script: cd apps/android && ./gradlew testDebugUnitTest lintDebug connectedDebugAndroidTest assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: roundgarden-android-debug
+          path: apps/android/app/build/outputs/apk/debug/app-debug.apk

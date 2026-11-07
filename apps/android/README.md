@@ -19,6 +19,18 @@ The Gradle build runs the Vite production build with relative asset URLs and
 copies its output into the app's local assets before packaging. `npm ci` from
 the repository root is required once to install the web workspace dependencies.
 
+## Test
+
+Run unit tests, Android lint, and the WebView smoke test on a running emulator:
+
+```sh
+./gradlew testDebugUnitTest lintDebug connectedDebugAndroidTest
+```
+
+The instrumented test checks that the packaged game loads and shows the Android
+entry copy. The GitHub Actions workflow starts an Android 16 emulator, runs
+these checks, assembles the debug APK, and uploads it as a build artifact.
+
 ## Platform behavior
 
 Touch drag rotates the view and a tap activates the centered reachable oddity.

@@ -11,11 +11,12 @@
 - The Android entry screen uses `?android-app=1` for app-specific copy/layout.
   The app pauses the active round from `Activity.onPause` and uses local storage
   for the personal best.
-- Android Gradle build succeeded with `assembleDebug`.
-- The APK installed and launched in the existing `fb_phone` Pixel 9 emulator
-  (Android 16/API 36). A screenshot confirmed the app-specific entry screen and
-  system-bar inset layout. The round-start/pause interaction is not verified
-  yet; adb tap attempts have not visibly activated the start button.
+- Android Gradle build and instrumentation smoke test pass on the existing
+  `fb_phone` Pixel 9 emulator (Android 16/API 36). The test confirms the
+  packaged game loads and displays its Android-specific entry copy.
+- `.github/workflows/android.yml` runs unit tests, lint, the instrumentation
+  test, and debug APK assembly on an Android 16 emulator, then publishes the
+  APK as a workflow artifact.
 
 ## Machine setup used
 
@@ -40,15 +41,11 @@ The debug APK is `apps/android/app/build/outputs/apk/debug/app-debug.apk`.
 Emulator screenshots are temporary files under `/private/tmp` and are not in
 the repository.
 
-## Next work
+## Remaining validation
 
-1. Bring Roundgarden to the foreground and exercise the entry button, one-finger
-   look drag, pause/resume, and return to Ready. Confirm active time pauses when
-   the activity backgrounds.
-2. Capture the gameplay screen and resolve any input or visual issues found.
-3. Run `git diff --check`, inspect the final diff, and preserve unrelated
-   pre-existing untracked Xcode/user files in the working tree.
-4. Update this note with emulator evidence and remaining build limitations.
+The smoke test verifies packaging and startup copy only. Full round-start,
+look-drag, pause/resume, and background-timer behavior still need manual
+emulator review. Physical-device behavior has not been checked.
 
 Current build warnings are Gradle Kotlin DSL task-registration deprecations
 and deprecated platform window-inset methods; the build completes successfully.
