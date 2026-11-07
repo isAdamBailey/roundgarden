@@ -50,7 +50,7 @@ jobs:
           disable-linux-hw-accel: false
           profile: pixel_6
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          pre-emulator-launch-script: cd apps/android && ./gradlew lintDebug assembleDebug assembleDebugAndroidTest
+          pre-emulator-launch-script: cd apps/android && ./gradlew lintDebug assembleDebugAndroidTest
           script: cd apps/android && ./gradlew connectedDebugAndroidTest --info
       - uses: actions/upload-artifact@v4
         if: always()
