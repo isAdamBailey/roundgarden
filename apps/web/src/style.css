@@ -21,7 +21,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid #d8ffb5; outline-offs
 .android-app .wordmark, .android-app .site-nav, .android-app .marketing-details, .android-app .garden-note { display: none; }
 .android-app .topbar { justify-content: flex-end; }
 .android-app .welcome-panel { justify-content: center; }
-.android-app .welcome-copy { width: min(480px, calc(100vw - 56px)); max-width: calc(100vw - 56px); }
+.android-app .welcome-copy { width: min(480px, calc(100vw - 56px)); }
 .world { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab; }
 .world:active { cursor: grabbing; }
 .vignette { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(ellipse at 50% 50%, transparent 44%, rgba(2, 9, 8, .15) 72%, rgba(2, 8, 7, .62) 140%); }
