@@ -21,8 +21,8 @@ Run `npm ci` from the repository root once to install web dependencies.
 
 ## Test
 
-Android lint and an emulator test verify the packaged entry screen, round start,
-pause, and resume:
+Android lint and an emulator smoke test verify the packaged entry screen and
+that the Three.js renderer completes its initial frame:
 
 ```sh
 ./gradlew lintDebug connectedDebugAndroidTest

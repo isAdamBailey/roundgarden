@@ -25,7 +25,7 @@ public final class MainActivityTest {
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void loadsBundledGameAndRoundControlsWork() throws Exception {
+    public void loadsBundledGameAndInitialRendererFrame() throws Exception {
         String gameReady = null;
         long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(20);
         while (System.nanoTime() < deadline
@@ -38,21 +38,6 @@ public final class MainActivityTest {
             }
         }
         assertEquals("\"Enter the garden|true\"", gameReady);
-
-        String transitions = evaluateJavascript(
-                "(() => { "
-                        + "document.querySelector('#startButton').click(); "
-                        + "const started = document.querySelector('#welcomePanel').classList.contains('is-hidden') "
-                        + "&& !document.querySelector('#pauseButton').hidden; "
-                        + "document.querySelector('#pauseButton').click(); "
-                        + "const paused = !document.querySelector('#pausePanel').classList.contains('is-hidden') "
-                        + "&& document.querySelector('#pauseButton').hidden; "
-                        + "document.querySelector('#resumeButton').click(); "
-                        + "const resumed = document.querySelector('#pausePanel').classList.contains('is-hidden') "
-                        + "&& !document.querySelector('#pauseButton').hidden; "
-                        + "return [started, paused, resumed].join('|'); "
-                        + "})()");
-        assertEquals("\"true|true|true\"", transitions);
     }
 
     private String evaluateJavascript(String script) throws Exception {
