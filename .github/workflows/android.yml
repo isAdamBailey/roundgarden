@@ -40,13 +40,14 @@ jobs:
       - name: Install Android SDK platform
         run: sdkmanager "platforms;android-37.2"
       - uses: reactivecircus/android-emulator-runner@v2
-        timeout-minutes: 20
+        timeout-minutes: 30
         with:
           api-level: 36
           arch: x86_64
           profile: pixel_6
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
-          script: cd apps/android && ./gradlew lintDebug connectedDebugAndroidTest assembleDebug
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          pre-emulator-script: cd apps/android && ./gradlew lintDebug assembleDebug assembleDebugAndroidTest
+          script: cd apps/android && ./gradlew connectedDebugAndroidTest
       - uses: actions/upload-artifact@v4
         with:
           name: roundgarden-android-debug
