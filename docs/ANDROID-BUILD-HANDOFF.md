@@ -3,17 +3,16 @@
 ## Current state
 
 - Branch: `codex/android-initial-build`.
-- Initial source-only checkpoint is committed on the branch.
-- No PR has been opened.
+- Pull request: https://github.com/isAdamBailey/roundgarden/pull/31.
 - The initial Android app shell is in `apps/android`. It packages the existing
   Three.js game as local APK assets and serves them through AndroidX
   `WebViewAssetLoader`.
 - The Android entry screen uses `?android-app=1` for app-specific copy/layout.
   The app pauses the active round from `Activity.onPause` and uses local storage
   for the personal best.
-- Android Gradle build and instrumentation smoke test pass on the existing
-  `fb_phone` Pixel 9 emulator (Android 16/API 36). The test confirms the
-  packaged game loads and displays its Android-specific entry copy.
+- Android Gradle build, lint, and instrumentation smoke test pass on the
+  existing `fb_phone` Pixel 9 emulator (Android 16/API 36). The test confirms
+  the packaged game loads and displays its Android-specific entry copy.
 - `.github/workflows/android.yml` runs the unit-test task (currently with no
   JVM test sources), lint, the instrumentation test, and debug APK assembly on
   an Android 16 emulator, then publishes the APK as a workflow artifact.
@@ -45,7 +44,8 @@ the repository.
 
 The smoke test verifies packaging and startup copy only. Full round-start,
 look-drag, pause/resume, and background-timer behavior still need manual
-emulator review. Physical-device behavior has not been checked.
+emulator review. Physical-device behavior has not been checked. Android uses
+the web game's Three.js renderer in a local WebView to preserve visual fidelity.
 
 Current build warnings are Gradle Kotlin DSL task-registration deprecations
 and deprecated platform window-inset methods; the build completes successfully.
