@@ -84,6 +84,16 @@ app.innerHTML = `
     <div class="toast" id="toast" role="status"></div>
   </main>`;
 
+const isAndroidApp = new URLSearchParams(window.location.search).get('android-app') === '1';
+if (isAndroidApp) {
+  document.documentElement.classList.add('android-app');
+  document.querySelector('.intro').textContent =
+    'Look all around. Center a nearby oddity and tap to vaporize it into light. Score as many points as you can in one minute.';
+  document.querySelector('#startButton span').textContent = 'Enter the garden';
+  document.querySelector('.gentle-note span:last-child').textContent =
+    'One minute. Look close. Score high.';
+}
+
 const storeListings = [
   { key: 'apple', url: import.meta.env.VITE_APP_STORE_URL, host: 'apps.apple.com', badge: 'https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83', alt: 'Download on the App Store' },
   { key: 'android', url: import.meta.env.VITE_GOOGLE_PLAY_URL, host: 'play.google.com', badge: 'https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png', alt: 'Get it on Google Play' }
@@ -116,12 +126,12 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color('#070d13');
 const camera = new THREE.PerspectiveCamera(74, 1, 0.1, 180);
 camera.position.set(0, 0, 0);
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
-renderer.setPixelRatio(Math.min(devicePixelRatio, matchMedia('(max-width: 760px)').matches ? 1.35 : 1.75));
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: !isAndroidApp, alpha: false, powerPreference: 'high-performance' });
+renderer.setPixelRatio(isAndroidApp ? 1 : Math.min(devicePixelRatio, matchMedia('(max-width: 760px)').matches ? 1.35 : 1.75));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.24;
-renderer.shadowMap.enabled = true;
+renderer.shadowMap.enabled = !isAndroidApp;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const palette = ['#e5a744', '#ff8c6f', '#b4e86d', '#e881bd', '#8ddbd0', '#b68deb', '#df7360', '#d77fba', '#72a6dc'];
@@ -275,8 +285,8 @@ function makeVineCurve() {
   return new THREE.CatmullRomCurve3(points);
 }
 function makeGreenhouseGarden() {
-  const plantCount = 900;
-  const vineCount = 92;
+  const plantCount = isAndroidApp ? 140 : 900;
+  const vineCount = isAndroidApp ? 22 : 92;
   const stemMaterial = new THREE.MeshStandardMaterial({ color: '#789d3f', roughness: .78, emissive: '#344922', emissiveIntensity: .16 });
   const vineMaterial = new THREE.MeshStandardMaterial({ color: '#8baf45', roughness: .76, emissive: '#3a4c21', emissiveIntensity: .18 });
   const leafMaterials = ['#739d47', '#a4bd50', '#c5cc66', '#477f48', '#82ad70', '#4c9880', '#d0a45d', '#a96f64', '#887ba4'].map((color) => new THREE.MeshStandardMaterial({ color, roughness: .7, emissive: color, emissiveIntensity: .09, side: THREE.DoubleSide }));
@@ -397,7 +407,7 @@ function makeGreenhouseGarden() {
   // growths. It visually knits the garden together without adding more stems
   // or shadow casters, and its variation keeps the shell from reading as a wall.
   const compactCanopy = matchMedia('(max-width: 760px), (pointer: coarse)').matches;
-  const coverClusters = compactCanopy ? 1800 : 2200;
+  const coverClusters = isAndroidApp ? 550 : compactCanopy ? 1800 : 2200;
   const leavesPerCluster = 7;
   const coverMeshes = leafMaterials.map((material) => {
     const mesh = new THREE.InstancedMesh(coverLeafGeometry, material, coverClusters * leavesPerCluster);
@@ -802,6 +812,10 @@ function pauseRound(fromBackground = false) {
   lastAnnouncedTarget = '';
   if (!fromBackground) document.querySelector('#resumeButton').focus({ preventScroll: true });
 }
+
+// Android's host activity calls this before it is stopped. The visibility
+// event remains the fallback for browsers and WebView lifecycle transitions.
+window.roundgardenPauseFromHost = () => pauseRound(true);
 function resumeRound() {
   if (!active || !paused) return;
   paused = false;
@@ -943,6 +957,7 @@ function animate() {
     updateAiming();
   }
   renderer.render(scene, camera);
+  if (isAndroidApp && !window.roundgardenRendererReady) window.roundgardenRendererReady = true;
 }
 animate();
 
