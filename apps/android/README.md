@@ -31,6 +31,19 @@ pause, and resume:
 GitHub Actions runs these checks on an Android emulator and uploads the debug
 APK. The unit-test task currently has no JVM test sources.
 
+## Port map
+
+| Android responsibility | Implementation |
+| --- | --- |
+| Activity lifecycle and local asset serving | `app/src/main/java/io/adambailey/roundgarden/MainActivity.java` |
+| Packaged game, camera, aiming, scoring, rounds, and local best | Shared `../web/src/main.js` |
+| Android entry layout and render profile | `../web/src/main.js` and `../web/src/style.css`, enabled by `?android-app=1` |
+| Web build and APK asset packaging | `app/build.gradle.kts` |
+| Emulator behavior check and CI | `app/src/androidTest/` and `../../.github/workflows/android.yml` |
+
+This WebView port is the user-approved direction for the current slice. Issue
+#19's native Compose and renderer-independent implementation remain open.
+
 ## Screenshots
 
 The phone capture shows the packaged Android app on an Android 16 emulator; the
