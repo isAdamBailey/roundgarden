@@ -4,6 +4,9 @@ dist
 apps/web/dist/*
 !apps/web/dist/.gitkeep
 **/.build/
+**/.gradle/
+apps/android/**/build/
+apps/android/app/src/main/assets/game/
 apps/web/.env*
 !apps/web/.env.example
 

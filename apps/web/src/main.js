@@ -84,6 +84,16 @@ app.innerHTML = `
     <div class="toast" id="toast" role="status"></div>
   </main>`;
 
+const isAndroidApp = new URLSearchParams(window.location.search).get('android-app') === '1';
+if (isAndroidApp) {
+  document.documentElement.classList.add('android-app');
+  document.querySelector('.intro').textContent =
+    'Look all around. Center a nearby oddity and tap to vaporize it into light. Score as many points as you can in one minute.';
+  document.querySelector('#startButton span').textContent = 'Enter the garden';
+  document.querySelector('.gentle-note span:last-child').textContent =
+    'One minute. Look close. Score high.';
+}
+
 const storeListings = [
   { key: 'apple', url: import.meta.env.VITE_APP_STORE_URL, host: 'apps.apple.com', badge: 'https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83', alt: 'Download on the App Store' },
   { key: 'android', url: import.meta.env.VITE_GOOGLE_PLAY_URL, host: 'play.google.com', badge: 'https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png', alt: 'Get it on Google Play' }
@@ -802,6 +812,10 @@ function pauseRound(fromBackground = false) {
   lastAnnouncedTarget = '';
   if (!fromBackground) document.querySelector('#resumeButton').focus({ preventScroll: true });
 }
+
+// Android's host activity calls this before it is stopped. The visibility
+// event remains the fallback for browsers and WebView lifecycle transitions.
+window.roundgardenPauseFromHost = () => pauseRound(true);
 function resumeRound() {
   if (!active || !paused) return;
   paused = false;
