@@ -44,6 +44,7 @@ jobs:
         with:
           api-level: 36
           arch: x86_64
+          emulator-build: 15261927
           profile: pixel_6
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           pre-emulator-launch-script: cd apps/android && ./gradlew lintDebug assembleDebug assembleDebugAndroidTest
