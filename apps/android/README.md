@@ -1,9 +1,12 @@
 # Roundgarden for Android
 
-The Android app runs the existing Three.js game in a WebView and packages the
-game files in the APK. Gameplay stays shared with the browser version, including
-360° touch look, centered-target vaporization, one-minute rounds, scoring,
-pause/resume, and the on-device personal best.
+The Android app runs the existing Three.js game in a local WebView and packages
+the game files in the APK. Its Android-only render profile lowers scene density
+and disables shadows and antialiasing to keep the 3D scene responsive. Gameplay
+stays shared with the browser version, including 360° touch look,
+centered-target vaporization, one-minute rounds, scoring, pause/resume, and the
+on-device personal best. The Android profile is enabled only by the app's
+`?android-app=1` entry; web and Apple apps do not use it.
 
 ## Build
 
@@ -36,6 +39,10 @@ desktop capture shows the shared web game used as its visual reference.
 ![Android phone layout](../../docs/android/android-phone.jpg)
 
 ![Desktop visual reference](../../docs/android/desktop-reference.jpg)
+
+Manual checks still needed: touch dragging and aiming, target scoring and
+vaporization, a complete round, background pause/resume, TalkBack, reduced
+motion, tablet layouts, and physical Android devices.
 
 ## Platform behavior
 
