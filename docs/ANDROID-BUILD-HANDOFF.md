@@ -14,9 +14,9 @@
 - Android Gradle build and instrumentation smoke test pass on the existing
   `fb_phone` Pixel 9 emulator (Android 16/API 36). The test confirms the
   packaged game loads and displays its Android-specific entry copy.
-- `.github/workflows/android.yml` runs unit tests, lint, the instrumentation
-  test, and debug APK assembly on an Android 16 emulator, then publishes the
-  APK as a workflow artifact.
+- `.github/workflows/android.yml` runs the unit-test task (currently with no
+  JVM test sources), lint, the instrumentation test, and debug APK assembly on
+  an Android 16 emulator, then publishes the APK as a workflow artifact.
 
 ## Machine setup used
 

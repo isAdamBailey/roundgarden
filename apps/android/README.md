@@ -21,7 +21,9 @@ the repository root is required once to install the web workspace dependencies.
 
 ## Test
 
-Run unit tests, Android lint, and the WebView smoke test on a running emulator:
+Run the unit-test task, Android lint, and the WebView smoke test on a running
+emulator. There are no JVM unit tests yet; the instrumentation test is the
+current automated behavior check.
 
 ```sh
 ./gradlew testDebugUnitTest lintDebug connectedDebugAndroidTest
